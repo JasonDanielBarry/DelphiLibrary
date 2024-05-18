@@ -18,6 +18,8 @@ interface
                     function rowIsEmpty(rowIndexIn : integer) : boolean;
             public
                 //row deletion
+                    //clear a row's content
+                        procedure clearRow(rowIndexIn : integer);
                     //delete a grid row
                         procedure deleteRow(rowIndexIn : integer);
                     //delete an empty row
@@ -83,20 +85,36 @@ implementation
 
     //public
         //row deletion
+            //clear a row's content
+                procedure TStringGridHelper.clearRow(rowIndexIn : integer);
+                    var
+                        colIndex : integer;
+                    begin
+                        for colIndex := 0 to (ColCount - 1) do
+                            cells[colIndex, rowIndexIn] := '';
+                    end;
+
             //delete a grid row
                 procedure TStringGridHelper.deleteRow(rowIndexIn : integer);
                     var
                         row, col : integer;
                     begin
-                        for row := rowIndexIn to (Self.RowCount - 2) do
-                            for col := 0 to (Self.ColCount - 1) do
-                                begin
-                                    //row above accepts row below's contents
-                                        Self.cells[col, row] := Self.cells[col, row + 1];
-                                end;
+                        if (rowIndexIn < rowCount) then
+                            begin
+                                clearRow(rowIndexIn);
 
-                        //shorten the row count by 1
-                            Self.RowCount := Self.RowCount - 1;
+                                for row := rowIndexIn to (Self.RowCount - 2) do
+                                    for col := 0 to (Self.ColCount - 1) do
+                                        begin
+                                            //row above accepts row below's contents
+                                                Self.cells[col, row] := Self.cells[col, row + 1];
+                                        end;
+
+                                //shorten the row count by 1
+                                    Self.RowCount := Self.RowCount - 1;
+                            end;
+
+                        self.minSize();
                     end;
     
             //delete an empty row

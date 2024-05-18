@@ -3,8 +3,10 @@
 	<Transactions>
     <Transaction>2024/05/18 20:28:11.000.910,D:\Users\jason\Documents\Embarcadero\Studio\Projects\Project1.dproj=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\GeneralLibrary.dproj</Transaction>
     <Transaction>2024/05/18 20:28:22.000.632,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
-    <Transaction>2024/05/18 20:28:37.000.577,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Geometry\LineClass.pas</Transaction>
     <Transaction>2024/05/18 20:28:37.000.642,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Geometry\PolyLineClass.pas</Transaction>
+    <Transaction>2024/05/18 20:28:37.000.577,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Geometry\LineClass.pas</Transaction>
     <Transaction>2024/05/18 20:28:54.000.612,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\VCLComponents\StringGridHelperClass.pas</Transaction>
+    <Transaction>2024/05/18 22:53:28.000.922,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
+    <Transaction>2024/05/18 22:53:43.000.074,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\VCLComponents\GeneralComponentHelperMethods.pas</Transaction>
   </Transactions>
 </BorlandProject>

@@ -1,0 +1,10 @@
+unit GeneralComponentHelperMethods;
+
+interface
+
+    uses
+        system
+
+implementation
+
+end.

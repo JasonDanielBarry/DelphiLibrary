@@ -14,9 +14,16 @@ interface
                     function borderAdjustment() : integer;
                 //test if a cell's value is a double
                     function checkCellIsDouble(colIn, rowIn : integer) : boolean;
+                //test if a row is empty
+                    function rowIsEmpty(rowIndexIn : integer) : boolean;
             public
-                //delete a grid row
-                    procedure deleteRow(rowIndexIn : integer);
+                //row deletion
+                    //delete a grid row
+                        procedure deleteRow(rowIndexIn : integer);
+                    //delete an empty row
+                        procedure deleteEmptyRow(rowIndexIn : integer);
+                    //delete all empty rows
+                        procedure deleteAllEmptyRows();
                 //test if a cell's value is a double and clear it if it is not
                     function isCellDouble(colIn, rowIn : integer) : boolean;
                 //get the value of a cell as a double
@@ -25,6 +32,7 @@ interface
                     procedure minHeight();
                     procedure minWidth();
                     procedure minSize();
+
         end;
 
 implementation
@@ -59,23 +67,55 @@ implementation
                     result := cellIsDoubleOut;                
                 end;
 
-    //public
-        //delete a grid row
-            procedure TStringGridHelper.deleteRow(rowIndexIn : integer);
+        //test if a row is empty
+            function TStringGridHelper.rowIsEmpty(rowIndexIn : integer) : boolean;
                 var
-                    row, col : integer;
+                    colIndex : integer;
                 begin
-                    for row := rowIndexIn to (Self.RowCount - 2) do
-                        for col := 0 to (Self.ColCount - 1) do
-                            begin
-                                //row above accepts row below's contents
-                                    Self.cells[col, row] := Self.cells[col, row + 1];
-                            end;
+                    for colIndex := 0 to (ColCount - 1) do
+                        begin
+                            result := cells[colIndex, rowIndexIn].IsEmpty;
 
-                    //shorten the row count by 1
-                        Self.RowCount := Self.RowCount - 1;
+                            if (result = false) then
+                                break;
+                        end;
                 end;
+
+    //public
+        //row deletion
+            //delete a grid row
+                procedure TStringGridHelper.deleteRow(rowIndexIn : integer);
+                    var
+                        row, col : integer;
+                    begin
+                        for row := rowIndexIn to (Self.RowCount - 2) do
+                            for col := 0 to (Self.ColCount - 1) do
+                                begin
+                                    //row above accepts row below's contents
+                                        Self.cells[col, row] := Self.cells[col, row + 1];
+                                end;
+
+                        //shorten the row count by 1
+                            Self.RowCount := Self.RowCount - 1;
+                    end;
     
+            //delete an empty row
+                procedure TStringGridHelper.deleteEmptyRow(rowIndexIn : integer);
+                    begin
+                        if (rowIsEmpty(rowIndexIn)) then
+                            deleteRow(rowIndexIn);
+                    end;
+
+            //delete all empty rows
+                procedure TStringGridHelper.deleteAllEmptyRows();
+                    var
+                        rowIndex : integer;
+                    begin
+                        for rowIndex := 0 to (RowCount - 1) do
+                            if (rowIndex < rowCount) then
+                                deleteEmptyRow(rowIndex);
+                    end;
+
         //test if a cell's value is a double and clear it if it is not
             function TStringGridHelper.isCellDouble(colIn, rowIn : integer) : boolean;
                 var
@@ -83,7 +123,7 @@ implementation
                 begin
                     cellIsDoubleOut := checkCellIsDouble(colIn, rowIn);
 
-                    if ( (cellIsDoubleOut = False) AND (NOT(Cells[colIn, rowIn] = '')) ) then
+                    if ( (cellIsDoubleOut = False) AND (Cells[colIn, rowIn] <> '') ) then
                         begin
                             //if conversion to double fails return error message
                                 Application.MessageBox('value entered is not real number or integer', 'Invalid Input', MB_OK);

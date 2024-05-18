@@ -93,6 +93,7 @@
         <DCCReference Include="Geometry\LineClass.pas"/>
         <DCCReference Include="Geometry\PolyLineClass.pas"/>
         <DCCReference Include="VCLComponents\StringGridHelperClass.pas"/>
+        <DCCReference Include="VCLComponents\GeneralComponentHelperMethods.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -132,6 +133,12 @@
                 </DeployFile>
                 <DeployFile LocalName="Win32\Debug\GeneralLibrary.dll" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
+                        <RemoteName>GeneralLibrary.dll</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win64\Release\GeneralLibrary.dll" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win64">
                         <RemoteName>GeneralLibrary.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
