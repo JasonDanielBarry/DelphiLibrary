@@ -31,7 +31,7 @@ implementation
             begin
                 inherited create();
 
-                setPoints(x0In, x1In, y0In, y1In);
+                setPoints(x0, x1, y0, y1);
             end;
 
         destructor TInterpolator.Destroy();
