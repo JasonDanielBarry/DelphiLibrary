@@ -26,6 +26,9 @@ interface
                         procedure deleteEmptyRow(rowIndexIn : integer);
                     //delete all empty rows
                         procedure deleteAllEmptyRows();
+                //row insertion
+                    //add row
+                        procedure addRow();
                 //test if a cell's value is a double and clear it if it is not
                     function isCellDouble(colIn, rowIn : integer) : boolean;
                 //get the value of a cell as a double
@@ -57,7 +60,7 @@ implementation
                     if (NOT(Cells[colIn, rowIn] = '')) then
                         try
                             //try converting the cell contents to a double
-                                StrToFloat(trim(self.cells[colIn, rowIn]));
+                                cells[colIn, rowIn].ToDouble;
                                 cellIsDoubleOut := True;
                         except
                             //if conversion to double fails return error message
@@ -129,9 +132,16 @@ implementation
                     var
                         rowIndex : integer;
                     begin
-                        for rowIndex := 0 to (RowCount - 1) do
+                        for rowIndex := (RowCount - 1) downto 0 do
                             if (rowIndex < rowCount) then
                                 deleteEmptyRow(rowIndex);
+                    end;
+
+        //row insertion
+            //add row
+                procedure TStringGridHelper.addRow();
+                    begin
+                        RowCount := RowCount + 1;
                     end;
 
         //test if a cell's value is a double and clear it if it is not
@@ -144,7 +154,7 @@ implementation
                     if ( (cellIsDoubleOut = False) AND (Cells[colIn, rowIn] <> '') ) then
                         begin
                             //if conversion to double fails return error message
-                                Application.MessageBox('value entered is not real number or integer', 'Invalid Input', MB_OK);
+                                Application.MessageBox('Value entered is not real number', 'Invalid Input', MB_OK);
                                 cellIsDoubleOut := False;
                                 cells[colIn, rowIn] := '';
                         end;
@@ -156,7 +166,7 @@ implementation
             function TStringGridHelper.cellToDouble(colIn, rowIn : integer) : double;
                 begin
                     if (checkCellIsDouble(colIn, rowIn) = True) then
-                        result := StrToFloat(trim(cells[colIn, rowIn]))
+                        result := cells[colIn, rowIn].ToDouble()
                     else
                         result := 0;
                 end;

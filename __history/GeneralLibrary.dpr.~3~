@@ -21,8 +21,7 @@ uses
   LineClass in 'Geometry\LineClass.pas',
   PolyLineClass in 'Geometry\PolyLineClass.pas',
   StringGridHelperClass in 'VCLComponents\StringGridHelperClass.pas',
-  GeneralComponentHelperMethods in 'VCLComponents\GeneralComponentHelperMethods.pas',
-  HelperMath in 'GeneralMath\HelperMath.pas';
+  GeneralComponentHelperMethods in 'VCLComponents\GeneralComponentHelperMethods.pas';
 
 {$R *.res}
 
