@@ -94,7 +94,7 @@
         <DCCReference Include="Geometry\PolyLineClass.pas"/>
         <DCCReference Include="VCLComponents\StringGridHelperClass.pas"/>
         <DCCReference Include="VCLComponents\GeneralComponentHelperMethods.pas"/>
-        <DCCReference Include="GeneralMath\HelperMath.pas"/>
+        <DCCReference Include="GeneralMath\InterpolatorClass.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

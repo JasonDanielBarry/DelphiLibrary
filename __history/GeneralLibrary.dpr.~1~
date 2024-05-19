@@ -22,7 +22,7 @@ uses
   PolyLineClass in 'Geometry\PolyLineClass.pas',
   StringGridHelperClass in 'VCLComponents\StringGridHelperClass.pas',
   GeneralComponentHelperMethods in 'VCLComponents\GeneralComponentHelperMethods.pas',
-  InterpolatorClass in 'GeneralMath\InterpolatorClass.pas';
+  HelperMath in 'GeneralMath\HelperMath.pas';
 
 {$R *.res}
 

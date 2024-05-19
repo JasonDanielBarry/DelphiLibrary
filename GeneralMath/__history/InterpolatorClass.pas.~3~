@@ -1,0 +1,28 @@
+unit InterpolatorClass;
+
+interface
+
+    uses
+        system.SysUtils, system.Math, system.Math.Vectors;
+
+    type
+        TInterpolator = class
+            strict private
+                x0, y0,
+                x1, y1  : double;
+            public
+                constructor create(x0, x1, y0, y1 : double);
+                destructor destroy(); override;
+                procedure setPoints(x0, x1, y0, y1 : double);
+                function interpolate(x : double) : double;
+        end;
+
+implementation
+
+    //public
+        constructor TInterpolator.create(x0, x1, y0, y1 : double);
+            begin
+                setPo
+            end;
+
+end.
