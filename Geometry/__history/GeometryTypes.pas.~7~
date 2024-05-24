@@ -1,0 +1,12 @@
+unit GeometryTypes;
+
+interface
+
+     type
+        TGeomPoint = record
+            x, y, z : double;
+        end;
+
+implementation
+
+end.

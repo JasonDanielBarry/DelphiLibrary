@@ -91,11 +91,15 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="Geometry\LineClass.pas"/>
-        <DCCReference Include="Geometry\PolyLineClass.pas"/>
+        <DCCReference Include="Geometry\GeomLineClass.pas"/>
+        <DCCReference Include="Geometry\GeomPolyLineClass.pas"/>
         <DCCReference Include="VCLComponents\StringGridHelperClass.pas"/>
         <DCCReference Include="VCLComponents\GeneralComponentHelperMethods.pas"/>
         <DCCReference Include="GeneralMath\InterpolatorClass.pas"/>
+        <DCCReference Include="VCLComponents\Drawing\DrawingAxisConversionMethods.pas"/>
+        <DCCReference Include="Geometry\GeometryTypes.pas"/>
+        <DCCReference Include="Geometry\GeomVectorClass.pas"/>
+        <DCCReference Include="Geometry\GeometryBaseClass.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -803,9 +807,6 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Win64x">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>

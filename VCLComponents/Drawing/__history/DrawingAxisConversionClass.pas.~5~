@@ -1,0 +1,19 @@
+unit DrawingAxisConversionClass;
+
+interface
+
+    uses
+        System.SysUtils, system.Math,
+        GeometryTypes;
+
+    type
+        TDrawingAxisConverter = class
+            private
+                minPoint, maxPoint : TGeomPoint;
+        end;
+
+implementation
+
+
+
+end.

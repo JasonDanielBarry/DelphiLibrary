@@ -1,0 +1,18 @@
+unit GeometryTypes;
+
+interface
+
+     type
+        TGeomPoint = record
+            x, y : double;
+        end;
+
+        TGeomVector = class
+            strict private
+                components : TArray<double>;
+            public
+        end;
+
+implementation
+
+end.

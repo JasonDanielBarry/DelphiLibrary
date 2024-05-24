@@ -1,0 +1,29 @@
+unit GeometryBaseClass;
+
+interface
+
+    uses
+        system.SysUtils, system.Math;
+
+    type
+        TGeom = class
+            public
+                constructor create();
+                destructor destroy(); override;
+        end;
+
+implementation
+
+    constructor TGeom.create();
+        begin
+            inherited create();
+        end;
+
+    destructor TGeom.destroy();
+        begin
+            inherited Destroy();
+
+            freean
+        end;
+
+end.

@@ -1,0 +1,17 @@
+unit DrawingAxisConversionClass;
+
+interface
+
+    uses System.SysUtils, system.Math;
+
+    type
+        TDrawingAxisConverter = class
+            private
+
+        end;
+
+implementation
+
+
+
+end.

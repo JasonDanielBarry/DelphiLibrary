@@ -1,0 +1,14 @@
+unit GeometryTypes;
+
+interface
+
+     type
+        TGeomPoint = record
+            x, y, z : double;
+            constructor create(xIn, yIn, zIn : double);
+            constructor create(xIn, yIn      : double);
+        end;
+
+implementation
+
+end.

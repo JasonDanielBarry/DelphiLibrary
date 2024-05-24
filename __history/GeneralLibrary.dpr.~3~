@@ -18,15 +18,12 @@ library GeneralLibrary;
 uses
   System.SysUtils,
   System.Classes,
-  GeomLineClass in 'Geometry\GeomLineClass.pas',
-  GeomPolyLineClass in 'Geometry\GeomPolyLineClass.pas',
+  LineClass in 'Geometry\LineClass.pas',
+  PolyLineClass in 'Geometry\PolyLineClass.pas',
   StringGridHelperClass in 'VCLComponents\StringGridHelperClass.pas',
   GeneralComponentHelperMethods in 'VCLComponents\GeneralComponentHelperMethods.pas',
   InterpolatorClass in 'GeneralMath\InterpolatorClass.pas',
-  DrawingAxisConversionMethods in 'VCLComponents\Drawing\DrawingAxisConversionMethods.pas',
-  GeometryTypes in 'Geometry\GeometryTypes.pas',
-  GeomVectorClass in 'Geometry\GeomVectorClass.pas',
-  GeometryBaseClass in 'Geometry\GeometryBaseClass.pas';
+  DrawingAxisConversionClass in 'VCLComponents\Drawing\DrawingAxisConversionClass.pas';
 
 {$R *.res}
 

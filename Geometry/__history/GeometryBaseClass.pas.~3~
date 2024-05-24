@@ -1,0 +1,12 @@
+unit GeometryBaseClass;
+
+interface
+
+    type
+        TGeom = class
+            public
+        end;
+
+implementation
+
+end.

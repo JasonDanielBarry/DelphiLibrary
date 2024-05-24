@@ -1,0 +1,17 @@
+unit GeometryTypes;
+
+interface
+
+     type
+        TGeomPoint = record
+            x, y : double;
+        end;
+
+        TGeomVector2D = record
+            horizontalComponent,
+            verticalComponent   : double;
+        end;
+
+implementation
+
+end.

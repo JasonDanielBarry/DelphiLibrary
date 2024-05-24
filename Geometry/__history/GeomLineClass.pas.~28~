@@ -1,0 +1,120 @@
+unit GeomLineClass;
+
+interface
+
+    uses
+        system.sysUtils, Math,
+        GeometryTypes, GeomVectorClass;
+
+    type
+        TGeomLine = class
+            private
+                const
+                    //line vector index constants
+                        x : integer = 0;
+                        y : integer = 1;
+                        z : integer = 2;
+                var
+                    startPoint, endPoint    : TGeomPoint;
+                    lineVector              : TGeomSpaceVector;
+                //helper methods
+                    //calculat line projections on 3 axes
+                        procedure calculateAxisProjections();
+                    //assign points
+                        procedure assignPoints(startPointIn, endPointIn : TGeomPoint);
+
+            protected
+                //
+            public
+                //constructor
+                    constructor create(); overload;
+                    constructor create(startPointIn, endPointIn : TGeomPoint); overload;
+                    constructor create( lengthIn, lineAngelIn   : double;
+                                        startPointIn            : TGeomPoint); overload;
+                //destructor
+                    destructor destroy(); override;
+                //accessors
+                    function getStartPoint() : TGeomPoint;
+                    function getEndPoint() : TGeomPoint;
+                //calculate line length
+                    function length() : double;
+        end;
+
+implementation
+
+    //private
+        //helper methods
+            //calculat line projections on 3 axes
+                //x-axis (x-component)
+                    procedure TGeomLine.calculateAxisProjections();
+                        begin
+                            lineVector[x] := endPoint.x - startPoint.x;
+                            lineVector[y] := endPoint.y - startPoint.y;
+                            lineVector[z] := endPoint.z - startPoint.z;
+                        end;
+
+            //assign points
+                procedure TGeomLine.assignPoints(startPointIn, endPointIn : TGeomPoint);
+                    begin
+                        startPoint  := startPointIn;
+                        endPoint    := endPointIn;
+
+                        calculateAxisProjections();
+                    end;
+
+    //public
+        //constructor
+            constructor TGeomLine.create();
+                begin
+                    inherited create();
+
+                    lineVector := TGeomSpaceVector.create();
+
+                    lineVector.setDimensions(3);
+                end;
+
+            constructor TGeomLine.create(startPointIn, endPointIn : TGeomPoint);
+                begin
+                    create();
+
+                    assignPoints(startPointIn, endPointIn);
+                end;
+
+            constructor TGeomLine.create(   lengthIn, lineAngelIn   : double;
+                                            originPointIn           : TGeomPoint);
+                var
+                    point1, point2 : TGeomPoint;
+                begin
+                    //assign second point for line creation
+                        point1 := originPointIn;
+
+                        point2.x := point1.x + lengthIn * cos(DegToRad(lineAngelIn));
+                        point2.y := point1.y + lengthIn * sin(DegToRad(lineAngelIn));
+
+                    //assign points
+                        create(point1, point2);
+                end;
+
+        //desturctor
+            destructor TGeomLine.destroy();
+                begin
+                    inherited destroy();
+                end;
+
+        //calculate line length
+            function TGeomLine.length() : double;
+                begin
+                    result := hypot(horizontalProjection, verticalProjection);
+                end;
+
+        //accessors
+            function TGeomLine.getPoint1() : TGeomPoint;
+                begin
+                    result := point1;
+                end;
+
+            function TGeomLine.getPoint2() : TGeomPoint;
+                begin
+                    result := point2;
+                end;
+end.

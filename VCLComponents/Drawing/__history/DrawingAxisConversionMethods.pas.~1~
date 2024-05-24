@@ -1,0 +1,15 @@
+unit DrawingAxisConversionClass;
+
+interface
+
+    uses
+        System.SysUtils, system.Math,
+        GeometryTypes;
+
+    
+
+implementation
+
+
+
+end.
