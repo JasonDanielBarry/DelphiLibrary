@@ -7,8 +7,8 @@ interface
 
         TGeomPoint = record
             x, y, z : double;
-            constructor create(xIn, yIn, zIn : double); overload;
-            constructor create(xIn, yIn : double); overload;
+            constructor create(xIn, yIn, zIn : double);
+            constructor create(xIn, yIn : double);
         end;
 
         TGeomBox = record

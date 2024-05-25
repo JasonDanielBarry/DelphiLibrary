@@ -27,16 +27,12 @@ implementation
         begin
             inherited create();
 
-            FreeAndNil(drawingPaintBox);
-
             drawingAxisConverter.create();
         end;
 
     constructor TGeomBase.create(drawingPaintBoxIn : TPaintBox);
         begin
-            create();
 
-            drawingPaintBox := drawingPaintBoxIn;
         end;
 
     destructor TGeomBase.destroy();

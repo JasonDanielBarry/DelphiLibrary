@@ -23,11 +23,10 @@ uses
   StringGridHelperClass in 'VCLComponents\StringGridHelperClass.pas',
   GeneralComponentHelperMethods in 'VCLComponents\GeneralComponentHelperMethods.pas',
   InterpolatorClass in 'GeneralMath\InterpolatorClass.pas',
-  DrawingAxisConversionClass in 'VCLComponents\Drawing\DrawingAxisConversionClass.pas',
+  DrawingAxisConversionMethods in 'VCLComponents\Drawing\DrawingAxisConversionMethods.pas',
   GeometryTypes in 'Geometry\GeometryTypes.pas',
-  GeomSpaceVectorClass in 'Geometry\GeomSpaceVectorClass.pas',
-  GeometryBaseClass in 'Geometry\GeometryBaseClass.pas',
-  DrawingTypes in 'VCLComponents\Drawing\DrawingTypes.pas';
+  GeomVectorClass in 'Geometry\GeomVectorClass.pas',
+  GeometryBaseClass in 'Geometry\GeometryBaseClass.pas';
 
 {$R *.res}
 

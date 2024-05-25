@@ -9,7 +9,7 @@ interface
         DrawingTypes, DrawingAxisConversionClass;
 
     type
-        TGeomBase = class
+        TGeom = class
             protected
                 drawingAxisConverter    : TDrawingAxisConverter;
                 drawingPaintBox         : TPaintBox;
@@ -23,23 +23,19 @@ interface
 
 implementation
 
-    constructor TGeomBase.create();
+    constructor TGeom.create();
         begin
             inherited create();
-
-            FreeAndNil(drawingPaintBox);
 
             drawingAxisConverter.create();
         end;
 
-    constructor TGeomBase.create(drawingPaintBoxIn : TPaintBox);
+    constructor TGeom.create(drawingPaintBoxIn : TPaintBox);
         begin
-            create();
 
-            drawingPaintBox := drawingPaintBoxIn;
         end;
 
-    destructor TGeomBase.destroy();
+    destructor TGeom.destroy();
         begin
             inherited Destroy();
 

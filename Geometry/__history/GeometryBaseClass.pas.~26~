@@ -27,7 +27,7 @@ implementation
         begin
             inherited create();
 
-            FreeAndNil(drawingPaintBox);
+            drawingPaintBox := nil;
 
             drawingAxisConverter.create();
         end;

@@ -96,10 +96,11 @@
         <DCCReference Include="VCLComponents\StringGridHelperClass.pas"/>
         <DCCReference Include="VCLComponents\GeneralComponentHelperMethods.pas"/>
         <DCCReference Include="GeneralMath\InterpolatorClass.pas"/>
-        <DCCReference Include="VCLComponents\Drawing\DrawingAxisConversionMethods.pas"/>
+        <DCCReference Include="VCLComponents\Drawing\DrawingAxisConversionClass.pas"/>
         <DCCReference Include="Geometry\GeometryTypes.pas"/>
-        <DCCReference Include="Geometry\GeomVectorClass.pas"/>
+        <DCCReference Include="Geometry\GeomSpaceVectorClass.pas"/>
         <DCCReference Include="Geometry\GeometryBaseClass.pas"/>
+        <DCCReference Include="VCLComponents\Drawing\DrawingTypes.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

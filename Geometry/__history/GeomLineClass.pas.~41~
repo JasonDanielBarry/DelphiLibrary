@@ -4,10 +4,10 @@ interface
 
     uses
         system.sysUtils, Math,
-        GeometryTypes, GeometryBaseClass, GeomSpaceVectorClass;
+        GeometryTypes, GeomSpaceVectorClass;
 
     type
-        TGeomLine = class(TGeomBase)
+        TGeomLine = class
             private
                 const
                     //line vector index constants

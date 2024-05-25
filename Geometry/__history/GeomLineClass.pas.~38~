@@ -4,10 +4,10 @@ interface
 
     uses
         system.sysUtils, Math,
-        GeometryTypes, GeometryBaseClass, GeomSpaceVectorClass;
+        GeometryTypes, GeomVectorClass;
 
     type
-        TGeomLine = class(TGeomBase)
+        TGeomLine = class
             private
                 const
                     //line vector index constants
@@ -37,7 +37,6 @@ interface
                 //modifiers
                     procedure setStartPoint(startPointIn : TGeomPoint);
                     procedure setEndPoint(endPointIn : TGeomPoint);
-                    procedure setPoints(startPointIn, endPointIn : TGeomPoint);
                 //calculate line length
                     function length() : double;
                 //bounding box
@@ -93,8 +92,6 @@ implementation
             destructor TGeomLine.destroy();
                 begin
                     inherited destroy();
-
-                    FreeAndNil(lineVector);
                 end;
 
         //calculate line length
@@ -127,11 +124,6 @@ implementation
                     endPoint := endPointIn;
 
                     updatePoints();
-                end;
-
-            procedure TGeomLine.setPoints(startPointIn, endPointIn : TGeomPoint);
-                begin
-                    assignPoints(startPointIn, endPointIn);
                 end;
 
         //bounding box

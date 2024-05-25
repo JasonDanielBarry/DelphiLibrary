@@ -27,8 +27,6 @@ implementation
         begin
             inherited create();
 
-            FreeAndNil(drawingPaintBox);
-
             drawingAxisConverter.create();
         end;
 

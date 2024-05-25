@@ -5,11 +5,10 @@ interface
     uses
         System.SysUtils, Math,
         GeometryTypes,
-        GeometryBaseClass,
         GeomLineClass;
 
     type
-        TGeomPolyLine = class(TGeomBase)
+        TGeomPolyLine = class
             private
                 //member variables
                     arrLines : TArray<TGeomLine>;

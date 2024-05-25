@@ -9,7 +9,7 @@ interface
         GeomLineClass;
 
     type
-        TGeomPolyLine = class(TGeomBase)
+        TGeomPolyLine = class(TGeomBase);
             private
                 //member variables
                     arrLines : TArray<TGeomLine>;
