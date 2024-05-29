@@ -39,9 +39,11 @@ interface
                     procedure setEndPoint(endPointIn : TGeomPoint);
                     procedure setPoints(startPointIn, endPointIn : TGeomPoint);
                 //calculate line length
-                    function length() : double;
+                    function lineLength() : double;
                 //bounding box
                     function boundingBox() : TGeomBox;
+                //drawing points
+                    function drawingPoints() : TArray<TGeomPoint>; override;
         end;
 
 implementation
@@ -98,7 +100,7 @@ implementation
                 end;
 
         //calculate line length
-            function TGeomLine.length() : double;
+            function TGeomLine.lineLength() : double;
                 begin
                     result := lineVector.normalise();
                 end;
@@ -148,6 +150,17 @@ implementation
                         boxOut.maxPoint.x := max(startPoint.x, endPoint.x);
                         boxOut.maxPoint.y := max(startPoint.y, endPoint.y);
                         boxOut.maxPoint.z := max(startPoint.z, endPoint.z);
+                end;
+
+        //drawing points
+            function TGeomLine.drawingPoints() : TArray<TGeomPoint>;
+                var
+                    arrPoints : TArray<TGeomPoint>;
+                begin
+                    SetLength(arrPoints, 2);
+
+                    arrPoints[0] := startPoint;
+                    arrPoints[1] := endPoint;
                 end;
 
 end.

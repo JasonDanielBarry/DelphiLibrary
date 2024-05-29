@@ -4,10 +4,10 @@ interface
 
     uses
         system.sysUtils, Math,
-        GeometryTypes, GeomVectorClass;
+        GeometryTypes, GeometryBaseClass, GeomSpaceVectorClass;
 
     type
-        TGeomLine = class
+        TGeomLine = class(TGeomBase)
             private
                 const
                     //line vector index constants
@@ -37,10 +37,13 @@ interface
                 //modifiers
                     procedure setStartPoint(startPointIn : TGeomPoint);
                     procedure setEndPoint(endPointIn : TGeomPoint);
+                    procedure setPoints(startPointIn, endPointIn : TGeomPoint);
                 //calculate line length
                     function length() : double;
                 //bounding box
                     function boundingBox() : TGeomBox;
+                //drawing points
+                    function drawingPoints() : TArray<TGeomPoint>; override;
         end;
 
 implementation
@@ -92,6 +95,8 @@ implementation
             destructor TGeomLine.destroy();
                 begin
                     inherited destroy();
+
+                    FreeAndNil(lineVector);
                 end;
 
         //calculate line length
@@ -115,17 +120,36 @@ implementation
             procedure TGeomLine.setStartPoint(startPointIn : TGeomPoint);
                 begin
                     startPoint := startPointIn;
+
+                    updatePoints();
                 end;
 
             procedure TGeomLine.setEndPoint(endPointIn : TGeomPoint);
                 begin
+                    endPoint := endPointIn;
 
+                    updatePoints();
+                end;
+
+            procedure TGeomLine.setPoints(startPointIn, endPointIn : TGeomPoint);
+                begin
+                    assignPoints(startPointIn, endPointIn);
                 end;
 
         //bounding box
             function TGeomLine.boundingBox() : TGeomBox;
+                var
+                    boxOut : TGeomBox;
                 begin
+                    //min point
+                        boxOut.minPoint.x := min(startPoint.x, endPoint.x);
+                        boxOut.minPoint.y := min(startPoint.y, endPoint.y);
+                        boxOut.minPoint.z := min(startPoint.z, endPoint.z);
 
+                    //max point
+                        boxOut.maxPoint.x := max(startPoint.x, endPoint.x);
+                        boxOut.maxPoint.y := max(startPoint.y, endPoint.y);
+                        boxOut.maxPoint.z := max(startPoint.z, endPoint.z);
                 end;
 
 end.

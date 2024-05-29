@@ -124,15 +124,8 @@ implementation
             //edit a currently selected vertex
                 procedure TGeomPolyLine.editVertex( indexIn         : integer;
                                                     xIn, yIn, zIn   : double    );
-                    begin
-
-                    end;
-
-                procedure TGeomPolyLine.editVertex( indexIn     : integer;
-                                                    newPointIn  : TGeomPoint);
-                    begin
-
-                    end;
+                procedure editVertex(   indexIn     : integer;
+                                        newPointIn  : TGeomPoint);
 
         //drawing points
             function TGeomPolyLine.drawingPoints() : TArray<TGeomPoint>;

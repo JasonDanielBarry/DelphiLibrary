@@ -36,6 +36,7 @@ interface
                                                 xIn, yIn, zIn   : double    ); overload;
                         procedure editVertex(   indexIn     : integer;
                                                 newPointIn  : TGeomPoint);
+
                 //drawing points
                     function drawingPoints() : TArray<TGeomPoint>; override;
         end;
@@ -120,19 +121,6 @@ implementation
                     //double check the points are assigned correctly
                         updatePolyLine();
                 end;
-
-            //edit a currently selected vertex
-                procedure TGeomPolyLine.editVertex( indexIn         : integer;
-                                                    xIn, yIn, zIn   : double    );
-                    begin
-
-                    end;
-
-                procedure TGeomPolyLine.editVertex( indexIn     : integer;
-                                                    newPointIn  : TGeomPoint);
-                    begin
-
-                    end;
 
         //drawing points
             function TGeomPolyLine.drawingPoints() : TArray<TGeomPoint>;

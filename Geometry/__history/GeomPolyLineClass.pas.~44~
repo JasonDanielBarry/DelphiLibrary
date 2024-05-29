@@ -29,13 +29,8 @@ interface
                 //destructor
                     destructor destroy(); override;
                 //modifiers
-                    //add a new vertex and line
+                    //add a line to the array of lines
                         procedure addVertex(newVertexIn : TGeomPoint);
-                    //edit a currently selected vertex
-                        procedure editVertex(   indexIn         : integer;
-                                                xIn, yIn, zIn   : double    ); overload;
-                        procedure editVertex(   indexIn     : integer;
-                                                newPointIn  : TGeomPoint);
                 //drawing points
                     function drawingPoints() : TArray<TGeomPoint>; override;
         end;
@@ -56,7 +51,10 @@ implementation
                         i : integer;
                     begin
                         for i := 0 to (lineCount() - 1) do
-                            arrLines[i].setPoints(arrVertices[i], arrVertices[i + 1]);
+                            begin
+
+                            end;
+
                     end;
 
     //protected
@@ -116,28 +114,21 @@ implementation
                                 //create new line
                                     arrLines[lineCount() - 1] := TGeomLine.create(newLineStartPoint, newLineEndPoint);
                             end;
-
-                    //double check the points are assigned correctly
-                        updatePolyLine();
                 end;
-
-            //edit a currently selected vertex
-                procedure TGeomPolyLine.editVertex( indexIn         : integer;
-                                                    xIn, yIn, zIn   : double    );
-                    begin
-
-                    end;
-
-                procedure TGeomPolyLine.editVertex( indexIn     : integer;
-                                                    newPointIn  : TGeomPoint);
-                    begin
-
-                    end;
 
         //drawing points
             function TGeomPolyLine.drawingPoints() : TArray<TGeomPoint>;
+                var
+                    arrPoints : TArray<TGeomPoint>;
                 begin
-                    result := arrVertices;
+                    //set the array length
+                        SetLength(arrPoints, vertexCount);
+
+                    //get the polyline's first vertex
+                        arrPoints[0] := arrLines[0].getStartPoint();
+
+                    //get the
+
                 end;
 
 end.

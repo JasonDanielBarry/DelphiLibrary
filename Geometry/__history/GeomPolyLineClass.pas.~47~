@@ -29,13 +29,8 @@ interface
                 //destructor
                     destructor destroy(); override;
                 //modifiers
-                    //add a new vertex and line
+                    //add a line to the array of lines
                         procedure addVertex(newVertexIn : TGeomPoint);
-                    //edit a currently selected vertex
-                        procedure editVertex(   indexIn         : integer;
-                                                xIn, yIn, zIn   : double    ); overload;
-                        procedure editVertex(   indexIn     : integer;
-                                                newPointIn  : TGeomPoint);
                 //drawing points
                     function drawingPoints() : TArray<TGeomPoint>; override;
         end;
@@ -121,23 +116,19 @@ implementation
                         updatePolyLine();
                 end;
 
-            //edit a currently selected vertex
-                procedure TGeomPolyLine.editVertex( indexIn         : integer;
-                                                    xIn, yIn, zIn   : double    );
-                    begin
-
-                    end;
-
-                procedure TGeomPolyLine.editVertex( indexIn     : integer;
-                                                    newPointIn  : TGeomPoint);
-                    begin
-
-                    end;
-
         //drawing points
             function TGeomPolyLine.drawingPoints() : TArray<TGeomPoint>;
+                var
+                    arrPoints : TArray<TGeomPoint>;
                 begin
-                    result := arrVertices;
+                    //set the array length
+                        SetLength(arrPoints, vertexCount);
+
+                    //get the polyline's first vertex
+                        arrPoints[0] := arrLines[0].getStartPoint();
+
+                    //get the
+
                 end;
 
 end.
