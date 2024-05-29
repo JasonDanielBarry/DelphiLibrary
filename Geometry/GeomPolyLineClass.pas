@@ -30,12 +30,16 @@ interface
                     destructor destroy(); override;
                 //modifiers
                     //add a new vertex and line
-                        procedure addVertex(newVertexIn : TGeomPoint);
+                        procedure addVertex(xIn, yIn : double); overload;
+                        procedure addVertex(xIn, yIn, zIn : double); overload;
+                        procedure addVertex(newVertexIn : TGeomPoint); overload;
                     //edit a currently selected vertex
                         procedure editVertex(   indexIn         : integer;
                                                 xIn, yIn, zIn   : double    ); overload;
                         procedure editVertex(   indexIn     : integer;
-                                                newPointIn  : TGeomPoint);
+                                                newPointIn  : TGeomPoint); overload;
+                //bounding box
+                    function boundingBox() : TGeomBox;
                 //drawing points
                     function drawingPoints() : TArray<TGeomPoint>; override;
         end;
@@ -93,6 +97,22 @@ implementation
                 end;
 
         //add a line to the array of lines
+            procedure TGeomPolyLine.addVertex(xIn, yIn : double);
+                begin
+                    addVertex(xIn, yIn, 0);
+                end;
+
+            procedure TGeomPolyLine.addVertex(xIn, yIn, zIn : double);
+                var
+                    newVertex : TGeomPoint;
+                begin
+                    newVertex.x := xIn;
+                    newVertex.y := yIn;
+                    newVertex.z := zIn;
+
+                    addVertex(newVertex);
+                end;
+
             procedure TGeomPolyLine.addVertex(newVertexIn : TGeomPoint);
                 var
                     newLineStartPoint, newLineEndPoint  : TGeomPoint;
@@ -133,6 +153,40 @@ implementation
                     begin
 
                     end;
+
+        //bounding box
+            function TGeomPolyLine.boundingBox() : TGeomBox;
+                var
+                    i       : integer;
+                    boxOut  : TGeomBox;
+                begin
+                    //initial values
+                        //min
+                            boxOut.minPoint.x := arrVertices[0].x;
+                            boxOut.minPoint.y := arrVertices[0].y;
+                            boxOut.minPoint.z := arrVertices[0].z;
+
+                        //max
+                            boxOut.maxPoint.x := arrVertices[0].x;
+                            boxOut.maxPoint.y := arrVertices[0].y;
+                            boxOut.maxPoint.z := arrVertices[0].z;
+
+                    //loop through vertices and find extents
+                        for i := 1 to (vertexCount() - 1) do
+                            begin
+                                //min
+                                    boxOut.minPoint.x := min(boxOut.minPoint.x, arrVertices[i].x);
+                                    boxOut.minPoint.y := min(boxOut.minPoint.y, arrVertices[i].y);
+                                    boxOut.minPoint.z := min(boxOut.minPoint.z, arrVertices[i].z);
+
+                                //max
+                                    boxOut.maxPoint.x := max(boxOut.maxPoint.x, arrVertices[i].x);
+                                    boxOut.maxPoint.y := max(boxOut.maxPoint.y, arrVertices[i].y);
+                                    boxOut.maxPoint.z := max(boxOut.maxPoint.z, arrVertices[i].z);
+                            end;
+
+                    result := boxOut;
+                end;
 
         //drawing points
             function TGeomPolyLine.drawingPoints() : TArray<TGeomPoint>;

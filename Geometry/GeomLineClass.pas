@@ -150,6 +150,8 @@ implementation
                         boxOut.maxPoint.x := max(startPoint.x, endPoint.x);
                         boxOut.maxPoint.y := max(startPoint.y, endPoint.y);
                         boxOut.maxPoint.z := max(startPoint.z, endPoint.z);
+
+                    result := boxOut;
                 end;
 
         //drawing points

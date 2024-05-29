@@ -1,3 +1,4 @@
 ..\DelphiLibrary\Geometry;
 ..\DelphiLibrary\VCLComponents;
+..\DelphiLibrary\VCLComponents\Drawing;
 ..\DelphiLibrary\GeneralMath;

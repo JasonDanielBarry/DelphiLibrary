@@ -34,21 +34,30 @@ interface
                         //x bounds
                             procedure setXMin(xMinIn : double);
                             procedure setXMax(xMaxIn : double);
+                            procedure setDomain(xMinIn, xMaxIn : double);
                         //y bounds
                             procedure setYMin(yMinIn : double);
                             procedure setYMax(yMaxIn : double);
-                        procedure setDrawingRegion(xMinIn, xMaxIn, yMinIn, yMaxIn : double);
+                            procedure setRange(yMinIn, yMaxIn : double);
+                        procedure setDrawingRegion(xMinIn, xMaxIn, yMinIn, yMaxIn : double); overload;
+                        procedure setDrawingRegion( bufferIn : double;
+                                                    regionIn : TGeomBox ); overload;
+                        procedure setDrawingSpaceRatio( adjustByDomainIn    : boolean;
+                                                        ratioIn             : double    );
+                        procedure setDrawingSpaceRatioOneToOne();
                 //convertion calculations
                     //canvas-to-drawing
                         function L_to_X(L_In : integer) : double;
                         function T_to_Y(T_In : integer) : double;
                         function LT_to_XY(L_In, T_In : integer) : TGeomPoint; overload;
-                        function LT_to_XY(pointIn : TCanvasPoint) : TGeomPoint; overload;
+                        function LT_to_XY(pointIn : TPoint) : TGeomPoint; overload;
+                        function arrLT_to_arrXY(arrLT_In : TArray<TPoint>) : TArray<TGeomPoint>;
                     //drawing-to-canvas
                         function X_to_L(X_In : double) : integer;
                         function Y_to_T(Y_In : double) : integer;
                         function XY_to_LT(X_In, Y_In : double) : TPoint; overload;
                         function XY_to_LT(pointIn : TGeomPoint) : TPoint; overload;
+                        function arrXY_to_arrLT(arrXY_In : TArray<TGeomPoint>) : TArray<TPoint>;
         end;
 
 implementation
@@ -111,6 +120,12 @@ implementation
                             drawingSpace.maxPoint.x := xMaxIn;
                         end;
 
+                    procedure TDrawingAxisConverter.setDomain(xMinIn, xMaxIn : double);
+                        begin
+                            setXMin(xMinIn);
+                            setXMax(xMaxIn);
+                        end;
+
                 //y bounds
                     procedure TDrawingAxisConverter.setYMin(yMinIn : double);
                         begin
@@ -122,12 +137,80 @@ implementation
                             drawingSpace.maxPoint.y := yMaxIn;
                         end;
 
+                    procedure TDrawingAxisConverter.setRange(yMinIn, yMaxIn : double);
+                        begin
+                            setYMin(yMinIn);
+                            setYMax(yMaxIn);
+                        end;
+
                 procedure TDrawingAxisConverter.setDrawingRegion(xMinIn, xMaxIn, yMinIn, yMaxIn : double);
                     begin
-                        setXMin(xMinIn);
-                        setXMax(xMaxIn);
-                        setYMin(yMinIn);
-                        setYMax(yMaxIn);
+                        setDomain(xMinIn, xMaxIn);
+                        setRange(yMinIn, yMaxIn);
+                    end;
+
+                procedure TDrawingAxisConverter.setDrawingRegion(   bufferIn : double;
+                                                                    regionIn : TGeomBox );
+                    var
+                        domainBuffer, rangeBuffer : double;
+                    begin
+                        //set initial region
+                            setDrawingRegion(   regionIn.minPoint.x, regionIn.maxPoint.x,
+                                                regionIn.minPoint.y, regionIn.maxPoint.y    );
+
+                        bufferIn := min(5, bufferIn);
+                        bufferIn := max(bufferIn, 0);
+
+                        if (bufferIn > 0) then
+                            begin
+                                domainBuffer := (bufferIn / 100) * drawingDomain();
+                                rangeBuffer  := (bufferIn / 100) * drawingRange();
+
+                                setDrawingRegion(   drawingSpace.minPoint.x - domainBuffer / 2, drawingSpace.maxPoint.x + domainBuffer / 2,
+                                                    drawingSpace.minPoint.y - rangeBuffer / 2 , drawingSpace.maxPoint.y + rangeBuffer / 2   );
+                            end;
+                    end;
+
+                procedure TDrawingAxisConverter.setDrawingSpaceRatio(   adjustByDomainIn    : boolean;
+                                                                        ratioIn             : double    );
+                    begin
+                        //the ratio is defined as the value that satisfies: h/w = r(R/D)
+
+                        if (adjustByDomainIn) then
+                            begin
+                                var newRange, rangeMiddle : double;
+
+                                //calculate new range: R = D(1/r)(h/w)
+                                    newRange := (1 / ratioIn) * drawingDomain() * (canvasSpace.height / canvasSpace.width);
+
+                                //find the range middle
+                                    rangeMiddle := (drawingSpace.minPoint.y + drawingSpace.maxPoint.y) / 2;
+
+                                setRange(rangeMiddle - newRange / 2, rangeMiddle + newRange / 2);
+                            end
+                        else if (NOT(adjustByDomainIn)) then
+                            begin
+                                var newDomain, domainMiddle : double;
+
+                                //calculate new domain: D = R(r)(w/h)
+                                    newDomain := ratioIn * drawingRange() * (canvasSpace.width / canvasSpace.height);
+
+                                //find the domain middle
+                                    domainMiddle := (drawingSpace.minPoint.x + drawingSpace.maxPoint.x) / 2;
+
+                                setDomain(domainMiddle - newDomain / 2, domainMiddle + newDomain / 2);
+                            end;
+                    end;
+
+                procedure TDrawingAxisConverter.setDrawingSpaceRatioOneToOne();
+                    begin
+                        //if the domain/width ratio is larger you must size by the domain
+                        //if the range/height ratio is larger you must size by the range
+
+                        if ((drawingDomain() / canvasSpace.width) < (drawingRange() / canvasSpace.height)) then
+                            setDrawingSpaceRatio(false, 1)
+                        else
+                            setDrawingSpaceRatio(true, 1);
                     end;
 
         //convertion calculations
@@ -156,9 +239,24 @@ implementation
                         result := pointOut;
                     end;
 
-                function TDrawingAxisConverter.LT_to_XY(pointIn : TCanvasPoint) : TGeomPoint;
+                function TDrawingAxisConverter.LT_to_XY(pointIn : TPoint) : TGeomPoint;
                     begin
-                        result := LT_to_XY(pointIn.l, pointIn.t);
+                        result := LT_to_XY(pointIn.X, pointIn.Y);
+                    end;
+
+                function TDrawingAxisConverter.arrLT_to_arrXY(arrLT_In : TArray<TPoint>) : TArray<TGeomPoint>;
+                    var
+                        i, arrLen       : integer;
+                        arrPointsOut    : TArray<TGeomPoint>;
+                    begin
+                        arrLen := length(arrLT_In);
+
+                        SetLength(arrPointsOut, arrLen);
+
+                        for i := 0 to (arrLen - 1) do
+                            arrPointsOut[i] := LT_to_XY(arrLT_In[i]);
+
+                        result := arrPointsOut;
                     end;
 
             //drawing-to-canvas
@@ -197,6 +295,21 @@ implementation
                 function TDrawingAxisConverter.XY_to_LT(pointIn : TGeomPoint) : TPoint;
                     begin
                         result := XY_to_LT(pointIn.x, pointIn.y);
+                    end;
+
+                function TDrawingAxisConverter.arrXY_to_arrLT(arrXY_In : TArray<TGeomPoint>) : TArray<TPoint>;
+                    var
+                        i, arrLen       : integer;
+                        arrPointsOut    : TArray<TPoint>;
+                    begin
+                        arrLen := length(arrXY_In);
+
+                        SetLength(arrPointsOut, arrLen);
+
+                        for i := 0 to (arrLen - 1) do
+                            arrPointsOut[i] := XY_to_LT(arrXY_In[i]);
+
+                        result := arrPointsOut;
                     end;
 
 end.
