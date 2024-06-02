@@ -58,6 +58,7 @@ interface
                         function XY_to_LT(X_In, Y_In : double) : TPoint; overload;
                         function XY_to_LT(pointIn : TGeomPoint) : TPoint; overload;
                         function arrXY_to_arrLT(arrXY_In : TArray<TGeomPoint>) : TArray<TPoint>;
+                        function arrXY_to_arrLTF(arrXY_In : TArray<TGeomPoint>) : TArray<TPointF>;
         end;
 
 implementation
@@ -301,6 +302,21 @@ implementation
                     var
                         i, arrLen       : integer;
                         arrPointsOut    : TArray<TPoint>;
+                    begin
+                        arrLen := length(arrXY_In);
+
+                        SetLength(arrPointsOut, arrLen);
+
+                        for i := 0 to (arrLen - 1) do
+                            arrPointsOut[i] := XY_to_LT(arrXY_In[i]);
+
+                        result := arrPointsOut;
+                    end;
+
+                function TDrawingAxisConverter.arrXY_to_arrLTF(arrXY_In : TArray<TGeomPoint>) : TArray<TPointF>;
+                    var
+                        i, arrLen       : integer;
+                        arrPointsOut    : TArray<TPointF>;
                     begin
                         arrLen := length(arrXY_In);
 

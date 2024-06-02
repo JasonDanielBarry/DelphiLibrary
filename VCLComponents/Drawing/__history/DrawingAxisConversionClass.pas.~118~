@@ -44,6 +44,7 @@ interface
                                                     regionIn : TGeomBox ); overload;
                         procedure setDrawingSpaceRatio( adjustByDomainIn    : boolean;
                                                         ratioIn             : double    );
+                        procedure setDrawingSpaceRatioOneToOne();
                 //convertion calculations
                     //canvas-to-drawing
                         function L_to_X(L_In : integer) : double;
@@ -157,7 +158,7 @@ implementation
                             setDrawingRegion(   regionIn.minPoint.x, regionIn.maxPoint.x,
                                                 regionIn.minPoint.y, regionIn.maxPoint.y    );
 
-                        bufferIn := min(10, bufferIn);
+                        bufferIn := min(5, bufferIn);
                         bufferIn := max(bufferIn, 0);
 
                         if (bufferIn > 0) then
@@ -199,6 +200,17 @@ implementation
 
                                 setDomain(domainMiddle - newDomain / 2, domainMiddle + newDomain / 2);
                             end;
+                    end;
+
+                procedure TDrawingAxisConverter.setDrawingSpaceRatioOneToOne();
+                    begin
+                        //if the domain/width ratio is larger you must size by the domain
+                        //if the range/height ratio is larger you must size by the range
+
+                        if ((drawingDomain() / canvasSpace.width) < (drawingRange() / canvasSpace.height)) then
+                            setDrawingSpaceRatio(false, 1)
+                        else
+                            setDrawingSpaceRatio(true, 1);
                     end;
 
         //convertion calculations
