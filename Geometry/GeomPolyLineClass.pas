@@ -145,13 +145,18 @@ implementation
                 procedure TGeomPolyLine.editVertex( indexIn         : integer;
                                                     xIn, yIn, zIn   : double    );
                     begin
+                        arrVertices[indexIn].x := xIn;
+                        arrVertices[indexIn].y := yIn;
+                        arrVertices[indexIn].z := zIn;
 
+                        updatePolyLine();
                     end;
 
                 procedure TGeomPolyLine.editVertex( indexIn     : integer;
                                                     newPointIn  : TGeomPoint);
                     begin
-
+                        editVertex( indexIn,
+                                    newPointIn.x, newPointIn.y, newPointIn.z);
                     end;
 
         //bounding box
