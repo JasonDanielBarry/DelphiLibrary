@@ -11,7 +11,7 @@ interface
     type
         TGeomBase = class
             public
-                constructor create(); overload;
+                constructor create();
                 destructor destroy(); override;
                 function boundingBox() : TGeomBox; virtual; abstract;
                 function drawingPoints() : TArray<TGeomPoint>; virtual; abstract;

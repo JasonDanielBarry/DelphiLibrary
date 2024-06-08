@@ -12,7 +12,8 @@ interface
                 x1, y1  : double;
                 function lineGradient() : double;
             public
-                constructor create(x0In, x1In, y0In, y1In : double);
+                constructor create(); overload;
+                constructor create(x0In, x1In, y0In, y1In : double); overload;
                 destructor destroy(); override;
                 procedure setPoints(x0In, x1In, y0In, y1In : double);
                 function interpolate(xIn : double) : double;
@@ -27,9 +28,14 @@ implementation
             end;
 
     //public
-        constructor TInterpolator.create(x0In, x1In, y0In, y1In : double);
+        constructor TInterpolator.create();
             begin
                 inherited create();
+            end;
+
+        constructor TInterpolator.create(x0In, x1In, y0In, y1In : double);
+            begin
+                create();
 
                 setPoints(x0In, x1In, y0In, y1In);
             end;

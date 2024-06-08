@@ -28,6 +28,8 @@ interface
                     constructor create();
                 //destructor
                     destructor destroy(); override;
+                //accessors
+                    function getVertex(indexIn : integer) : TGeomPoint;
                 //modifiers
                     //add a new vertex and line
                         procedure addVertex(xIn, yIn : double); overload;
@@ -96,6 +98,12 @@ implementation
                     inherited destroy();
                 end;
 
+        //accessors
+            function TGeomPolyLine.getVertex(indexIn : integer) : TGeomPoint;
+                begin
+                    result := arrVertices[indexIn];
+                end;
+
         //add a line to the array of lines
             procedure TGeomPolyLine.addVertex(xIn, yIn : double);
                 begin
@@ -145,13 +153,18 @@ implementation
                 procedure TGeomPolyLine.editVertex( indexIn         : integer;
                                                     xIn, yIn, zIn   : double    );
                     begin
+                        arrVertices[indexIn].x := xIn;
+                        arrVertices[indexIn].y := yIn;
+                        arrVertices[indexIn].z := zIn;
 
+                        updatePolyLine();
                     end;
 
                 procedure TGeomPolyLine.editVertex( indexIn     : integer;
                                                     newPointIn  : TGeomPoint);
                     begin
-
+                        editVertex( indexIn,
+                                    newPointIn.x, newPointIn.y, newPointIn.z);
                     end;
 
         //bounding box

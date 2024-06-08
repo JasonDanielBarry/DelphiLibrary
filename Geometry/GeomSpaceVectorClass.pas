@@ -88,7 +88,6 @@ implementation
                     result := newVector;
                 end;
 
-
     //public
         //constructor
             constructor TGeomSpaceVector.create();

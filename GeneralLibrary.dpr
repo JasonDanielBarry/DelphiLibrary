@@ -27,7 +27,8 @@ uses
   GeometryTypes in 'Geometry\GeometryTypes.pas',
   GeomSpaceVectorClass in 'Geometry\GeomSpaceVectorClass.pas',
   GeometryBaseClass in 'Geometry\GeometryBaseClass.pas',
-  DrawingTypes in 'VCLComponents\Drawing\DrawingTypes.pas';
+  DrawingTypes in 'VCLComponents\Drawing\DrawingTypes.pas',
+  SkiaDrawingMethods in 'VCLComponents\Drawing\Skia\SkiaDrawingMethods.pas';
 
 {$R *.res}
 
