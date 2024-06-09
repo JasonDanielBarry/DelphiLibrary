@@ -3,7 +3,7 @@ unit GeomPolyLineClass;
 interface
 
     uses
-        System.SysUtils, Math,
+        System.SysUtils, system.Math,
         GeometryTypes,
         GeometryBaseClass,
         GeomLineClass;
@@ -123,8 +123,18 @@ implementation
 
             procedure TGeomPolyLine.addVertex(newVertexIn : TGeomPoint);
                 var
+                    samePointTest                       : boolean;
+                    i                                   : integer;
+                    dx, dy, dz                          : double;
                     newLineStartPoint, newLineEndPoint  : TGeomPoint;
                 begin
+                    //test to see if the new point already exists
+                        for i := 0 to (vertexCount() - 1) do
+                            begin
+                                dx := (newVertexIn - arrVertices[i].x);
+
+                            end;
+
                     //increment vertex array
                         SetLength(arrVertices, vertexCount() + 1);
 
