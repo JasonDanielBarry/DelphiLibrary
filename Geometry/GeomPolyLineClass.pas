@@ -32,9 +32,9 @@ interface
                     function getVertex(indexIn : integer) : TGeomPoint;
                 //modifiers
                     //add a new vertex and line
-                        procedure addVertex(xIn, yIn : double); overload;
-                        procedure addVertex(xIn, yIn, zIn : double); overload;
-                        procedure addVertex(newVertexIn : TGeomPoint); overload;
+                        function addVertex(xIn, yIn : double) : boolean; overload;
+                        function addVertex(xIn, yIn, zIn : double) : boolean; overload;
+                        function addVertex(newVertexIn : TGeomPoint) : boolean; overload;
                     //edit a currently selected vertex
                         procedure editVertex(   indexIn         : integer;
                                                 xIn, yIn, zIn   : double    ); overload;
@@ -105,12 +105,12 @@ implementation
                 end;
 
         //add a line to the array of lines
-            procedure TGeomPolyLine.addVertex(xIn, yIn : double);
+            function TGeomPolyLine.addVertex(xIn, yIn : double) : boolean;
                 begin
-                    addVertex(xIn, yIn, 0);
+                    result := addVertex(xIn, yIn, 0);
                 end;
 
-            procedure TGeomPolyLine.addVertex(xIn, yIn, zIn : double);
+            function TGeomPolyLine.addVertex(xIn, yIn, zIn : double) : boolean;
                 var
                     newVertex : TGeomPoint;
                 begin
@@ -118,21 +118,37 @@ implementation
                     newVertex.y := yIn;
                     newVertex.z := zIn;
 
-                    addVertex(newVertex);
+                    result := addVertex(newVertex);
                 end;
 
-            procedure TGeomPolyLine.addVertex(newVertexIn : TGeomPoint);
+            function TGeomPolyLine.addVertex(newVertexIn : TGeomPoint) : boolean;
                 var
                     samePointTest                       : boolean;
                     i                                   : integer;
-                    dx, dy, dz                          : double;
+                    dx, dy, dz, dp                      : double;
                     newLineStartPoint, newLineEndPoint  : TGeomPoint;
                 begin
+                    result := true;
+
                     //test to see if the new point already exists
                         for i := 0 to (vertexCount() - 1) do
                             begin
-                                dx := (newVertexIn - arrVertices[i].x);
+                                dx := abs(newVertexIn.x - arrVertices[i].x);
+                                dy := abs(newVertexIn.y - arrVertices[i].y);
+                                dz := abs(newVertexIn.z - arrVertices[i].z);
 
+                                dp := sqrt( power(dx, 2) + power(dy, 2) + power(dz, 2) );
+
+                                samePointTest := (dp < 1e-3);
+
+                                if (samePointTest = True) then
+                                    begin
+                                        updatePolyLine();
+
+                                        result := false;
+
+                                        exit;
+                                    end;
                             end;
 
                     //increment vertex array
