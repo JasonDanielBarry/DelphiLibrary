@@ -10,6 +10,12 @@ interface
             DrawingAxisConversionClass,
             GeometryTypes, GeomPolyLineClass;
 
+    //draw polyline
+        procedure drawSkiaPolygon(  const polylineIn        : TGeomPolyLine;
+                                    const colourIn          : TAlphaColor;
+                                    const axisConverterIn   : TDrawingAxisConverter;
+                                    var canvasInOut         : ISkCanvas             );
+
 implementation
 
     //draw polyline
