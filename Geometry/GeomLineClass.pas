@@ -29,10 +29,6 @@ interface
                 //constructor
                     constructor create(); overload;
                     constructor create(startPointIn, endPointIn : TGeomPoint); overload;
-                    constructor create( lengthIn, alphaAngleIn  : double;
-                                        startPointIn            : TGeomPoint); overload;
-                    constructor create( lengthIn, alphaAngleIn, betaAngleIn : double;
-                                        startPointIn                        : TGeomPoint); overload;
                 //destructor
                     destructor destroy(); override;
                 //accessors
@@ -93,35 +89,6 @@ implementation
                     create();
 
                     assignPoints(startPointIn, endPointIn);
-                end;
-
-            constructor TGeomLine.create(   lengthIn, alphaAngleIn  : double;
-                                            startPointIn            : TGeomPoint    );
-                var
-                    betaAngle   : double;
-                begin
-                    betaAngle   := sqrt(1 - power(alphaAngleIn, 2));
-
-                    create(lengthIn, alphaAngleIn, betaAngle, startPointIn);
-                end;
-
-            constructor TGeomLine.create(   lengthIn, alphaAngleIn, betaAngleIn : double;
-                                            startPointIn                        : TGeomPoint    );
-                var
-                    Ux, Uy,
-                    gammaAngle  : double;
-                    endPoint    : TGeomPoint;
-                begin
-                    Ux := cos(DegToRad(alphaAngleIn));
-                    Uy := cos(DegToRad(betaAngleIn));
-
-                    gammaAngle := radToDeg(ArcCos( Sqrt( 1 - (power(alphaAngleIn, 2) + power(betaAngleIn, 2)) ) ));
-
-                    endPoint.x := startPointIn.x + lengthIn * cos(DegToRad(alphaAngleIn));
-                    endPoint.y := startPointIn.y + lengthIn * cos(DegToRad(betaAngleIn));
-                    endPoint.z := startPointIn.z + lengthIn * cos(DegToRad(gammaAngle));
-
-                    create(startPointIn, endPoint);
                 end;
 
         //desturctor
@@ -196,6 +163,8 @@ implementation
 
                     arrPoints[0] := startPoint;
                     arrPoints[1] := endPoint;
+
+                    result := arrPoints;
                 end;
 
 end.

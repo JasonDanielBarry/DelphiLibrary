@@ -21,8 +21,6 @@ interface
             protected
                 //member variables
                     arrVertices : TArray<TGeomPoint>;
-                //helper methods
-                    function vertexCount() : integer;
             public
                 //constructor
                     constructor create();
@@ -40,6 +38,8 @@ interface
                                                 xIn, yIn, zIn   : double    ); overload;
                         procedure editVertex(   indexIn     : integer;
                                                 newPointIn  : TGeomPoint); overload;
+                //helper methods
+                    function vertexCount() : integer;
                 //bounding box
                     function boundingBox() : TGeomBox;
                 //drawing points
@@ -66,11 +66,6 @@ implementation
                     end;
 
     //protected
-        //helper methods
-            function TGeomPolyLine.vertexCount() : integer;
-                begin
-                    result := Length(arrVertices);
-                end;
 
     //public
         //constructor
@@ -192,6 +187,12 @@ implementation
                         editVertex( indexIn,
                                     newPointIn.x, newPointIn.y, newPointIn.z);
                     end;
+
+        //helper methods
+            function TGeomPolyLine.vertexCount() : integer;
+                begin
+                    result := Length(arrVertices);
+                end;
 
         //bounding box
             function TGeomPolyLine.boundingBox() : TGeomBox;

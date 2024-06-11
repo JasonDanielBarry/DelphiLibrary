@@ -1,4 +1,5 @@
 ..\DelphiLibrary\Geometry;
 ..\DelphiLibrary\VCLComponents;
 ..\DelphiLibrary\VCLComponents\Drawing;
+..\DelphiLibrary\VCLComponents\Drawing\Skia;
 ..\DelphiLibrary\GeneralMath;
