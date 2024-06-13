@@ -12,6 +12,7 @@ interface
 
     //draw line
         procedure drawSkiaLine( const lineIn            : TGeomLine;
+                                const colourIn          : TAlphaColor;
                                 const axisConverterIn   : TDrawingAxisConverter;
                                 var canvasInOut         : ISkCanvas;
                                 const freeLineIn        : boolean = True;
@@ -29,6 +30,7 @@ implementation
 
     //draw line
         procedure drawSkiaLine( const lineIn            : TGeomLine;
+                                const colourIn          : TAlphaColor;
                                 const axisConverterIn   : TDrawingAxisConverter;
                                 var canvasInOut         : ISkCanvas;
                                 const freeLineIn        : boolean = True;
@@ -57,7 +59,7 @@ implementation
                     paint.AntiAlias := True;
 
                     paint.Style         := TSkPaintStyle.Stroke;
-                    paint.Color         := TAlphaColors.Black;
+                    paint.Color         := colourIn;
                     paint.StrokeWidth   := lineThicknessIn;
 
                     canvasInOut.DrawPath(path, paint);
