@@ -117,6 +117,7 @@
         <DCCReference Include="VCLComponents\Drawing\DrawingTypes.pas"/>
         <DCCReference Include="VCLComponents\Drawing\Skia\SkiaDrawingMethods.pas"/>
         <DCCReference Include="GeneralMath\GeneralMathMethods.pas"/>
+        <DCCReference Include="Geometry\GeometryMathMethods.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

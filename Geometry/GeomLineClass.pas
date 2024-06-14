@@ -38,8 +38,13 @@ interface
                     procedure setStartPoint(startPointIn : TGeomPoint);
                     procedure setEndPoint(endPointIn : TGeomPoint);
                     procedure setPoints(startPointIn, endPointIn : TGeomPoint);
-                //calculate line length
-                    function lineLength() : double;
+                //calculattions
+                    //line length
+                        function lineLength() : double;
+                    //unit vector
+                        function unitVector() : TGeomSpaceVector;
+                    //parametric line equation point
+                        function parametricEquationPoint(tIn : double) : TGeomPoint;
                 //bounding box
                     function boundingBox() : TGeomBox;
                 //drawing points
@@ -99,11 +104,36 @@ implementation
                     FreeAndNil(lineVector);
                 end;
 
-        //calculate line length
-            function TGeomLine.lineLength() : double;
-                begin
-                    result := lineVector.normalise();
-                end;
+        //calculationt
+            //line length
+                function TGeomLine.lineLength() : double;
+                    begin
+                        result := lineVector.normalise();
+                    end;
+
+            //unit vector
+                function TGeomLine.unitVector() : TGeomSpaceVector;
+                    begin
+                        result := lineVector.calculateUnitVector();
+                    end;
+
+            //parametric line equation point
+                function TGeomLine.parametricEquationPoint(tIn : double) : TGeomPoint;
+                    var
+                        lineUnitVector  : TGeomSpaceVector;
+                        pointOut        : TGeomPoint;
+                    begin
+                        lineUnitVector := unitVector();
+
+                        //(x, y, z) = (x0, y0, z0) + t<ux, uy, uz>
+                            pointOut.x := startPoint.x + tIn * lineUnitVector[0];
+                            pointOut.y := startPoint.y + tIn * lineUnitVector[1];
+                            pointOut.z := startPoint.z + tIn * lineUnitVector[2];
+
+                        FreeAndNil(lineUnitVector);
+
+                        result := pointOut;
+                    end;
 
         //accessors
             function TGeomLine.getStartPoint() : TGeomPoint;
