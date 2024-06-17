@@ -1,2 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject/>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2024/06/17 15:37:43.566,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
+    <Transaction>2024/06/17 15:37:55.413,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\GeneralMath\LinearAlgeberaMethods.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

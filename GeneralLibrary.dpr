@@ -30,7 +30,8 @@ uses
   DrawingTypes in 'VCLComponents\Drawing\DrawingTypes.pas',
   SkiaDrawingMethods in 'VCLComponents\Drawing\Skia\SkiaDrawingMethods.pas',
   GeneralMathMethods in 'GeneralMath\GeneralMathMethods.pas',
-  GeometryMathMethods in 'Geometry\GeometryMathMethods.pas';
+  GeometryMathMethods in 'Geometry\GeometryMathMethods.pas',
+  LinearAlgeberaMethods in 'GeneralMath\LinearAlgeberaMethods.pas';
 
 {$R *.res}
 

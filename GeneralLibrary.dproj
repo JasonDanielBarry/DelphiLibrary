@@ -118,6 +118,7 @@
         <DCCReference Include="VCLComponents\Drawing\Skia\SkiaDrawingMethods.pas"/>
         <DCCReference Include="GeneralMath\GeneralMathMethods.pas"/>
         <DCCReference Include="Geometry\GeometryMathMethods.pas"/>
+        <DCCReference Include="GeneralMath\LinearAlgeberaMethods.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -159,14 +160,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Debug\GeneralLibrary.dll" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
+                <DeployFile LocalName="..\Win64\Release\GeneralLibrary.dll" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win64">
                         <RemoteName>GeneralLibrary.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win64\Release\GeneralLibrary.dll" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win64">
+                <DeployFile LocalName="Win32\Debug\GeneralLibrary.dll" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
                         <RemoteName>GeneralLibrary.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
@@ -829,9 +830,6 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Win64x">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
