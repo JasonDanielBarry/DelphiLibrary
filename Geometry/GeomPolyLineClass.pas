@@ -223,13 +223,16 @@ implementation
 
                         closingLine := TGeomLine.create(startPoint, endPoint);
 
-                    closingLineLength := closingLine.lineLength();
+                        //get the length
+                            closingLineLength := closingLine.lineLength();
 
-                    FreeAndNil(closingLine);
+                        //free closing line
+                            FreeAndNil(closingLine);
 
-                    polyLineLength := self.lineLength();
+                    //get the self's length
+                        polyLineLength := self.lineLength();
 
-                    //the polygon perimeter = polyline length + closing line length
+                    //the polygon perimeter = polyline (self) length + closing line length
                         result := closingLineLength + polyLineLength;
                 end;
 
