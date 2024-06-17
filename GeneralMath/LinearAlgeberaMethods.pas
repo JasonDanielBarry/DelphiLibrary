@@ -7,6 +7,10 @@ interface
         GeneralMathMethods
         ;
 
+    //line intersection
+        function lineIntersectionPoint( x0, y0, u0, v0,
+                                        x1, y1, u1, v1 : double) : TPointF;
+
     //matrix determinant
         //2x2
             function determinant(   a, b,
@@ -54,7 +58,7 @@ implementation
                         result := denom / numer;
                     end;
 
-        function lineInterSectionPoint( x0, y0, u0, v0,
+        function lineIntersectionPoint( x0, y0, u0, v0,
                                         x1, y1, u1, v1 : double) : TPointF;
             var
                 dx, dy,

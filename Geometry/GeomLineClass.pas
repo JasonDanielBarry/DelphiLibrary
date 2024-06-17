@@ -52,7 +52,14 @@ interface
     //calculate intersection point
         type
             EIntersectionType = (itInfinite, itNone, itSingle);
-        function intersectionPoint(line1In, line2In : TGeomLine) :
+
+            TLineIntersection = record
+                insideBoundingBox   : boolean;
+                intersectionType    : EIntersectionType;
+                point               : TGeomPoint;
+            end;
+
+        function GeomLineIntersectionPoint(line1In, line2In : TGeomLine) : TLineIntersection;
 
 implementation
 
@@ -196,4 +203,44 @@ implementation
                     arrPoints[1] := endPoint;
                     result := arrPoints;
                 end;
+
+    //calculate intersection point
+        function GeomLineIntersectionPoint(line1In, line2In : TGeomLine) : TLineIntersection;
+            var
+                x1, y1, u1, v1,
+                x2, y2, u2, v2              : double;
+                unitVector1, unitVector2    : TGeomSpaceVector;
+                lineIntersectionOut         : TLineIntersection;
+            begin
+                //get line 1 info
+                    x1 := line1In.getStartPoint().x;
+                    y1 := line1In.getStartPoint().y;
+
+                    unitVector1 := line1In.unitVector();
+
+                    u1 := unitVector1[0];
+                    v1 := unitVector1[1];
+
+                    FreeAndNil(unitVector1);
+
+                //get line 2 info
+                    x2 := line2In.getStartPoint().x;
+                    y2 := line2In.getStartPoint().y;
+
+                    unitVector2 := line2In.unitVector();
+
+                    u2 := unitVector2[0];
+                    v2 := unitVector2[1];
+
+                    FreeAndNil(unitVector1);
+
+                //get the intersection point
+                    lineIntersectionOut.point := TGeomPoint.create(
+                                                                        lineIntersectionPoint(  x1, y1, u1, v1,
+                                                                                                x2, y2, u2, v2  )
+                                                                  );
+
+                result := lineIntersectionOut;
+            end;
+
 end.
