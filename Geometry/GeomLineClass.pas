@@ -2,6 +2,7 @@ unit GeomLineClass;
 interface
     uses
         system.sysUtils, Math,
+        LinearAlgeberaMethods,
         GeometryTypes, GeometryBaseClass, GeomSpaceVectorClass;
     type
         TGeomLine = class(TGeomBase)
@@ -47,6 +48,12 @@ interface
                 //drawing points
                     function drawingPoints() : TArray<TGeomPoint>; override;
         end;
+
+    //calculate intersection point
+        type
+            EIntersectionType = (itInfinite, itNone, itSingle);
+        function intersectionPoint(line1In, line2In : TGeomLine) :
+
 implementation
 
     //private
