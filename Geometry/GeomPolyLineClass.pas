@@ -38,10 +38,14 @@ interface
                                                 xIn, yIn, zIn   : double    ); overload;
                         procedure editVertex(   indexIn     : integer;
                                                 newPointIn  : TGeomPoint); overload;
+                //calculations
+                    function lineLength() : double;
+                    function polygonPerimeter() : double;
+                    function polygonArea() : double;
                 //helper methods
                     function vertexCount() : integer;
                 //bounding box
-                    function boundingBox() : TGeomBox;
+                    function boundingBox() : TGeomBox; override;
                 //drawing points
                     function drawingPoints() : TArray<TGeomPoint>; override;
         end;
@@ -187,6 +191,31 @@ implementation
                         editVertex( indexIn,
                                     newPointIn.x, newPointIn.y, newPointIn.z);
                     end;
+
+        //calculations
+            function TGeomPolyLine.lineLength() : double;
+                var
+                    i           : integer;
+                    lengthSum   : double;
+                begin
+                    lengthSum := 0;
+
+                    //add all the line length together that comprise the polyline
+                        for i := 0 to (lineCount() - 1) do
+                            lengthSum := lengthSum + arrLines[i].lineLength();
+
+                    result := lengthSum;
+                end;
+
+            function TGeomPolyLine.polygonPerimeter() : double;
+                begin
+
+                end;
+
+            function TGeomPolyLine.polygonArea() : double;
+                begin
+
+                end;
 
         //helper methods
             function TGeomPolyLine.vertexCount() : integer;
