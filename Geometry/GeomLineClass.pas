@@ -1,11 +1,8 @@
 unit GeomLineClass;
-
 interface
-
     uses
         system.sysUtils, Math,
         GeometryTypes, GeometryBaseClass, GeomSpaceVectorClass;
-
     type
         TGeomLine = class(TGeomBase)
             private
@@ -50,7 +47,6 @@ interface
                 //drawing points
                     function drawingPoints() : TArray<TGeomPoint>; override;
         end;
-
 implementation
 
     //private
@@ -175,7 +171,6 @@ implementation
                         boxOut.minPoint.x := min(startPoint.x, endPoint.x);
                         boxOut.minPoint.y := min(startPoint.y, endPoint.y);
                         boxOut.minPoint.z := min(startPoint.z, endPoint.z);
-
                     //max point
                         boxOut.maxPoint.x := max(startPoint.x, endPoint.x);
                         boxOut.maxPoint.y := max(startPoint.y, endPoint.y);
@@ -190,11 +185,8 @@ implementation
                     arrPoints : TArray<TGeomPoint>;
                 begin
                     SetLength(arrPoints, 2);
-
                     arrPoints[0] := startPoint;
                     arrPoints[1] := endPoint;
-
                     result := arrPoints;
                 end;
-
 end.

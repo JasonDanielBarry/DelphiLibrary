@@ -140,6 +140,8 @@ implementation
                                 squaredSum := squaredSum + power(self[i], 2);
 
                         vectorLength := Sqrt(squaredSum);
+
+                        result := vectorLength;
                     end;
 
             //stretch the vector by a factor
