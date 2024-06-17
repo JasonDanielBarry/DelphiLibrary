@@ -5,6 +5,7 @@ interface
     uses
         System.SysUtils, system.Math,
         GeometryTypes,
+        GeometryMathMethods,
         GeometryBaseClass,
         GeomLineClass;
 
@@ -208,13 +209,33 @@ implementation
                 end;
 
             function TGeomPolyLine.polygonPerimeter() : double;
+                var
+                    closingLineLength,
+                    polyLineLength          : double;
+                    startPoint, endPoint    : TGeomPoint;
+                    closingLine             : TGeomLine;
                 begin
+                    //define the closing line
+                        //start point is the polyline last vertex
+                            startPoint := arrVertices[vertexCount() - 1];
+                        //end point is polyline first vertex
+                            endPoint := arrVertices[0];
 
+                        closingLine := TGeomLine.create(startPoint, endPoint);
+
+                    closingLineLength := closingLine.lineLength();
+
+                    FreeAndNil(closingLine);
+
+                    polyLineLength := self.lineLength();
+
+                    //the polygon perimeter = polyline length + closing line length
+                        result := closingLineLength + polyLineLength;
                 end;
 
             function TGeomPolyLine.polygonArea() : double;
                 begin
-
+                    result := GeometryMathMethods.polygonArea(arrVertices);
                 end;
 
         //helper methods

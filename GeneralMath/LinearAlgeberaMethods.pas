@@ -31,7 +31,7 @@ implementation
                     //      |c d|
                     //    = ad - bc
 
-                    result := (a * d) - (b - c);
+                    result := (a * d) - (b * c);
                 end;
 
         //3x3
@@ -63,13 +63,13 @@ implementation
             var
                 areaOut : double;
             begin
-                //          |x1 y1 1|
-                //A = det(  |x2 y2 1|   )
-                //          |x3 y3 1|
+                //              |x1 y1 1|
+                //A = (1/2) det(|x2 y2 1|)
+                //              |x3 y3 1|
 
-                result :=   determinant(x1, y1, 1,
-                                        x2, y2, 1,
-                                        x3, y3, 1);
+                result := 0.5 * determinant(x1, y1, 1,
+                                            x2, y2, 1,
+                                            x3, y3, 1);
             end;
 
 end.
