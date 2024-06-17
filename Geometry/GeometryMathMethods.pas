@@ -67,7 +67,9 @@ implementation
 
                     //shoelace calculation
                         for i := 0 to (arrLen - 2) do
-                            areaSum := triangleArea(arrGeomPointsIn[i], arrGeomPointsIn[i + 1]);
+                            areaSum := areaSum + triangleArea(arrGeomPointsIn[i], arrGeomPointsIn[i + 1]);
+
+                        areaSum := areaSum + triangleArea(arrGeomPointsIn[arrLen - 1], arrGeomPointsIn[0]);
 
                     result := areaSum;
                 end;
