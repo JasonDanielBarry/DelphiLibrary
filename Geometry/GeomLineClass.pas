@@ -232,7 +232,7 @@ implementation
                     u2 := unitVector2[0];
                     v2 := unitVector2[1];
 
-                    FreeAndNil(unitVector1);
+                    FreeAndNil(unitVector2);
 
                 //get the intersection point
                     lineIntersectionOut.point := TGeomPoint.create(
