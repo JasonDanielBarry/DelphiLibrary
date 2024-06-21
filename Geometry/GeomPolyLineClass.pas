@@ -139,7 +139,7 @@ implementation
 
                                 dp := sqrt( power(dx, 2) + power(dy, 2) + power(dz, 2) );
 
-                                samePointTest := (dp < 1e-3);
+                                samePointTest := (dp < 1e-6);
 
                                 if (samePointTest = True) then
                                     begin
