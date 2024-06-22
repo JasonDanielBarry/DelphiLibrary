@@ -238,7 +238,7 @@ implementation
 
             function TGeomPolyLine.polygonArea() : double;
                 begin
-                    result := GeometryMathMethods.polygonArea(arrVertices);
+                    result := geomPolygonArea(arrVertices);
                 end;
 
         //helper methods

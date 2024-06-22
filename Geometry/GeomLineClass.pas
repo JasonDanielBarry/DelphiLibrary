@@ -50,16 +50,7 @@ interface
         end;
 
     //calculate intersection point
-        type
-            EIntersectionType = (itInfinite, itNone, itSingle);
-
-            TLineIntersection = record
-                insideBoundingBox   : boolean;
-                intersectionType    : EIntersectionType;
-                point               : TGeomPoint;
-            end;
-
-        function GeomLineIntersectionPoint(line1In, line2In : TGeomLine) : TLineIntersection;
+        function GeomLineIntersection(line1In, line2In : TGeomLine) : TLineIntersectionData;
 
 implementation
 
@@ -205,12 +196,12 @@ implementation
                 end;
 
     //calculate intersection point
-        function GeomLineIntersectionPoint(line1In, line2In : TGeomLine) : TLineIntersection;
+        function GeomLineIntersection(line1In, line2In : TGeomLine) : TLineIntersectionData;
             var
                 x1, y1, u1, v1,
                 x2, y2, u2, v2              : double;
                 unitVector1, unitVector2    : TGeomSpaceVector;
-                lineIntersectionOut         : TLineIntersection;
+                lineIntersectionOut         : TLineIntersectionData;
             begin
                 //get line 1 info
                     x1 := line1In.getStartPoint().x;

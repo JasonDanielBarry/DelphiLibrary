@@ -7,7 +7,9 @@ interface
         ;
 
      type
-        EAxis = (x = 0, y = 1, z = 2);
+        EAxis = (eaX = 0, eaY = 1, eaZ = 2);
+        ERelativeToBoundary = (rtbInside = 0, rtbOn = 1, rtbOutside = 2);
+        ELineIntersectionType = (litInfinite = 0, litNone = 1, litSingle = 2);
 
         TGeomPoint = record
             x, y, z : double;
@@ -18,6 +20,12 @@ interface
 
         TGeomBox = record
             minPoint, maxPoint : TGeomPoint;
+        end;
+
+        TLineIntersectionData = record
+            relativeToBound     : ERelativeToBoundary;
+            intersectionType    : ELineIntersectionType;
+            point               : TGeomPoint;
         end;
 
 implementation
