@@ -111,14 +111,10 @@ implementation
                 end;
 
             function TGeomPolyLine.addVertex(xIn, yIn, zIn : double) : boolean;
-                var
-                    newVertex : TGeomPoint;
                 begin
-                    newVertex.x := xIn;
-                    newVertex.y := yIn;
-                    newVertex.z := zIn;
-
-                    result := addVertex(newVertex);
+                    result := addVertex(
+                                            TGeomPoint.create(xIn, yIn, zIn)
+                                       );
                 end;
 
             function TGeomPolyLine.addVertex(newVertexIn : TGeomPoint) : boolean;
