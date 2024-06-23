@@ -1,9 +1,12 @@
 unit GeomLineClass;
+
 interface
+
     uses
         system.sysUtils, Math,
         LinearAlgeberaMethods,
         GeometryTypes, GeometryBaseClass, GeomSpaceVectorClass;
+
     type
         TGeomLine = class(TGeomBase)
             private
@@ -48,12 +51,14 @@ interface
                 //drawing points
                     function drawingPoints() : TArray<TGeomPoint>; override;
         end;
-
+//----------------------------------------------------------------------------------------------------
     //calculate intersection point
-        function GeomLineIntersection(line1In, line2In : TGeomLine) : TLineIntersectionData;
+        function geomLineIntersection(  const line1In, line2In  : TGeomLine;
+                                        const freeLinesIn       : boolean = True) : TLineIntersectionData;
 
 implementation
 
+//----------------------------------------------------------------------------------------------------
     //private
         //helper methods
             //calculat line projections on 3 axes
@@ -194,42 +199,80 @@ implementation
                     arrPoints[1] := endPoint;
                     result := arrPoints;
                 end;
-
+//----------------------------------------------------------------------------------------------------
     //calculate intersection point
-        function GeomLineIntersection(line1In, line2In : TGeomLine) : TLineIntersectionData;
+        function geomLineIntersection(  const line1In, line2In  : TGeomLine;
+                                        const freeLinesIn       : boolean = True) : TLineIntersectionData;
             var
                 x1, y1, u1, v1,
                 x2, y2, u2, v2              : double;
                 unitVector1, unitVector2    : TGeomSpaceVector;
                 lineIntersectionOut         : TLineIntersectionData;
+            procedure
+                _extractLineInfo();
+                    begin
+                        //get line 1 info
+                            x1 := line1In.getStartPoint().x;
+                            y1 := line1In.getStartPoint().y;
+
+                            unitVector1 := line1In.unitVector();
+
+                            u1 := unitVector1[0];
+                            v1 := unitVector1[1];
+
+                            FreeAndNil(unitVector1);
+
+                        //get line 2 info
+                            x2 := line2In.getStartPoint().x;
+                            y2 := line2In.getStartPoint().y;
+
+                            unitVector2 := line2In.unitVector();
+
+                            u2 := unitVector2[0];
+                            v2 := unitVector2[1];
+
+                            FreeAndNil(unitVector2);
+                    end;
+            procedure
+                _determineBoundaryRelation();
+                    begin
+
+                    end;
+            procedure
+                _determineIntersectionType();
+                    begin
+
+                    end;
+            procedure
+                _getIntersectionPoint();
+                    begin
+                        //get the intersection point
+                            lineIntersectionOut.point := TGeomPoint.create(
+                                                                                lineIntersectionPoint(  x1, y1, u1, v1,
+                                                                                                        x2, y2, u2, v2  )
+                                                                          );
+                    end;
+            procedure
+                _freeLines();
+                    begin
+                        //free lines if necessary
+                            if (freeLinesIn) then
+                                begin
+                                    FreeAndNil(line1In);
+                                    FreeAndNil(line2In);
+                                end;
+                    end;
+
             begin
-                //get line 1 info
-                    x1 := line1In.getStartPoint().x;
-                    y1 := line1In.getStartPoint().y;
+                _extractLineInfo();
 
-                    unitVector1 := line1In.unitVector();
+                _determineBoundaryRelation();
 
-                    u1 := unitVector1[0];
-                    v1 := unitVector1[1];
+                _determineIntersectionType();
 
-                    FreeAndNil(unitVector1);
+                _getIntersectionPoint();
 
-                //get line 2 info
-                    x2 := line2In.getStartPoint().x;
-                    y2 := line2In.getStartPoint().y;
-
-                    unitVector2 := line2In.unitVector();
-
-                    u2 := unitVector2[0];
-                    v2 := unitVector2[1];
-
-                    FreeAndNil(unitVector2);
-
-                //get the intersection point
-                    lineIntersectionOut.point := TGeomPoint.create(
-                                                                        lineIntersectionPoint(  x1, y1, u1, v1,
-                                                                                                x2, y2, u2, v2  )
-                                                                  );
+                _freeLines();
 
                 result := lineIntersectionOut;
             end;

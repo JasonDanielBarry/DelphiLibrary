@@ -8,7 +8,7 @@ interface
 
      type
         EAxis = (eaX = 0, eaY = 1, eaZ = 2);
-        ERelativeToBoundary = (rtbInside = 0, rtbOn = 1, rtbOutside = 2);
+        EBoundaryRelation = (brInside = 0, brOn = 1, brOutside = 2);
         ELineIntersectionType = (litInfinite = 0, litNone = 1, litSingle = 2);
 
         TGeomPoint = record
@@ -23,7 +23,7 @@ interface
         end;
 
         TLineIntersectionData = record
-            relativeToBound     : ERelativeToBoundary;
+            relativeToBound     : EBoundaryRelation;
             intersectionType    : ELineIntersectionType;
             point               : TGeomPoint;
         end;
