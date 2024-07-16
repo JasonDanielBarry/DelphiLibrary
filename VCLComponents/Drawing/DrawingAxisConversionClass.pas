@@ -258,7 +258,7 @@ implementation
                     var
                         newPoint : TPointF;
                     begin
-                        newPoint := PointF(pointIn.X, pointIn.Y);
+                        newPoint := TPointF.create(pointIn);
 
                         result := LT_to_XY(newPoint);
                     end;
@@ -286,7 +286,7 @@ implementation
                         SetLength(arrPointF, length(arrLT_In));
 
                         for i := 0 to (length(arrPointF) - 1) do
-                            arrPointF[i] := PointF(arrLT_In[i].X, arrLT_In[i].Y);
+                            arrPointF[i] := TPointF.create(arrLT_In[i]);
 
                         result := arrLT_to_arrXY(arrPointF);
                     end;
