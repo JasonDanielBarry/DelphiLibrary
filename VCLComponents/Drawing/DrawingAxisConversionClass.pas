@@ -10,13 +10,8 @@ interface
     type
         TDrawingAxisConverter = class
             private
-                type
-                    TCanvasRegion = record
-                        height, width : integer;
-                    end;
-                var
-                    canvasSpace  : TCanvasRegion;
-                    drawingSpace : TGeomBox;
+                canvasSpace  : TRect;
+                drawingSpace : TGeomBox;
                 //helper methods
                     function drawingDomain() : double;
                     function drawingRange() : double;
@@ -87,6 +82,9 @@ implementation
             constructor TDrawingAxisConverter.create();
                 begin
                     inherited create();
+
+                    canvasSpace.Left := 0;
+                    canvasSpace.Top  := 0;
 
                     drawingSpace.minPoint.z := 0;
                     drawingSpace.maxPoint.z := 0;
