@@ -3,11 +3,8 @@ unit LinearAlgeberaMethods;
 interface
 
     uses
-        System.SysUtils, system.Math, system.Math.Vectors, system.Types,
-        GeneralMathMethods
+        System.SysUtils, system.Types
         ;
-
-
 
     //line method
         //length
@@ -15,21 +12,12 @@ interface
                                 x1, y1, z1 : double) : double;
 
         //intersection
-            function lineIntersectionPoint( x0, y0, u0, v0,
-                                            x1, y1, u1, v1 : double) : TPointF;
+            function lineIntersectionPoint( out LinesIntersectOut : boolean;
+                                            const   x0, y0, u0, v0,
+                                                    x1, y1, u1, v1 : double ) : TPointF;
 
     //matrix determinant
-//        //2x2
-//            function determinant(   a, b,
-//                                    c, d    : double) : double; overload;
-//
-//        //3x3
-//            function determinant(   a, b, c,
-//                                    d, e, f,
-//                                    g, h, i     : double) : double; overload;
-
-        //any square matrix
-            function determinant(const matrixIn : TArray< TArray<double> >) : double; //overload;
+        function determinant(const matrixIn : TArray< TArray<double> >) : double; //overload;
 
     //triangle area given three vertices
         function triangleArea(  x1, y1,
@@ -37,6 +25,11 @@ interface
                                 x3, y3  : double) : double;
 
 implementation
+
+    uses
+        system.Math,
+        GeneralMathMethods
+        ;
 
     //line methods
         //length
@@ -57,85 +50,74 @@ implementation
 
         //intersection
             //helper methods
-                //t0
-                    function calculate_t0(  dx, dy,
-                                            u0, v0,
-                                            r1      : double) : double;
-                        var
-                            denom, numer : double;
+                //U-matrix
+                    function UMatrix(   u0, v0,
+                                        u1, v1  : double) : TArray< TArray<double> >;
                         begin
-                            denom := r1 * dx - dy;
-
-                            numer := r1 * u0 - v0;
-
-                            result := denom / numer;
+                            result :=   [
+                                            [u0, -u1],
+                                            [v0, -v1]
+                                        ];
                         end;
 
-                //t1
-                    function calculate_t1(  dx, dy,
-                                            u1, v1,
-                                            r0      : double) : double;
+                //T - intersection parameter
+                    function calculateT(    x0, y0, u0, v0,
+                                            x1, y1, u1, v1  : double) : TArray<double>;
                         var
-                            denom, numer : double;
+                            dx, dy,
+                            detU    : double;
+                            TOut    : TArray<double>;
+                            U       : TArray< TArray<double>>;
                         begin
-                            denom := - (r0 * dx - dy);
+                            SetLength(TOut, 2);
 
-                            numer := r0 * u1 - v1;
+                            //calculate the U_matrix determinant
+                                U := UMatrix(   u0, v0,
+                                                u1, v1  );
 
-                            result := denom / numer;
+                                detU := determinant(U);
+
+                                //a determinant of zero means the lines do not intersect
+                                    if (abs(detU) < 1e-3) then
+                                        begin
+                                            result := [0, 0];
+                                            exit();
+                                        end;
+
+                            //dx, dy
+                                dx := x1 - x0;
+                                dy := y1 - y0;
+
+                            //calculate the intersection T
+
+                            TOut[0] := (dx * v1 - dy * u1) / (-detU);
+                            TOut[1] := (dx * v0 - dy * u0) / (-detU);
                         end;
 
-            function lineIntersectionPoint( x0, y0, u0, v0,
-                                            x1, y1, u1, v1 : double) : TPointF;
+            function lineIntersectionPoint( out LinesIntersectOut : boolean;
+                                            const   x0, y0, u0, v0,
+                                                    x1, y1, u1, v1 : double) : TPointF;
                 var
-                    dx, dy,
-                    r0, r1,
-                    t0, t1              : double;
+                    T               : TArray<double>;
                     point0, point1,
-                    pointOut            : TPointF;
+                    pointOut        : TPointF;
                 function
-                    _testForParallelLines() : boolean;
+                    _UMatrixDeterminantAlmostZero() : boolean;
                         var
-                            parallelError : Exception;
+                            detU    : double;
+                            U       : TArray< TArray<double>>;
                         begin
-                            result := False;
+                            U := UMatrix(   u0, v0,
+                                            u1, v1  );
 
-                            try
-                                if ( isAlmostEqual(abs(u0), abs(u1)) AND isAlmostEqual(abs(v0), abs(v1)) ) then
-                                    begin
-                                        parallelError := Exception.Create('Lines are parallel: no intersection point');
+                            detU := determinant(U);
 
-                                        raise parallelError;
-                                    end;
-                            except
-                                result := True;
-
-                                FreeAndNil(parallelError);
-
-                                pointOut := TPointF.Create(0, 0);
-                            end;
+                            result := (abs(detU) < 1e-3);
                         end;
                 function
-                    _testForNoIntersection() : boolean;
-                        var
-                            intersectionError : Exception;
+                    _IntersectionPointsAreEqual() : boolean;
                         begin
-                            result := False;
-
-                            try
-                                if(NOT( (point0.X = point1.X) AND (point0.Y = point1.Y) )) then
-                                    begin
-                                        intersectionError := Exception.Create('Intersection Point Not Found');
-
-                                        raise intersectionError;
-                                    end;
-                            except
-                                result := True;
-
-                                FreeAndNil(intersectionError);
-
-                                pointOut := TPointF.Create(0, 0);
-                            end;
+                            result := ( (point0.X = point1.X) AND (point0.Y = point1.Y) );
                         end;
                 begin
                     //formulae
@@ -146,7 +128,7 @@ implementation
 
                         //line 1
                             //|x|   |x1|     |u1|
-                            //| | = |  | + t0|  |
+                            //| | = |  | + t1|  |
                             //|y|   |y1|     |v1|
 
                         //intersection equation
@@ -155,170 +137,129 @@ implementation
                             //|y1-y0|   |v0 -v1||t1|
 
                     //test for parallel lines
-                        if (_testForParallelLines()) then
+                        if (_UMatrixDeterminantAlmostZero()) then
                             begin
-                                result := TPointF.create(0, 0);
-
+                                LinesIntersectOut := False;
                                 exit;
-                            end;
-
-                    //ratios
-                        r0 := v0 / u0;
-                        r1 := v1 / u1;
-
-                    //dx, dy
-                        dx := x1 - x0;
-                        dy := y1 - y0;
+                            end
+                        else
+                            LinesIntersectOut := True;
 
                     //calculation t0 & t1
-
-                        t0 := calculate_t0(dx, dy, u0, v0, r1);
-
-                        t1 := calculate_t1(dx, dy, u1, v1, r0);
+                        T := calculateT(x0, y0, u0, v0,
+                                        x1, y1, u1, v1);
 
                     //calculate the intersection points from t0 & t1
-                        point0 := TPointF.Create(x0 + t0 * u0, y0 + t0 * v0);
-                        point1 := TPointF.Create(x1 + t1 * u1, y1 + t1 * v1);
+                        point0 := TPointF.Create(x0 + T[0] * u0, y0 + T[0] * v0);
+                        point1 := TPointF.Create(x1 + T[1] * u1, y1 + T[1] * v1);
 
-                    if (_testForNoIntersection()) then
-                        pointOut := point0;
+                    if (_IntersectionPointsAreEqual()) then
+                        pointOut := point0
+                    else
+                        LinesIntersectOut := False;
 
                     result := pointOut;
                 end;
 
     //matrix determinant
-//        //2x2
-//            function determinant(   a, b,
-//                                    c, d    : double) : double;
-//                begin
-//                    //det = |a b|
-//                    //      |c d|
-//                    //    = ad - bc
-//
-//                    result := (a * d) - (b * c);
-//                end;
-//
-//        //3x3
-//            function determinant(   a, b, c,
-//                                    d, e, f,
-//                                    g, h, i     : double) : double;
-//                begin
-//                    //      |a b c|
-//                    //det = |d e f|
-//                    //      |g h i|
-//
-//                    //    = a|e f| - b|d f| + c|d e|
-//                    //       |h i|    |g i|    |g h|
-//
-//                    result :=       a * determinant(e, f,
-//                                                    h, i)
-//
-//                                -   b * determinant(d, f,
-//                                                    g, i)
-//
-//                                +   c * determinant(d, e,
-//                                                    g, h);
-//                end;
+        //helper methods
+            function matrixIsSquare(const matrixIn : TArray< TArray<double> >) : boolean;
+                var
+                    colN, rowN : integer;
+                begin
+                    colN := length(matrixIn[0]);
+                    rowN := length(matrixIn);
 
-        //any square matrix
-            //helper methods
-                function matrixIsSquare(const matrixIn : TArray< TArray<double> >) : boolean;
-                    var
-                        colN, rowN : integer;
-                    begin
-                        colN := length(matrixIn[0]);
-                        rowN := length(matrixIn);
+                    result := colN = rowN;
+                end;
 
-                        result := colN = rowN;
-                    end;
+            function subMatrix( const colIn     : integer;
+                                const matrixIn  : TArray< TArray<double> >) : Tarray< TArray<double> >;
+                var
+                    dimension, subDimension,
+                    i, j,
+                    r, c                    : integer;
+                    subMatrixOut            : Tarray< TArray<double> >;
+                begin
+                    //get the sub-matrix dimension
+                        dimension   := length(matrixIn);
+                        subDimension := dimension - 1;
 
-                function subMatrix( const colIn     : integer;
-                                    const matrixIn  : TArray< TArray<double> >) : Tarray< TArray<double> >;
-                        var
-                            dimension, subDimension,
-                            i, j,
-                            r, c                    : integer;
-                            subMatrixOut            : Tarray< TArray<double> >;
-                        begin
-                            //get the sub-matrix dimension
-                                dimension   := length(matrixIn);
-                                subDimension := dimension - 1;
+                    //size the sub-matrix
+                        SetLength(subMatrixOut, subDimension);
 
-                            //size the sub-matrix
-                                SetLength(subMatrixOut, subDimension);
+                        for c := 0 to (subDimension - 1) do
+                            SetLength(subMatrixOut[c], subDimension);
 
-                                for c := 0 to (subDimension - 1) do
-                                    SetLength(subMatrixOut[c], subDimension);
+                    //assign the values to the sub-matrix
+                        r := 0;
+                        c := 0;
 
-                            //assign the values to the sub-matrix
-                                r := 0;
+                        for i := 1 to (dimension - 1) do //the second row and downward is assigned to the sub-matrix
+                            begin
+                                r := i - 1;
                                 c := 0;
 
-                                for i := 1 to (dimension - 1) do //the second row and downward is assigned to the sub-matrix
+                                for j := 0 to (dimension - 1) do
                                     begin
-                                        r := i - 1;
-                                        c := 0;
-
-                                        for j := 0 to (dimension - 1) do
+                                        if (j <> colIn) then
                                             begin
-                                                if (j <> colIn) then
-                                                    begin
-                                                        subMatrixOut[r][c] := matrixIn[i][j];
+                                                subMatrixOut[r][c] := matrixIn[i][j];
 
-                                                        inc(c);
-                                                    end;
+                                                inc(c);
                                             end;
                                     end;
+                            end;
 
-                            result := subMatrixOut;
+                    result := subMatrixOut;
+                end;
+
+        function determinantRec(const matrixIn : TArray< TArray<double> >) : double;
+            var
+                i,
+                dimension           : integer;
+                a_ij,
+                determinantValueOut : double;
+                C_ij                : TArray< TArray<double> >;
+            begin
+                //check if the input matrix is square (N x N)
+                    if ( NOT(matrixIsSquare(matrixIn)) ) then
+                        begin
+                            result := 0;
+                            exit();
                         end;
 
-            function determinantRec(const matrixIn : TArray< TArray<double> >) : double;
-                var
-                    i,
-                    dimension           : integer;
-                    a_ij,
-                    determinantValueOut : double;
-                    C_ij                : TArray< TArray<double> >;
-                begin
-                    //check if the input matrix is square (N x N)
-                        if ( NOT(matrixIsSquare(matrixIn)) ) then
-                            begin
-                                result := 0;
-                                exit();
-                            end;
+                //if N = 1 then the determinant is the matrix value
+                    dimension := length(matrixIn);
 
-                    //if N = 1 then the determinant is the matrix value
-                        dimension := length(matrixIn);
+                    if (dimension = 1) then
+                        begin
+                            result := matrixIn[0][0];
+                            exit();
+                        end;
 
-                        if (dimension = 1) then
-                            begin
-                                result := matrixIn[0][0];
-                                exit();
-                            end;
+                //determinant = sum(a_ij * C_ij)
+                    determinantValueOut := 0;
 
-                    //determinant = sum(a_ij * C_ij)
-                        determinantValueOut := 0;
+                    for i := 0 to (dimension - 1) do
+                        begin
+                            a_ij := matrixIn[0][i] * power(-1, i);
 
-                        for i := 0 to (dimension - 1) do
-                            begin
-                                a_ij := matrixIn[0][i] * power(-1, i);
+                            C_ij := subMatrix(
+                                                i,
+                                                matrixIn
+                                             );
 
-                                C_ij := subMatrix(
-                                                    i,
-                                                    matrixIn
-                                                 );
+                            determinantValueOut := determinantValueOut + a_ij * determinantRec(C_ij);
+                        end;
 
-                                determinantValueOut := determinantValueOut + a_ij * determinantRec(C_ij);
-                            end;
+                result := determinantValueOut;
+            end;
 
-                    result := determinantValueOut;
-                end;
-
-            function determinant(const matrixIn : TArray< TArray<double> >) : double;
-                begin
-                    result := determinantRec(matrixIn);
-                end;
+        function determinant(const matrixIn : TArray< TArray<double> >) : double;
+            begin
+                result := determinantRec(matrixIn);
+            end;
 
     //triangle area given three vertices
         function triangleArea(  x1, y1,

@@ -3,7 +3,7 @@ unit InterpolatorClass;
 interface
 
     uses
-        system.SysUtils, system.Math, system.Math.Vectors;
+        system.SysUtils, system.Math;
 
     type
         TInterpolator = class

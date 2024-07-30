@@ -53,7 +53,6 @@ begin
         testMatrix[1] := [3, 4];
 
         actual := determinant(testMatrix);
-
         expected := -2;
 
         Assert.AreEqual(expected, actual, 10e-6, '2x2');
@@ -69,7 +68,6 @@ begin
         testMatrix[2] := [9, 7, 3];
 
         actual := determinant(testMatrix);
-
         expected := 28;
 
         Assert.AreEqual(expected, actual, 10e-6, '3x3');
@@ -87,7 +85,6 @@ begin
         testMatrix[3] := [13, 14, 15, 16];
 
         actual := determinant(testMatrix);
-
         expected := 832;
 
         Assert.AreEqual(expected, actual, 10e-6, '4x4');
