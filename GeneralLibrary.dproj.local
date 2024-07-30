@@ -2,7 +2,7 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2024/06/17 15:37:43.000.566,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
-    <Transaction>2024/06/17 15:37:55.000.413,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\GeneralMath\LinearAlgeberaMethods.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
+    <Transaction>2024/06/17 15:37:55.000.413,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\GeneralMath\LinearAlgeberaMethods.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="GeneralMath"/>

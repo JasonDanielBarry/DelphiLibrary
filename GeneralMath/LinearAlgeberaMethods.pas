@@ -19,14 +19,17 @@ interface
                                             x1, y1, u1, v1 : double) : TPointF;
 
     //matrix determinant
-        //2x2
-            function determinant(   a, b,
-                                    c, d    : double) : double; overload;
+//        //2x2
+//            function determinant(   a, b,
+//                                    c, d    : double) : double; overload;
+//
+//        //3x3
+//            function determinant(   a, b, c,
+//                                    d, e, f,
+//                                    g, h, i     : double) : double; overload;
 
-        //3x3
-            function determinant(   a, b, c,
-                                    d, e, f,
-                                    g, h, i     : double) : double; overload;
+        //any square matrix
+            function determinant(const matrixIn : TArray< TArray<double> >) : double; //overload;
 
     //triangle area given three vertices
         function triangleArea(  x1, y1,
@@ -184,38 +187,38 @@ implementation
                 end;
 
     //matrix determinant
-        //2x2
-            function determinant(   a, b,
-                                    c, d    : double) : double;
-                begin
-                    //det = |a b|
-                    //      |c d|
-                    //    = ad - bc
-
-                    result := (a * d) - (b * c);
-                end;
-
-        //3x3
-            function determinant(   a, b, c,
-                                    d, e, f,
-                                    g, h, i     : double) : double;
-                begin
-                    //      |a b c|
-                    //det = |d e f|
-                    //      |g h i|
-
-                    //    = a|e f| - b|d f| + c|d e|
-                    //       |h i|    |g i|    |g h|
-
-                    result :=       a * determinant(e, f,
-                                                    h, i)
-
-                                -   b * determinant(d, f,
-                                                    g, i)
-
-                                +   c * determinant(d, e,
-                                                    g, h);
-                end;
+//        //2x2
+//            function determinant(   a, b,
+//                                    c, d    : double) : double;
+//                begin
+//                    //det = |a b|
+//                    //      |c d|
+//                    //    = ad - bc
+//
+//                    result := (a * d) - (b * c);
+//                end;
+//
+//        //3x3
+//            function determinant(   a, b, c,
+//                                    d, e, f,
+//                                    g, h, i     : double) : double;
+//                begin
+//                    //      |a b c|
+//                    //det = |d e f|
+//                    //      |g h i|
+//
+//                    //    = a|e f| - b|d f| + c|d e|
+//                    //       |h i|    |g i|    |g h|
+//
+//                    result :=       a * determinant(e, f,
+//                                                    h, i)
+//
+//                                -   b * determinant(d, f,
+//                                                    g, i)
+//
+//                                +   c * determinant(d, e,
+//                                                    g, h);
+//                end;
 
         //any square matrix
             //helper methods
@@ -252,21 +255,25 @@ implementation
                                 c := 0;
 
                                 for i := 1 to (dimension - 1) do //the second row and downward is assigned to the sub-matrix
-                                    for j := 0 to (dimension - 1) do
-                                        begin
-                                            if (j <> colIn) then
-                                                begin
-                                                    subMatrixOut[r][c] := matrixIn[i][j];
+                                    begin
+                                        r := i - 1;
+                                        c := 0;
 
-                                                    inc(r);
-                                                    inc(c);
-                                                end;
-                                        end;
+                                        for j := 0 to (dimension - 1) do
+                                            begin
+                                                if (j <> colIn) then
+                                                    begin
+                                                        subMatrixOut[r][c] := matrixIn[i][j];
+
+                                                        inc(c);
+                                                    end;
+                                            end;
+                                    end;
 
                             result := subMatrixOut;
                         end;
 
-            function determinant(const matrixIn : TArray< TArray<double> >) : double; overload;
+            function determinantRec(const matrixIn : TArray< TArray<double> >) : double;
                 var
                     i,
                     dimension           : integer;
@@ -295,17 +302,22 @@ implementation
 
                         for i := 0 to (dimension - 1) do
                             begin
-                                a_ij := matrixIn[0][i];
+                                a_ij := matrixIn[0][i] * power(-1, i);
 
                                 C_ij := subMatrix(
                                                     i,
                                                     matrixIn
                                                  );
 
-                                determinantValueOut := determinantValueOut + a_ij * determinant(C_ij);
+                                determinantValueOut := determinantValueOut + a_ij * determinantRec(C_ij);
                             end;
 
                     result := determinantValueOut;
+                end;
+
+            function determinant(const matrixIn : TArray< TArray<double> >) : double;
+                begin
+                    result := determinantRec(matrixIn);
                 end;
 
     //triangle area given three vertices
@@ -313,15 +325,15 @@ implementation
                                 x2, y2,
                                 x3, y3  : double) : double;
             var
-                areaOut : double;
+                coordinateMatrix : TArray<TArray<double>>;
             begin
-                //              |x1 y1 1|
-                //A = (1/2) det(|x2 y2 1|)
-                //              |x3 y3 1|
+                coordinateMatrix := [
+                                        [x1, y1, 1],
+                                        [x2, y2, 1],
+                                        [x3, y3, 1]
+                                    ];
 
-                result := 0.5 * determinant(x1, y1, 1,
-                                            x2, y2, 1,
-                                            x3, y3, 1);
+                result := 0.5 * determinant(coordinateMatrix);
             end;
 
 end.
