@@ -2,9 +2,13 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2024/06/17 15:37:43.000.566,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
-    <Transaction>2024/06/17 15:37:55.000.413,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\GeneralMath\LinearAlgeberaMethods.pas</Transaction>
+    <Transaction>2024/06/17 15:37:55.000.413,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\GeneralMath\LinearAlgeberaMethods.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="GeneralMath"/>
+    <File Path="GeneralMath\GeneralMathMethods.pas"/>
+    <File Path="GeneralMath\InterpolatorClass.pas"/>
+    <File Path="GeneralMath\LinearAlgeberaMethods.pas"/>
     <File Path="Geometry"/>
     <File Path="Geometry\GeometryBaseClass.pas"/>
     <File Path="Geometry\GeometryMathMethods.pas"/>
@@ -20,9 +24,5 @@
     <File Path="VCLComponents\Drawing\DrawingTypes.pas"/>
     <File Path="VCLComponents\GeneralComponentHelperMethods.pas"/>
     <File Path="VCLComponents\StringGridHelperClass.pas"/>
-    <File Path="GeneralMath"/>
-    <File Path="GeneralMath\GeneralMathMethods.pas"/>
-    <File Path="GeneralMath\InterpolatorClass.pas"/>
-    <File Path="GeneralMath\LinearAlgeberaMethods.pas"/>
   </ProjectSortOrder>
 </BorlandProject>

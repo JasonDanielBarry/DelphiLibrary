@@ -217,6 +217,97 @@ implementation
                                                     g, h);
                 end;
 
+        //any square matrix
+            //helper methods
+                function matrixIsSquare(const matrixIn : TArray< TArray<double> >) : boolean;
+                    var
+                        colN, rowN : integer;
+                    begin
+                        colN := length(matrixIn[0]);
+                        rowN := length(matrixIn);
+
+                        result := colN = rowN;
+                    end;
+
+                function subMatrix( const colIn     : integer;
+                                    const matrixIn  : TArray< TArray<double> >) : Tarray< TArray<double> >;
+                        var
+                            dimension, subDimension,
+                            i, j,
+                            r, c                    : integer;
+                            subMatrixOut            : Tarray< TArray<double> >;
+                        begin
+                            //get the sub-matrix dimension
+                                dimension   := length(matrixIn);
+                                subDimension := dimension - 1;
+
+                            //size the sub-matrix
+                                SetLength(subMatrixOut, subDimension);
+
+                                for c := 0 to (subDimension - 1) do
+                                    SetLength(subMatrixOut[c], subDimension);
+
+                            //assign the values to the sub-matrix
+                                r := 0;
+                                c := 0;
+
+                                for i := 1 to (dimension - 1) do //the second row and downward is assigned to the sub-matrix
+                                    for j := 0 to (dimension - 1) do
+                                        begin
+                                            if (j <> colIn) then
+                                                begin
+                                                    subMatrixOut[r][c] := matrixIn[i][j];
+
+                                                    inc(r);
+                                                    inc(c);
+                                                end;
+                                        end;
+
+                            result := subMatrixOut;
+                        end;
+
+            function determinant(const matrixIn : TArray< TArray<double> >) : double; overload;
+                var
+                    i,
+                    dimension           : integer;
+                    a_ij,
+                    determinantValueOut : double;
+                    C_ij                : TArray< TArray<double> >;
+                begin
+                    //check if the input matrix is square (N x N)
+                        if ( NOT(matrixIsSquare(matrixIn)) ) then
+                            begin
+                                result := 0;
+                                exit();
+                            end;
+
+                    //if N = 1 then the determinant is the matrix value
+                        dimension := length(matrixIn);
+
+                        if (dimension = 1) then
+                            begin
+                                result := matrixIn[0][0];
+                                exit();
+                            end;
+
+                    //determinant = sum(a_ij * C_ij)
+                        determinantValueOut := 0;
+
+                        for i := 0 to (dimension - 1) do
+                            begin
+                                a_ij := matrixIn[0][i];
+
+                                C_ij := subMatrix(
+                                                    i,
+                                                    matrixIn
+                                                 );
+
+                                determinantValueOut := determinantValueOut + a_ij * determinant(C_ij);
+                            end;
+
+                    result := determinantValueOut;
+                end;
+
     //triangle area given three vertices
         function triangleArea(  x1, y1,
                                 x2, y2,
