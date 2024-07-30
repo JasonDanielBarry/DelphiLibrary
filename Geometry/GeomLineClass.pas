@@ -3,7 +3,7 @@ unit GeomLineClass;
 interface
 
     uses
-        system.sysUtils, Math,
+        system.sysUtils, system.Math,
         LinearAlgeberaMethods,
         GeometryTypes, GeometryBaseClass, GeomSpaceVectorClass;
 
@@ -46,6 +46,9 @@ interface
                         function unitVector() : TGeomSpaceVector;
                     //parametric line equation point
                         function parametricEquationPoint(tIn : double) : TGeomPoint;
+                    //line intersection
+                        function intersection(  const lineIn        : TGeomLine;
+                                                const freeLineIn    : boolean = True) : TLineIntersectionData;
                 //bounding box
                     function boundingBox() : TGeomBox;
                 //drawing points
@@ -102,7 +105,7 @@ implementation
                     assignPoints(startPointIn, endPointIn);
                 end;
 
-        //desturctor
+        //destructor
             destructor TGeomLine.destroy();
                 begin
                     inherited destroy();
@@ -110,7 +113,7 @@ implementation
                     FreeAndNil(lineVector);
                 end;
 
-        //calculationt
+        //calculations
             //line length
                 function TGeomLine.lineLength() : double;
                     begin
@@ -139,6 +142,31 @@ implementation
                         FreeAndNil(lineUnitVector);
 
                         result := pointOut;
+                    end;
+
+            //line intersection
+                function TGeomLine.intersection(const lineIn        : TGeomLine;
+                                                const freeLineIn    : boolean = True) : TLineIntersectionData;
+                    var
+                        lineIntersectionDataOut : TLineIntersectionData;
+                    begin
+                        //get intersection data
+                            lineIntersectionDataOut := geomLineIntersection(self, lineIn, false);
+
+                        //determine intersection point region
+                            if (lineIntersectionDataOut.intersection = False) then
+                                exit();
+
+                            if (self.boundingBox().pointIsWithin(lineIntersectionDataOut.point)) then
+                                lineIntersectionDataOut.relativeToBound := EBoundaryRelation.brInside
+                            else
+                                lineIntersectionDataOut.relativeToBound := EBoundaryRelation.brOutside;
+
+                        //free line if necessary
+                            if (freeLineIn) then
+                                FreeAndNil(lineIn);
+
+                        result := lineIntersectionDataOut;
                     end;
 
         //accessors
@@ -206,10 +234,11 @@ implementation
             var
                 x1, y1, u1, v1,
                 x2, y2, u2, v2              : double;
-                unitVector1, unitVector2    : TGeomSpaceVector;
-                lineIntersectionOut         : TLineIntersectionData;
+                lineIntersectionDataOut     : TLineIntersectionData;
             procedure
                 _extractLineInfo();
+                    var
+                        unitVector1, unitVector2 : TGeomSpaceVector;
                     begin
                         //get line 1 info
                             x1 := line1In.getStartPoint().x;
@@ -234,23 +263,35 @@ implementation
                             FreeAndNil(unitVector2);
                     end;
             procedure
-                _determineBoundaryRelation();
-                    begin
-
-                    end;
-            procedure
-                _determineIntersectionType();
-                    begin
-
-                    end;
-            procedure
                 _getIntersectionPoint();
                     begin
                         //get the intersection point
-                            lineIntersectionOut.point := TGeomPoint.create(
-                                                                                lineIntersectionPoint(  x1, y1, u1, v1,
-                                                                                                        x2, y2, u2, v2  )
-                                                                          );
+                            lineIntersectionDataOut.point := TGeomPoint.create(
+                                                                                    lineIntersectionPoint(  lineIntersectionDataOut.intersection,
+                                                                                                            x1, y1, u1, v1,
+                                                                                                            x2, y2, u2, v2                      )
+                                                                              );
+                    end;
+            procedure
+                _determineIntersectionRegion();
+                    var
+                        line1Bound, line2Bound : TGeomBox;
+                    begin
+                        line1Bound := line1In.boundingBox();
+                        line2Bound := line2In.boundingBox();
+
+                        if  (
+                                line1Bound.pointIsWithin(lineIntersectionDataOut.point)
+                                OR
+                                line2Bound.pointIsWithin(lineIntersectionDataOut.point)
+                            ) then
+                            begin
+                                lineIntersectionDataOut.relativeToBound := EBoundaryRelation.brInside;
+                            end
+                        else
+                            begin
+                                lineIntersectionDataOut.relativeToBound := EBoundaryRelation.brOutside;
+                            end;
                     end;
             procedure
                 _freeLines();
@@ -266,15 +307,14 @@ implementation
             begin
                 _extractLineInfo();
 
-                _determineBoundaryRelation();
-
-                _determineIntersectionType();
-
                 _getIntersectionPoint();
+
+                if (lineIntersectionDataOut.intersection = True) then
+                    _determineIntersectionRegion();
 
                 _freeLines();
 
-                result := lineIntersectionOut;
+                result := lineIntersectionDataOut;
             end;
 
 end.
