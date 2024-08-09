@@ -23,15 +23,15 @@ uses
   StringGridHelperClass in 'VCLComponents\StringGridHelperClass.pas',
   GeneralComponentHelperMethods in 'VCLComponents\GeneralComponentHelperMethods.pas',
   InterpolatorClass in 'GeneralMath\InterpolatorClass.pas',
-  DrawingAxisConversionClass in 'VCLComponents\Drawing\DrawingAxisConversionClass.pas',
   GeometryTypes in 'Geometry\GeometryTypes.pas',
   GeomSpaceVectorClass in 'Geometry\GeomSpaceVectorClass.pas',
   GeometryBaseClass in 'Geometry\GeometryBaseClass.pas',
-  DrawingTypes in 'VCLComponents\Drawing\DrawingTypes.pas',
-  SkiaDrawingMethods in 'VCLComponents\Drawing\Skia\SkiaDrawingMethods.pas',
   GeneralMathMethods in 'GeneralMath\GeneralMathMethods.pas',
   GeometryMathMethods in 'Geometry\GeometryMathMethods.pas',
-  LinearAlgeberaMethods in 'GeneralMath\LinearAlgeberaMethods.pas';
+  LinearAlgeberaMethods in 'GeneralMath\LinearAlgeberaMethods.pas',
+  DrawingAxisConversionClass in 'Graphics\Drawing\DrawingAxisConversionClass.pas',
+  DrawingTypes in 'Graphics\Drawing\DrawingTypes.pas',
+  SkiaDrawingMethods in 'Graphics\Drawing\Skia\SkiaDrawingMethods.pas';
 
 {$R *.res}
 

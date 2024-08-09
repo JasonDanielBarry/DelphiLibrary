@@ -110,15 +110,15 @@
         <DCCReference Include="VCLComponents\StringGridHelperClass.pas"/>
         <DCCReference Include="VCLComponents\GeneralComponentHelperMethods.pas"/>
         <DCCReference Include="GeneralMath\InterpolatorClass.pas"/>
-        <DCCReference Include="VCLComponents\Drawing\DrawingAxisConversionClass.pas"/>
         <DCCReference Include="Geometry\GeometryTypes.pas"/>
         <DCCReference Include="Geometry\GeomSpaceVectorClass.pas"/>
         <DCCReference Include="Geometry\GeometryBaseClass.pas"/>
-        <DCCReference Include="VCLComponents\Drawing\DrawingTypes.pas"/>
-        <DCCReference Include="VCLComponents\Drawing\Skia\SkiaDrawingMethods.pas"/>
         <DCCReference Include="GeneralMath\GeneralMathMethods.pas"/>
         <DCCReference Include="Geometry\GeometryMathMethods.pas"/>
         <DCCReference Include="GeneralMath\LinearAlgeberaMethods.pas"/>
+        <DCCReference Include="Graphics\Drawing\DrawingAxisConversionClass.pas"/>
+        <DCCReference Include="Graphics\Drawing\DrawingTypes.pas"/>
+        <DCCReference Include="Graphics\Drawing\Skia\SkiaDrawingMethods.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

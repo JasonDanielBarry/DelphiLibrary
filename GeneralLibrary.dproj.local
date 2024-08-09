@@ -3,6 +3,9 @@
 	<Transactions>
     <Transaction>2024/06/17 15:37:43.000.566,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
     <Transaction>2024/06/17 15:37:55.000.413,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\GeneralMath\LinearAlgeberaMethods.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
+    <Transaction>2024/08/09 23:12:01.404,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Graphics\Drawing\DrawingAxisConversionClass.pas</Transaction>
+    <Transaction>2024/08/09 23:12:01.433,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Graphics\Drawing\DrawingTypes.pas</Transaction>
+    <Transaction>2024/08/09 23:12:10.723,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Graphics\Drawing\Skia\SkiaDrawingMethods.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="GeneralMath"/>
@@ -16,12 +19,13 @@
     <File Path="Geometry\GeomLineClass.pas"/>
     <File Path="Geometry\GeomPolyLineClass.pas"/>
     <File Path="Geometry\GeomSpaceVectorClass.pas"/>
+    <File Path="Graphics"/>
+    <File Path="Graphics\Drawing"/>
+    <File Path="Graphics\Drawing\Skia"/>
+    <File Path="Graphics\Drawing\Skia\SkiaDrawingMethods.pas"/>
+    <File Path="Graphics\Drawing\DrawingAxisConversionClass.pas"/>
+    <File Path="Graphics\Drawing\DrawingTypes.pas"/>
     <File Path="VCLComponents"/>
-    <File Path="VCLComponents\Drawing"/>
-    <File Path="VCLComponents\Drawing\Skia"/>
-    <File Path="VCLComponents\Drawing\Skia\SkiaDrawingMethods.pas"/>
-    <File Path="VCLComponents\Drawing\DrawingAxisConversionClass.pas"/>
-    <File Path="VCLComponents\Drawing\DrawingTypes.pas"/>
     <File Path="VCLComponents\GeneralComponentHelperMethods.pas"/>
     <File Path="VCLComponents\StringGridHelperClass.pas"/>
   </ProjectSortOrder>

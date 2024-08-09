@@ -61,8 +61,8 @@ implementation
                         end;
 
                 //T - intersection parameter
-                    function calculateT(    x0, y0, u0, v0,
-                                            x1, y1, u1, v1  : double) : TArray<double>;
+                    function calculateT(x0, y0, u0, v0,
+                                        x1, y1, u1, v1  : double) : TArray<double>;
                         var
                             dx, dy,
                             detU    : double;
@@ -153,10 +153,11 @@ implementation
                         point0 := TPointF.Create(x0 + T[0] * u0, y0 + T[0] * v0);
                         point1 := TPointF.Create(x1 + T[1] * u1, y1 + T[1] * v1);
 
-                    if (_IntersectionPointsAreEqual()) then
-                        pointOut := point0
-                    else
-                        LinesIntersectOut := False;
+                    //the result is only valid if two identical points are calculated from T
+                        if (_IntersectionPointsAreEqual()) then
+                            pointOut := point0
+                        else
+                            LinesIntersectOut := False;
 
                     result := pointOut;
                 end;
