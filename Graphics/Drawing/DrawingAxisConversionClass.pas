@@ -184,7 +184,8 @@ implementation
                     begin
                         //the ratio is defined as the value that satisfies: h/w = r(R/D)
 
-                        //adjust-by-domain means that the domain remains constant and a new range is calculated to match the domain based on the input ratio
+                        //adjust-by-domain means that the domain remains constant and
+                        //a new range is calculated to match the domain based on the input ratio
 
                         if (adjustByDomainIn) then
                             begin
