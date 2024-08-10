@@ -3,7 +3,7 @@ unit GeomLineClass;
 interface
 
     uses
-        system.sysUtils, system.Math,
+        system.sysUtils, system.Math, system.Types,
         LinearAlgeberaMethods,
         GeometryTypes, GeometryBaseClass, GeomSpaceVectorClass;
 
@@ -154,13 +154,13 @@ implementation
                             lineIntersectionDataOut := geomLineIntersection(self, lineIn, false);
 
                         //determine intersection point region
-                            if (lineIntersectionDataOut.intersection = False) then
-                                exit();
-
-                            if (self.boundingBox().pointIsWithin(lineIntersectionDataOut.point)) then
-                                lineIntersectionDataOut.relativeToBound := EBoundaryRelation.brInside
-                            else
-                                lineIntersectionDataOut.relativeToBound := EBoundaryRelation.brOutside;
+                            if (lineIntersectionDataOut.intersection = True) then
+                                begin
+                                    if (self.boundingBox().pointIsWithin(lineIntersectionDataOut.point)) then
+                                        lineIntersectionDataOut.relativeToBound := EBoundaryRelation.brInside
+                                    else
+                                        lineIntersectionDataOut.relativeToBound := EBoundaryRelation.brOutside;
+                                end;
 
                         //free line if necessary
                             if (freeLineIn) then
@@ -264,13 +264,15 @@ implementation
                     end;
             procedure
                 _getIntersectionPoint();
+                    var
+                        intersectionPoint : TPointF;
                     begin
+                        intersectionPoint := lineIntersectionPoint( lineIntersectionDataOut.intersection,
+                                                                    x1, y1, u1, v1,
+                                                                    x2, y2, u2, v2                      );
+
                         //get the intersection point
-                            lineIntersectionDataOut.point := TGeomPoint.create(
-                                                                                    lineIntersectionPoint(  lineIntersectionDataOut.intersection,
-                                                                                                            x1, y1, u1, v1,
-                                                                                                            x2, y2, u2, v2                      )
-                                                                              );
+                            lineIntersectionDataOut.point := TGeomPoint.create(intersectionPoint);
                     end;
             procedure
                 _determineIntersectionRegion();

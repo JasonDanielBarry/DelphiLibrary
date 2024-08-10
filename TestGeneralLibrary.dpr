@@ -13,7 +13,8 @@ uses
   DUnitX.Loggers.Xml.NUnit,
   {$ENDIF }
   DUnitX.TestFramework,
-  TestLinearAlgeberaMethods in 'GeneralMath\TestLinearAlgeberaMethods.pas';
+  TestLinearAlgeberaMethods in 'GeneralMath\TestLinearAlgeberaMethods.pas',
+  TestGeomLineClass in 'Geometry\TestGeomLineClass.pas';
 
 {$IFNDEF TESTINSIGHT}
 var

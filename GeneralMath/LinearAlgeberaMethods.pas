@@ -92,6 +92,8 @@ implementation
 
                             TOut[0] := (dx * v1 - dy * u1) / (-detU);
                             TOut[1] := (dx * v0 - dy * u0) / (-detU);
+
+                            result := TOut;
                         end;
 
             function lineIntersectionPoint( out LinesIntersectOut : boolean;
@@ -117,7 +119,7 @@ implementation
                 function
                     _IntersectionPointsAreEqual() : boolean;
                         begin
-                            result := ( (point0.X = point1.X) AND (point0.Y = point1.Y) );
+                            result := ( isAlmostEqual(point0.X, point1.X) AND isAlmostEqual(point0.Y, point1.Y) );
                         end;
                 begin
                     //formulae
