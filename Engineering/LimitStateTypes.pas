@@ -14,6 +14,8 @@ interface
                 partialFactor       : double;
             function cautiousEstimate() : double;
             function designValue() : double;
+            procedure setValues(const averageValueIn, variationCoefficientIn, downgradeFactorIn, partialFactorIn : double);
+            procedure copyMaterial(const materialIn : TLimitStateMaterial);
         end;
 
 implementation
@@ -32,6 +34,22 @@ implementation
     function TLimitStateMaterial.designValue() : double;
         begin
             result := cautiousEstimate() / partialFactor;
+        end;
+
+    procedure TLimitStateMaterial.setValues(const averageValueIn, variationCoefficientIn, downgradeFactorIn, partialFactorIn : double);
+        begin
+            averageValue          := max(0, averageValueIn);
+            variationCoefficient  := max(0, variationCoefficientIn);
+            downgradeFactor       := max(0, downgradeFactorIn);
+            partialFactor         := max(1, partialFactorIn);
+        end;
+
+    procedure TLimitStateMaterial.copyMaterial(const materialIn: TLimitStateMaterial);
+        begin
+            setValues(  materialIn.averageValue,
+                        materialIn.variationCoefficient,
+                        materialIn.downgradeFactor,
+                        materialIn.partialFactor        );
         end;
 
 end.
