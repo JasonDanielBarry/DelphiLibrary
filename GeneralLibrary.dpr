@@ -31,7 +31,8 @@ uses
   LinearAlgeberaMethods in 'GeneralMath\LinearAlgeberaMethods.pas',
   DrawingAxisConversionClass in 'Graphics\Drawing\DrawingAxisConversionClass.pas',
   DrawingTypes in 'Graphics\Drawing\DrawingTypes.pas',
-  SkiaDrawingMethods in 'Graphics\Drawing\Skia\SkiaDrawingMethods.pas';
+  SkiaDrawingMethods in 'Graphics\Drawing\Skia\SkiaDrawingMethods.pas',
+  LimitStateTypes in 'Engineering\LimitStateTypes.pas';
 
 {$R *.res}
 
