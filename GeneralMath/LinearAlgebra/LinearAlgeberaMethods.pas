@@ -372,9 +372,12 @@ implementation
                             begin
                                 a_ij := matrixIn[0][j];
 
-                                C_ij := matrixEntryCofactor(0, j, matrixIn);
+                                if (NOT(a_ij = 0)) then
+                                    begin
+                                        C_ij := matrixEntryCofactor(0, j, matrixIn);
 
-                                determinantValueOut := determinantValueOut + (a_ij * C_ij);
+                                        determinantValueOut := determinantValueOut + (a_ij * C_ij);
+                                    end;
                             end;
 
                     result := determinantValueOut;
