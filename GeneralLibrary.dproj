@@ -124,7 +124,7 @@
         <DCCReference Include="Geometry\GeometryBaseClass.pas"/>
         <DCCReference Include="GeneralMath\GeneralMathMethods.pas"/>
         <DCCReference Include="Geometry\GeometryMathMethods.pas"/>
-        <DCCReference Include="GeneralMath\LinearAlgeberaMethods.pas"/>
+        <DCCReference Include="GeneralMath\LinearAlgebra\LinearAlgeberaMethods.pas"/>
         <DCCReference Include="Graphics\Drawing\DrawingAxisConversionClass.pas"/>
         <DCCReference Include="Graphics\Drawing\DrawingTypes.pas"/>
         <DCCReference Include="Graphics\Drawing\Skia\SkiaDrawingMethods.pas"/>

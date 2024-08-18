@@ -28,7 +28,7 @@ uses
   GeometryBaseClass in 'Geometry\GeometryBaseClass.pas',
   GeneralMathMethods in 'GeneralMath\GeneralMathMethods.pas',
   GeometryMathMethods in 'Geometry\GeometryMathMethods.pas',
-  LinearAlgeberaMethods in 'GeneralMath\LinearAlgeberaMethods.pas',
+  LinearAlgeberaMethods in 'GeneralMath\LinearAlgebra\LinearAlgeberaMethods.pas',
   DrawingAxisConversionClass in 'Graphics\Drawing\DrawingAxisConversionClass.pas',
   DrawingTypes in 'Graphics\Drawing\DrawingTypes.pas',
   SkiaDrawingMethods in 'Graphics\Drawing\Skia\SkiaDrawingMethods.pas',
