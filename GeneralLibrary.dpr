@@ -28,11 +28,12 @@ uses
   GeometryBaseClass in 'Geometry\GeometryBaseClass.pas',
   GeneralMathMethods in 'GeneralMath\GeneralMathMethods.pas',
   GeometryMathMethods in 'Geometry\GeometryMathMethods.pas',
-  LinearAlgeberaMethods in 'GeneralMath\LinearAlgebra\LinearAlgeberaMethods.pas',
+  LineIntersectionMethods in 'GeneralMath\LinearAlgebra\LineIntersectionMethods.pas',
   DrawingAxisConversionClass in 'Graphics\Drawing\DrawingAxisConversionClass.pas',
   DrawingTypes in 'Graphics\Drawing\DrawingTypes.pas',
   SkiaDrawingMethods in 'Graphics\Drawing\Skia\SkiaDrawingMethods.pas',
-  LimitStateTypes in 'Engineering\LimitStateTypes.pas';
+  LimitStateTypes in 'Engineering\LimitStateTypes.pas',
+  MatrixMethods in 'GeneralMath\LinearAlgebra\MatrixMethods.pas';
 
 {$R *.res}
 

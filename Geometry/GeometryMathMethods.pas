@@ -4,7 +4,9 @@ interface
 
     uses
         System.SysUtils, system.Math,
-        GeneralMathMethods, LinearAlgeberaMethods,
+        GeneralMathMethods,
+        LineIntersectionMethods,
+        MatrixMethods,
         GeometryTypes
         ;
 
@@ -12,15 +14,20 @@ interface
         function geomLineLength(point1In, point2In : TGeomPoint) : double;
 
     //calculate triangle area
-        //given two vertices
-            function geomTriangleArea(point1In, point2In : TGeomPoint) : double; overload;
-
         //given three vertices
             function geomTriangleArea(point1In, point2In, point3In : TGeomPoint) : double; overload;
+
+        //given two vertices
+            function geomTriangleArea(point1In, point2In : TGeomPoint) : double; overload;
 
     //calculate the area of a polygon
         //shoelace formula calculation
             function geomPolygonArea(arrGeomPointsIn : TArray<TGeomPoint>) : double;
+
+    //calculate the intersection point of two lines
+        function geomLineIntersectionPoint( out     linesIntersectOut               : boolean;
+                                            const   line1Point0In, line1Point1In,
+                                                    line2Point0In, line2Point1In    : TGeomPoint) : TGeomPoint;
 
 implementation
 
@@ -43,14 +50,20 @@ implementation
             end;
 
     //calculate triangle area
-        //given two vertices
-            function geomTriangleArea(point1In, point2In : TGeomPoint) : double;
+        //helper method
+            function triangleArea(const x1, y1,
+                                        x2, y2,
+                                        x3, y3  : double) : double;
                 var
-                    point3 : TGeomPoint;
+                    coordinateMatrix : TArray<TArray<double>>;
                 begin
-                    point3 := TGeomPoint.create(0, 0, 0);
+                    coordinateMatrix := [
+                                            [x1, y1, 1],
+                                            [x2, y2, 1],
+                                            [x3, y3, 1]
+                                        ];
 
-                    result := geomTriangleArea(point1In, point2In, point3);
+                    result := 0.5 * matrixDeterminant(coordinateMatrix);
                 end;
 
         //given three vertices
@@ -75,6 +88,16 @@ implementation
                                             x3, y3  );
                 end;
 
+        //given two vertices
+            function geomTriangleArea(point1In, point2In : TGeomPoint) : double;
+                var
+                    point3 : TGeomPoint;
+                begin
+                    point3 := TGeomPoint.create(0, 0);
+
+                    result := geomTriangleArea(point1In, point2In, point3);
+                end;
+
     //calculate the area of a polygon
         //shoelace formula calculation
             function geomPolygonArea(arrGeomPointsIn : TArray<TGeomPoint>) : double;
@@ -94,5 +117,34 @@ implementation
 
                     result := areaSum;
                 end;
+
+    //calculate the intersection point of two lines
+        function geomLineIntersectionPoint( out     linesIntersectOut               : boolean;
+                                            const   line1Point0In, line1Point1In,
+                                                    line2Point0In, line2Point1In    : TGeomPoint) : TGeomPoint;
+            var
+                l1x0, l1y0, l1x1, l1y1,
+                l2x0, l2y0, l2x1, l2y1  : double;
+                intersectionPoint       : TGeomPoint;
+                intersectionDataOut     : TGeomLineIntersectionData;
+            begin
+                //line 1 info
+                    l1x0 := line1Point0In.x;
+                    l1y0 := line1Point0In.y;
+                    l1x1 := line1Point1In.x;
+                    l1y1 := line1Point1In.y;
+
+                //line 2 info
+                    l2x0 := line2Point0In.x;
+                    l2y0 := line2Point0In.y;
+                    l2x1 := line2Point1In.x;
+                    l2y1 := line2Point1In.y;
+
+                result := TGeomPoint.create(
+                                                lineIntersectionPoint(  linesIntersectOut,
+                                                                        l1x0, l1y0, l1x1, l1y1,
+                                                                        l2x0, l2y0, l2x1, l2y1  )
+                                           );
+            end;
 
 end.

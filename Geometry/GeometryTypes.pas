@@ -28,8 +28,8 @@ interface
             function pointIsWithin(const pointIn : TGeomPoint) : boolean;
         end;
 
-        TLineIntersectionData = record
-            intersection        : boolean;
+        TGeomLineIntersectionData = record
+            intersectionExists  : boolean;
             relativeToBound     : EBoundaryRelation;
             point               : TGeomPoint;
         end;

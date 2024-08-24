@@ -36,7 +36,7 @@ implementation
     procedure TTestGeomLineClass.TestLineIntersection();
         var
             line1, line2            : TGeomLine;
-            lineIntersectionData    : TLineIntersectionData;
+            lineIntersectionData    : TGeomLineIntersectionData;
         begin
             //test 1:
                 //(0, 0) - (1, 1)
@@ -72,7 +72,7 @@ implementation
                     lineIntersectionData := line1.intersection(line2);
                     FreeAndNil(line1);
 
-                    assert.IsTrue(lineIntersectionData.intersection = False);
+                    assert.IsTrue(lineIntersectionData.intersectionExists = False);
 
             //test 4: parallel lines
                 //(0, 0) - (0, 1)
@@ -84,7 +84,7 @@ implementation
                     lineIntersectionData := line1.intersection(line2);
                     FreeAndNil(line1);
 
-                    assert.IsTrue(lineIntersectionData.intersection = False);
+                    assert.IsTrue(lineIntersectionData.intersectionExists = False);
 
             //test 5:
                 //(0, 10) - (5, 7.5)
@@ -97,8 +97,6 @@ implementation
                     FreeAndNil(line1);
 
                     assert.IsTrue(lineIntersectionData.point.isEqual( TGeomPoint.create(10.11764706, 4.941176471) ));
-
-
         end;
 
 end.
