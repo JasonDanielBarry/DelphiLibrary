@@ -3,23 +3,25 @@ unit MatrixMethods;
 interface
 
     uses
-        System.SysUtils, system.Types, system.math
+        System.SysUtils, system.Types, system.math,
+        LinearAlgebraTypes,
+        VectorMethods
         ;
 
     //matrix determinant
-        function matrixDeterminant(const matrixIn : TArray< TArray<double> >) : double;
+        function matrixDeterminant(const matrixIn : TLAMatrix) : double;
 
     //matrix transpose
-        function matrixTranspose(const matrixIn : TArray< TArray<double> >) : TArray< TArray<double> >;
+        function matrixTranspose(const matrixIn : TLAMatrix) : TLAMatrix;
 
     //matrix inverse
-        function matrixInverse(const matrixIn : TArray< TArray<double> >) : TArray< TArray<double> >;
+        function matrixInverse(const matrixIn : TLAMatrix) : TLAMatrix;
 
 implementation
 
     //general methods
         //test if a matrix is square
-            function matrixIsSquare(const matrixIn : TArray< TArray<double> >) : boolean;
+            function matrixIsSquare(const matrixIn : TLAMatrix) : boolean;
                 var
                     colN, rowN : integer;
                 begin
@@ -31,7 +33,7 @@ implementation
 
         //get a matrix size
             procedure getMatrixSize(out rowCountOut, colCountOut : integer;
-                                    const matrixIn      : TArray< TArray<double> >);
+                                    const matrixIn      : TLAMatrix);
                 begin
                     rowCountOut := length(matrixIn);
                     colCountOut := length(matrixIn[0]);
@@ -39,7 +41,7 @@ implementation
 
         //set a matrix size
             procedure setMatrixSize(const newRowCountIn, newColCountIn  : integer;
-                                    var matrixInOut                     : TArray< TArray<double> >);
+                                    var matrixInOut                     : TLAMatrix);
                 var
                     r : integer;
                 begin
@@ -50,9 +52,9 @@ implementation
                 end;
 
         //create a new matrix with a set size
-            function newMatrix(rowCountIn, colCountIn : integer) : TArray< TArray<double> >;
+            function newMatrix(rowCountIn, colCountIn : integer) : TLAMatrix;
                 var
-                    matrixOut : TArray< TArray<double> >;
+                    matrixOut : TLAMatrix;
                 begin
                     setMatrixSize(rowCountIn, colCountIn, matrixOut);
 
@@ -60,8 +62,8 @@ implementation
                 end;
 
         //copy a matrix
-            procedure copyMatrix(   const readMatrixIn      : TArray< TArray<double> >;
-                                    var writeMatrixInOut    : TArray< TArray<double> >);
+            procedure copyMatrix(   const readMatrixIn      : TLAMatrix;
+                                    var writeMatrixInOut    : TLAMatrix);
                 var
                     c,      r,
                     colN,   rowN : integer;
@@ -77,11 +79,11 @@ implementation
 
         //multiply a matrix by a scalar
             function matrixScalarMultiplication(const scalarIn : double;
-                                                const matrixIn      : TArray< TArray<double> >) : TArray< TArray<double> >;
+                                                const matrixIn      : TLAMatrix) : TLAMatrix;
                 var
                     r,      c,
                     rowN,   colN    : integer;
-                    matrixOut       : TArray< TArray<double> >;
+                    matrixOut       : TLAMatrix;
                 begin
                     copyMatrix(matrixIn, matrixOut);
 
@@ -94,15 +96,24 @@ implementation
                     result := matrixOut;
                 end;
 
+        //test if 2 matrices are the same size
+            function matricesAreSameSize(const matrix1In, matrix2In : TLAMatrix) : boolean;
+                var
+                    rowCount1, rowCount2 : integer;
+                begin
+                    rowCount1 := length(matrix1In);
+
+                end;
+
     //matrix determinant
         //helper methods
             function subMatrix( const rowIn, colIn  : integer;
-                                const matrixIn      : TArray< TArray<double> >) : Tarray< TArray<double> >;
+                                const matrixIn      : TLAMatrix) : TLAMatrix;
                 var
                     dimension, subDimension,
                     i,
                     r, c            : integer;
-                    subMatrixOut    : Tarray< TArray<double> >;
+                    subMatrixOut    : TLAMatrix;
                 procedure
                     _populateRow(rowIn : integer);
                         var
@@ -153,11 +164,11 @@ implementation
                 end;
 
             function matrixEntryMinor(  const rowIn, colIn  : integer;
-                                        const matrixIn      : TArray< TArray<double> >) : double;
+                                        const matrixIn      : TLAMatrix) : double;
                 var
                     i, j        : integer;
                     minorOut    : double;
-                    subMat      : TArray< TArray<double> >;
+                    subMat      : TLAMatrix;
                 begin
                     i := rowIn;
                     j := colIn;
@@ -170,7 +181,7 @@ implementation
                 end;
 
             function matrixEntryCofactor(   const rowIn, colIn  : integer;
-                                            const matrixIn      : TArray< TArray<double> >) : double;
+                                            const matrixIn      : TLAMatrix) : double;
                 var
                     i, j                : integer;
                     entryMinor,
@@ -186,13 +197,13 @@ implementation
                     result := entryCofactorOut;
                 end;
 
-        function determinantRec(const matrixIn : TArray< TArray<double> >) : double;
+        function determinantRec(const matrixIn : TLAMatrix) : double;
             var
                 j,
                 dimension           : integer;
                 a_ij, C_ij, M_ij,
                 determinantValueOut : double;
-                minorMatrix         : TArray< TArray<double> >;
+                minorMatrix         : TLAMatrix;
             begin
                 //check if the input matrix is square (N x N)
                     if ( NOT(matrixIsSquare(matrixIn)) ) then
@@ -228,17 +239,17 @@ implementation
                 result := determinantValueOut;
             end;
 
-        function matrixDeterminant(const matrixIn : TArray< TArray<double> >) : double;
+        function matrixDeterminant(const matrixIn : TLAMatrix) : double;
             begin
                 result := determinantRec(matrixIn);
             end;
 
     //matrix transpose
-        function matrixTranspose(const matrixIn : TArray< TArray<double> >) : TArray< TArray<double> >;
+        function matrixTranspose(const matrixIn : TLAMatrix) : TLAMatrix;
             var
                 r,      c,
                 rowN,   colN        : integer;
-                transposedMatrixOut : TArray< TArray<double> >;
+                transposedMatrixOut : TLAMatrix;
             begin
                 getMatrixSize(rowN, colN, matrixIn);
 
@@ -253,12 +264,12 @@ implementation
 
     //matrix inverse
         //helper methods
-            function cofactorMatrix(const matrixIn : TArray< TArray<double> >) : TArray< TArray<double> >;
+            function cofactorMatrix(const matrixIn : TLAMatrix) : TLAMatrix;
                 var
                     i,      j,
                     rowN,   colN    : integer;
                     C_ij            : double;
-                    coFacMatOut     : TArray< TArray<double> >;
+                    coFacMatOut     : TLAMatrix;
                 begin
                     if ( NOT(matrixIsSquare(matrixIn)) ) then
                         exit();
@@ -278,10 +289,10 @@ implementation
                     result := coFacMatOut;
                 end;
 
-            function matrixAdjoint(const matrixIn : TArray< TArray<double> >) : TArray< TArray<double> >;
+            function matrixAdjoint(const matrixIn : TLAMatrix) : TLAMatrix;
                 var
                     adjointMatrixOut,
-                    coFacMat            : TArray< TArray<double> >;
+                    coFacMat            : TLAMatrix;
                 begin
                     coFacMat := cofactorMatrix(matrixIn);
 
@@ -290,15 +301,15 @@ implementation
                     result := adjointMatrixOut;
                 end;
 
-        function matrixInverse(const matrixIn : TArray< TArray<double> >) : TArray< TArray<double> >;
+        function matrixInverse(const matrixIn : TLAMatrix) : TLAMatrix;
             var
                 matDet : double;
                 matAdj,
-                matInv : TArray< TArray<double> >;
+                matInv : TLAMatrix;
             begin
                 matDet := matrixDeterminant(matrixIn);
 
-                if (matDet < 1e-3) then
+                if (abs(matDet) < 1e-3) then
                     exit();
 
                 matAdj := matrixAdjoint(matrixIn);

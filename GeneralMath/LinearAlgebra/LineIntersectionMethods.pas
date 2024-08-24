@@ -16,6 +16,7 @@ implementation
     uses
         system.Math,
         GeneralMathMethods,
+        LinearAlgebraTypes,
         MatrixMethods
         ;
 
@@ -44,7 +45,7 @@ implementation
             //helper methods
                 //U-matrix
                     function UMatrix(const  u0, v0,
-                                            u1, v1  : double) : TArray< TArray<double> >;
+                                            u1, v1  : double) : TLAMatrix;
                         begin
                             result :=   [
                                             [u0, -u1],
@@ -59,7 +60,7 @@ implementation
                             dx, dy,
                             detU    : double;
                             TOut    : TArray<double>;
-                            U       : TArray<TArray<double>>;
+                            U       : TLAMatrix;
                         begin
                             SetLength(TOut, 2);
 
@@ -99,7 +100,7 @@ implementation
                     _UMatrixDeterminantAlmostZero() : boolean;
                         var
                             detU    : double;
-                            U       : TArray< TArray<double>>;
+                            U       : TLAMatrix;
                         begin
                             U := UMatrix(   u0, v0,
                                             u1, v1  );

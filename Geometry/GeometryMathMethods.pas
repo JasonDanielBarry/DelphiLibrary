@@ -6,6 +6,7 @@ interface
         System.SysUtils, system.Math,
         GeneralMathMethods,
         LineIntersectionMethods,
+        LinearAlgebraTypes,
         MatrixMethods,
         GeometryTypes
         ;
@@ -55,7 +56,7 @@ implementation
                                         x2, y2,
                                         x3, y3  : double) : double;
                 var
-                    coordinateMatrix : TArray<TArray<double>>;
+                    coordinateMatrix : TLAMatrix;
                 begin
                     coordinateMatrix := [
                                             [x1, y1, 1],

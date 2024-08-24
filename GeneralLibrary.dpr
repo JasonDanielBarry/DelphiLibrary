@@ -33,7 +33,9 @@ uses
   DrawingTypes in 'Graphics\Drawing\DrawingTypes.pas',
   SkiaDrawingMethods in 'Graphics\Drawing\Skia\SkiaDrawingMethods.pas',
   LimitStateTypes in 'Engineering\LimitStateTypes.pas',
-  MatrixMethods in 'GeneralMath\LinearAlgebra\MatrixMethods.pas';
+  MatrixMethods in 'GeneralMath\LinearAlgebra\MatrixMethods.pas',
+  LinearAlgebraTypes in 'GeneralMath\LinearAlgebra\LinearAlgebraTypes.pas',
+  VectorMethods in 'GeneralMath\LinearAlgebra\VectorMethods.pas';
 
 {$R *.res}
 

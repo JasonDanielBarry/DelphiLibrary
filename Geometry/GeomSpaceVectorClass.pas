@@ -2,8 +2,11 @@ unit GeomSpaceVectorClass;
 
 interface
 
+    //this class is a vector in R^n with its tail at the origin and head at <components>
+
     uses
         system.sysutils, system.Math,
+        LinearAlgebraTypes,
         GeometryTypes,
         GeometryBaseClass;
 
@@ -12,7 +15,7 @@ interface
             const
                 boundaryErrorMessage : string = 'Space Vector index out of bounds';
             var
-                components : TArray<double>;
+                components : TLAVector;
             //set component
                 procedure setComponent( dimensionIndexIn        : integer;
                                         const componentValueIn  : double);

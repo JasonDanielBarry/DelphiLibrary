@@ -130,6 +130,8 @@
         <DCCReference Include="Graphics\Drawing\Skia\SkiaDrawingMethods.pas"/>
         <DCCReference Include="Engineering\LimitStateTypes.pas"/>
         <DCCReference Include="GeneralMath\LinearAlgebra\MatrixMethods.pas"/>
+        <DCCReference Include="GeneralMath\LinearAlgebra\LinearAlgebraTypes.pas"/>
+        <DCCReference Include="GeneralMath\LinearAlgebra\VectorMethods.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
