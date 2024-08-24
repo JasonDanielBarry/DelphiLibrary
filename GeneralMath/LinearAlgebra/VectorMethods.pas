@@ -7,6 +7,22 @@ interface
         LinearAlgebraTypes
         ;
 
+    //test is vectors are the same size
+        function vectorsAreSameSize(const vector1In, vector2In : TLAVector) : boolean;
+
+    //scalar multiplication
+        function vectorScalarMultiplication(const scalarIn  : double;
+                                            const vectorIn  : TLAVector) : TLAVector;
+
+    //vector addition
+        function vectorAddition(const vector1In, vector2In : TLAVector) : TLAVector;
+
+    //vector subtraction
+        function vectorSubtraction(const vectorHeadIn, vectorTailIn : TLAVector) : TLAVector;
+
+    //vector dot product
+        function vectorDotProduct(const vector1In, vector2In : TLAVector) : double;
+
 implementation
 
     //test is vectors are the same size

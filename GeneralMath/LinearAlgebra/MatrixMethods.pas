@@ -11,11 +11,11 @@ interface
     //matrix determinant
         function matrixDeterminant(const matrixIn : TLAMatrix) : double;
 
-    //matrix transpose
-        function matrixTranspose(const matrixIn : TLAMatrix) : TLAMatrix;
-
     //matrix inverse
         function matrixInverse(const matrixIn : TLAMatrix) : TLAMatrix;
+
+    //matrix transpose
+        function matrixTranspose(const matrixIn : TLAMatrix) : TLAMatrix;
 
 implementation
 
@@ -34,9 +34,18 @@ implementation
         //get a matrix size
             procedure getMatrixSize(out rowCountOut, colCountOut : integer;
                                     const matrixIn      : TLAMatrix);
+                var
+                    r : integer;
                 begin
                     rowCountOut := length(matrixIn);
                     colCountOut := length(matrixIn[0]);
+
+                    for r := 1 to (rowCountOut - 1) do
+                        if (length(matrixIn[r]) <> colCountOut) then
+                            begin
+                                colCountOut := -1;
+                                exit();
+                            end;
                 end;
 
         //set a matrix size
@@ -99,10 +108,35 @@ implementation
         //test if 2 matrices are the same size
             function matricesAreSameSize(const matrix1In, matrix2In : TLAMatrix) : boolean;
                 var
-                    rowCount1, rowCount2 : integer;
+                    colCount1,  colCount2,
+                    row,
+                    rowCount1,  rowCount2   : integer;
+                    rowVector1, rowVector2  : TLAVector;
                 begin
-                    rowCount1 := length(matrix1In);
+                    //the row count of both matrices must be equal
+                        rowCount1 := length(matrix1In);
+                        rowCount2 := Length(matrix2In);
 
+                        if (rowCount1 <> rowCount2) then
+                            begin
+                                result := False;
+                                exit();
+                            end;
+
+                    //each column of both matrices must be equal in size
+                        for row := 0 to (rowCount1 - 1) do
+                            begin
+                                rowVector1 := matrix1In[row];
+                                rowVector2 := matrix2In[row];
+
+                                if ( NOT(vectorsAreSameSize(rowVector1, rowVector2)) ) then
+                                    begin
+                                        result := False;
+                                        exit();
+                                    end;
+                            end;
+
+                    result := True;
                 end;
 
     //matrix determinant
@@ -244,24 +278,6 @@ implementation
                 result := determinantRec(matrixIn);
             end;
 
-    //matrix transpose
-        function matrixTranspose(const matrixIn : TLAMatrix) : TLAMatrix;
-            var
-                r,      c,
-                rowN,   colN        : integer;
-                transposedMatrixOut : TLAMatrix;
-            begin
-                getMatrixSize(rowN, colN, matrixIn);
-
-                transposedMatrixOut := newMatrix(colN, rowN);
-
-                for r := 0 to (rowN - 1) do
-                    for c := 0 to (colN - 1) do
-                        transposedMatrixOut[c][r] := matrixIn[r][c];
-
-                result := transposedMatrixOut;
-            end;
-
     //matrix inverse
         //helper methods
             function cofactorMatrix(const matrixIn : TLAMatrix) : TLAMatrix;
@@ -317,6 +333,47 @@ implementation
                 matInv := matrixScalarMultiplication(1 / matDet, matAdj);
 
                 result := matInv;
+            end;
+
+    //matrix multiplication
+        //helper methods
+            function getMatrixColumn(   const colIn     : integer;
+                                        const matrixIn  : TLAMatrix ) : TLAVector;
+                var
+                    i, rowCount     : integer;
+                    columnVectorOut : TLAVector;
+                begin
+                    rowCount := length(matrixIn);
+
+                    SetLength(columnVectorOut, rowCount);
+
+                    for i := 0 to (rowCount - 1) do
+                        columnVectorOut[i] := matrixIn[i][colIn];
+
+                    result := columnVectorOut;
+                end;
+
+        function matrixMultiplication(const matrix1In, matrix2In : TLAMatrix) : TLAMatrix;
+            begin
+
+            end;
+
+    //matrix transpose
+        function matrixTranspose(const matrixIn : TLAMatrix) : TLAMatrix;
+            var
+                r,      c,
+                rowN,   colN        : integer;
+                transposedMatrixOut : TLAMatrix;
+            begin
+                getMatrixSize(rowN, colN, matrixIn);
+
+                transposedMatrixOut := newMatrix(colN, rowN);
+
+                for r := 0 to (rowN - 1) do
+                    for c := 0 to (colN - 1) do
+                        transposedMatrixOut[c][r] := matrixIn[r][c];
+
+                result := transposedMatrixOut;
             end;
 
 
