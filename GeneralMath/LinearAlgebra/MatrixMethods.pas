@@ -24,7 +24,8 @@ interface
                                         const vectorIn : TLAVector  ) : TLAVector; overload;
 
     //solve linear equation system
-//        function
+        function solveLinearSystem( const coefficientmatrixIn   : TLAMatrix;
+                                    const constantVectorIn      : TLAVector ) : TLAVector;
 
     //transpose
         function matrixTranspose(const matrixIn : TLAMatrix) : TLAMatrix;
@@ -498,6 +499,29 @@ implementation
                     vectorOut := rowVectorMat[0];
 
                 result := vectorOut;
+            end;
+
+    //solve linear equation system
+        function solveLinearSystem( const coefficientmatrixIn   : TLAMatrix;
+                                    const constantVectorIn      : TLAVector ) : TLAVector;
+            var
+                detCoeffMat     : double;
+                coeffInverse    : TLAMatrix;
+                solutionVector  : TLAVector;
+            begin
+                //solution only exists if the coefficient matrix determinant is not zero
+                    detCoeffMat := matrixDeterminant(coefficientmatrixIn);
+
+                    if (detCoeffMat < 1e-3) then
+                        exit();
+
+                //Ax = b;
+                //x := inv(A) * b
+                    coeffInverse := matrixInverse(coefficientmatrixIn);
+
+                    solutionVector := matrixMultiplication(coeffInverse, constantVectorIn);
+
+                result := solutionVector;
             end;
 
     //transpose
