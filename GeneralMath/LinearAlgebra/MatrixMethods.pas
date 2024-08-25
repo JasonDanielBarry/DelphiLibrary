@@ -4,53 +4,70 @@ interface
 
     uses
         System.SysUtils, system.Types, system.math,
+        GeneralMathMethods,
         LinearAlgebraTypes,
         VectorMethods
         ;
 
-    //matrix determinant
+    //determinant
         function matrixDeterminant(const matrixIn : TLAMatrix) : double;
 
-    //matrix inverse
+    //equality
+        function matricesEqual(matrix1In, matrix2In : TLAMatrix) : boolean;
+
+    //inverse
         function matrixInverse(const matrixIn : TLAMatrix) : TLAMatrix;
 
-    //matrix transpose
+    //multiplication
+        function matrixMultiplication(const matrix1In, matrix2In : TLAMatrix) : TLAMatrix; overload;
+        function matrixMultiplication(  const matrixIn : TLAMatrix;
+                                        const vectorIn : TLAVector  ) : TLAVector; overload;
+
+    //solve linear equation system
+//        function
+
+    //transpose
         function matrixTranspose(const matrixIn : TLAMatrix) : TLAMatrix;
 
 implementation
 
     //general methods
+        //get a matrix size
+            function getMatrixSize(const matrixIn : TLAMatrix) : TLAMatrixSize;
+                var
+                    r,
+                    rowCount, colCount  : integer;
+                    matrixDimensionsOut : TLAMatrixSize;
+                begin
+                    rowCount := length(matrixIn);
+                    colCount := length(matrixIn[0]);
+
+                    for r := 1 to (rowCount - 1) do
+                        if (length(matrixIn[r]) <> colCount) then
+                            begin
+                                colCount := -1;
+                                exit();
+                            end;
+
+                    matrixDimensionsOut.rows := rowCount;
+                    matrixDimensionsOut.cols := colCount;
+
+                    result := matrixDimensionsOut;
+                end;
+
         //test if a matrix is square
             function matrixIsSquare(const matrixIn : TLAMatrix) : boolean;
                 var
-                    colN, rowN : integer;
+                    matrixDimensions : TLAMatrixSize;
                 begin
-                    colN := length(matrixIn[0]);
-                    rowN := length(matrixIn);
+                    matrixDimensions := getMatrixSize(matrixIn);
 
-                    result := (colN = rowN);
-                end;
-
-        //get a matrix size
-            procedure getMatrixSize(out rowCountOut, colCountOut : integer;
-                                    const matrixIn      : TLAMatrix);
-                var
-                    r : integer;
-                begin
-                    rowCountOut := length(matrixIn);
-                    colCountOut := length(matrixIn[0]);
-
-                    for r := 1 to (rowCountOut - 1) do
-                        if (length(matrixIn[r]) <> colCountOut) then
-                            begin
-                                colCountOut := -1;
-                                exit();
-                            end;
+                    result := matrixDimensions.isSquare();
                 end;
 
         //set a matrix size
             procedure setMatrixSize(const newRowCountIn, newColCountIn  : integer;
-                                    var matrixInOut                     : TLAMatrix);
+                                    var matrixInOut                     : TLAMatrix); overload;
                 var
                     r : integer;
                 begin
@@ -60,8 +77,14 @@ implementation
                         SetLength(matrixInOut[r], newColCountIn);
                 end;
 
+            procedure setMatrixSize(const newSizeIn : TLAMatrixSize;
+                                    var matrixInOut : TLAMatrix     ); overload;
+                begin
+                    setMatrixSize(newSizeIn.rows, newSizeIn.cols, matrixInOut);
+                end;
+
         //create a new matrix with a set size
-            function newMatrix(rowCountIn, colCountIn : integer) : TLAMatrix;
+            function newMatrix(rowCountIn, colCountIn : integer) : TLAMatrix; overload;
                 var
                     matrixOut : TLAMatrix;
                 begin
@@ -70,19 +93,25 @@ implementation
                     result := matrixOut;
                 end;
 
+            function newMatrix(const newSizeIn : TLAMatrixSize) : TLAMatrix; overload;
+                begin
+                    result := newMatrix(newSizeIn.rows, newSizeIn.cols);
+                end;
+
         //copy a matrix
             procedure copyMatrix(   const readMatrixIn      : TLAMatrix;
-                                    var writeMatrixInOut    : TLAMatrix);
+                                    var writeMatrixInOut    : TLAMatrix );
                 var
-                    c,      r,
-                    colN,   rowN : integer;
+                    c, r        : integer;
+                    matrixSize  : TLAMatrixSize;
                 begin
-                    getMatrixSize(rowN, colN, readMatrixIn);
+                    matrixSize := getMatrixSize(readMatrixIn);
 
-                    setMatrixSize(rowN, colN, writeMatrixInOut);
+                    setMatrixSize(  matrixSize.rows, matrixSize.cols,
+                                    writeMatrixInOut                    );
 
-                    for r := 0 to (rowN - 1) do
-                        for c := 0 to (colN - 1) do
+                    for r := 0 to (matrixSize.rows - 1) do
+                        for c := 0 to (matrixSize.cols - 1) do
                             writeMatrixInOut[r][c] := readMatrixIn[r][c];
                 end;
 
@@ -90,16 +119,16 @@ implementation
             function matrixScalarMultiplication(const scalarIn : double;
                                                 const matrixIn      : TLAMatrix) : TLAMatrix;
                 var
-                    r,      c,
-                    rowN,   colN    : integer;
-                    matrixOut       : TLAMatrix;
+                    c, r        : integer;
+                    matrixSize  : TLAMatrixSize;
+                    matrixOut   : TLAMatrix;
                 begin
                     copyMatrix(matrixIn, matrixOut);
 
-                    getMatrixSize(rowN, colN, matrixOut);
+                    matrixSize := getMatrixSize(matrixIn);
 
-                    for r := 0 to (rowN - 1) do
-                        for c := 0 to (colN - 1) do
+                    for r := 0 to (matrixSize.rows - 1) do
+                        for c := 0 to (matrixSize.cols - 1) do
                             matrixOut[r, c] := scalarIn * matrixOut[r, c];
 
                     result := matrixOut;
@@ -139,7 +168,7 @@ implementation
                     result := True;
                 end;
 
-    //matrix determinant
+    //determinant
         //helper methods
             function subMatrix( const rowIn, colIn  : integer;
                                 const matrixIn      : TLAMatrix) : TLAMatrix;
@@ -278,24 +307,63 @@ implementation
                 result := determinantRec(matrixIn);
             end;
 
-    //matrix inverse
+    //equality
+        function matricesEqual(matrix1In, matrix2In : TLAMatrix) : boolean;
+            var
+                r,      c       : integer;
+                size1,  size2   : TLAMatrixSize;
+            function
+                _elementsAreEqual(const rowIn, colIn : integer) : boolean;
+                    var
+                        value1, value2 : double;
+                    begin
+                        value1 := matrix1In[rowIn][colIn];
+                        value2 := matrix2In[rowIn][colIn];
+
+                        result := isAlmostEqual(value1, value2);
+                    end;
+            begin
+                //get sizes
+                    size1 := getMatrixSize(matrix1In);
+                    size2 := getMatrixSize(matrix2In);
+
+                //if the sizes are not equal the matrices are not equal
+                    if ( NOT(size1.isEqual(size2)) ) then
+                        begin
+                            result := False;
+                            exit();
+                        end;
+
+                //test each eleement for equality
+                    for r := 0 to (size1.rows - 1) do
+                        for c := 0 to (size1.cols - 1) do
+                            if ( NOT(_elementsAreEqual(r, c)) ) then
+                                begin
+                                    result := False;
+                                    exit();
+                                end;
+
+                result := True;
+            end;
+
+    //inverse
         //helper methods
             function cofactorMatrix(const matrixIn : TLAMatrix) : TLAMatrix;
                 var
-                    i,      j,
-                    rowN,   colN    : integer;
-                    C_ij            : double;
-                    coFacMatOut     : TLAMatrix;
+                    i, j        : integer;
+                    C_ij        : double;
+                    matrixSize  : TLAMatrixSize;
+                    coFacMatOut : TLAMatrix;
                 begin
                     if ( NOT(matrixIsSquare(matrixIn)) ) then
                         exit();
 
-                    getMatrixSize(rowN, colN, matrixIn);
+                    matrixSize := getMatrixSize(matrixIn);
 
-                    coFacMatOut := newMatrix(rowN, colN);
+                    coFacMatOut := newMatrix(matrixSize);
 
-                    for i := 0 to (rowN - 1) do
-                        for j := 0 to (colN - 1) do
+                    for i := 0 to (matrixSize.rows - 1) do
+                        for j := 0 to (matrixSize.cols - 1) do
                             begin
                                 C_ij := matrixEntryCofactor(i, j, matrixIn);
 
@@ -335,7 +403,7 @@ implementation
                 result := matInv;
             end;
 
-    //matrix multiplication
+    //multiplication
         //helper methods
             function getMatrixColumn(   const colIn     : integer;
                                         const matrixIn  : TLAMatrix ) : TLAVector;
@@ -353,24 +421,98 @@ implementation
                     result := columnVectorOut;
                 end;
 
-        function matrixMultiplication(const matrix1In, matrix2In : TLAMatrix) : TLAMatrix;
-            begin
+            function getMatrixRow(  const rowIn     : integer;
+                                    const matrixIn  : TLAMatrix ) : TLAVector;
+                begin
+                    result := matrixIn[rowIn];
+                end;
 
+        function matrixMultiplication(const matrix1In, matrix2In : TLAMatrix) : TLAMatrix;
+            var
+                r, c            : integer;
+                vectorProduct   : double;
+                size1, size2    : TLAMatrixSize;
+                newMatrixOut    : TLAMatrix;
+            function
+                _matrixSizesAreCompatible() : boolean;
+                    begin
+                        //matrix1 must be m x r
+                        //matrix2 must be r x n
+
+                        size1 := getMatrixSize(matrix1In);
+                        size2 := getMatrixSize(matrix2In);
+
+                        _matrixSizesAreCompatible := (size1.cols = size2.rows);
+                    end;
+            function
+                _multiplyRowAndColVectors(const rowIn, colIn : integer) : double;
+                    var
+                        colVector, rowVector : TLAVector;
+                    begin
+                        //row vector from matrix 1
+                            rowVector := getMatrixRow(rowIn, matrix1In);
+
+                        //column vector from matrix 2
+                            colVector := getMatrixColumn(colIn, matrix2In);
+
+                        _multiplyRowAndColVectors := vectorDotProduct(rowVector, colVector);
+                    end;
+            begin
+                if ( NOT(_matrixSizesAreCompatible()) ) then
+                    exit();
+
+                newMatrixOut := newMatrix(size1.rows, size2.cols);
+
+                for r := 0 to (size1.rows - 1) do
+                    for c := 0 to (size2.cols - 1) do
+                        begin
+                            vectorProduct := _multiplyRowAndColVectors(r, c);
+
+                            newMatrixOut[r][c] := vectorProduct;
+                        end;
+
+                result := newMatrixOut;
             end;
 
-    //matrix transpose
+        function matrixMultiplication(  const matrixIn : TLAMatrix;
+                                        const vectorIn : TLAVector  ) : TLAVector;
+            var
+                rowVectorMat,
+                columnVectorMat,
+                multMat         : TLAMatrix;
+                vectorOut       : TLAVector;
+            begin
+                //convert the vector into a matrix (n x 1)
+                    SetLength(rowVectorMat, 1);
+
+                    rowVectorMat[0] := vectorIn;
+
+                    columnVectorMat := matrixTranspose(rowVectorMat);
+
+                //multiply the two matrices
+                    multMat := matrixMultiplication(matrixIn, columnVectorMat);
+
+                //convert the result of the matrix multiplication back to a vector
+                    rowVectorMat := matrixTranspose(multMat);
+
+                    vectorOut := rowVectorMat[0];
+
+                result := vectorOut;
+            end;
+
+    //transpose
         function matrixTranspose(const matrixIn : TLAMatrix) : TLAMatrix;
             var
-                r,      c,
-                rowN,   colN        : integer;
+                r, c                : integer;
+                matrixSize          : TLAMatrixSize;
                 transposedMatrixOut : TLAMatrix;
             begin
-                getMatrixSize(rowN, colN, matrixIn);
+                matrixSize := getMatrixSize(matrixIn);
 
-                transposedMatrixOut := newMatrix(colN, rowN);
+                transposedMatrixOut := newMatrix(matrixSize.cols, matrixSize.rows);
 
-                for r := 0 to (rowN - 1) do
-                    for c := 0 to (colN - 1) do
+                for r := 0 to (matrixSize.rows - 1) do
+                    for c := 0 to (matrixSize.cols - 1) do
                         transposedMatrixOut[c][r] := matrixIn[r][c];
 
                 result := transposedMatrixOut;

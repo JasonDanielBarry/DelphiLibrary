@@ -4,11 +4,15 @@ interface
 
     uses
         system.SysUtils, system.Math, math.Vectors,
+        GeneralMathMethods,
         LinearAlgebraTypes
         ;
 
     //test is vectors are the same size
         function vectorsAreSameSize(const vector1In, vector2In : TLAVector) : boolean;
+
+    //equality test
+        function vectorsEqual(const vector1In, vector2In : TLAVector) : boolean;
 
     //scalar multiplication
         function vectorScalarMultiplication(const scalarIn  : double;
@@ -34,6 +38,32 @@ implementation
                 size2 := length(vector2In);
 
                 result := (size1 = size2);
+            end;
+
+    //equality test
+        function vectorsEqual(const vector1In, vector2In : TLAVector) : boolean;
+            var
+                elementsAreEqual    : boolean;
+                i                   : integer;
+            begin
+                if ( NOT(vectorsAreSameSize(vector1In, vector2In)) ) then
+                    begin
+                        result := False;
+                        exit();
+                    end;
+
+                for i := 0 to (Length(vector1In) - 1) do
+                    begin
+                        elementsAreEqual := isAlmostEqual(vector1In[i], vector2In[i]);
+
+                        if (NOT(elementsAreEqual)) then
+                            begin
+                                result := False;
+                                exit();
+                            end;
+                    end;
+
+                result := True;
             end;
 
     //scalar multiplication

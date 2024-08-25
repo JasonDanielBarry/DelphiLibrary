@@ -18,6 +18,8 @@ interface
         // Simple single Test
         [Test]
         procedure TestDeterminantAndInverse();
+        [Test]
+        procedure TestMatrixMultiplication();
         // Test with TestCase Attribute to supply parameters.
       end;
 
@@ -26,7 +28,8 @@ implementation
     uses
         GeneralMathMethods,
         LinearAlgebraTypes,
-        MatrixMethods;
+        MatrixMethods,
+        VectorMethods;
 
 //procedure TTestMatrixMethods.Setup();
 //begin
@@ -74,6 +77,77 @@ begin
 
         Assert.AreEqual(invDet, 1 / matDet, 1e-3);
 end;
+
+procedure TTestMatrixMethods.TestMatrixMultiplication();
+    var
+        matrix1, matrix2, multMat, expectedMat  : TLAMatrix;
+        vector, resultVector, expectedVector    : TLAVector;
+    begin
+        matrix1 :=  [
+                        [1, 2, 3, 4],
+                        [2, 3, 4, 5],
+                        [3, 4, 5, 6]
+                    ];
+
+        matrix2 :=  [
+                        [1, 2, 3],
+                        [2, 3, 4],
+                        [3, 4, 5],
+                        [4, 5, 6]
+                    ];
+
+        multMat := matrixMultiplication(matrix1, matrix2);
+
+        expectedMat :=  [
+                            [30, 40, 50],
+                            [40, 54, 68],
+                            [50, 68, 86]
+                        ];
+
+        Assert.IsTrue( matricesEqual(multMat, expectedMat) );
+
+        //------------------------------------------------------------
+
+        matrix1 :=  [
+                        [1, 2, 3, 4, 5],
+                        [2, 3, 4, 5, 6],
+                        [3, 4, 5, 6, 7]
+                    ];
+
+        matrix2 :=  [
+                        [1, 2, 3],
+                        [2, 3, 4],
+                        [3, 4, 5],
+                        [4, 5, 6],
+                        [5, 6, 7]
+                    ];
+
+        multMat := matrixMultiplication(matrix1, matrix2);
+
+        expectedMat :=  [
+                            [55,  70,  85],
+                            [70,  90, 110],
+                            [85, 110, 135]
+                        ];
+
+        Assert.IsTrue( matricesEqual(multMat, expectedMat) );
+
+        //------------------------------------------------------------
+
+        matrix1 :=  [
+                        [1, 2, 3, 4, 5],
+                        [2, 3, 4, 5, 6],
+                        [3, 4, 5, 6, 7]
+                    ];
+
+        vector := [1, 2, 3, 4, 5];
+
+        resultVector := matrixMultiplication(matrix1, vector);
+
+        expectedVector := [55, 70, 85];
+
+        Assert.IsTrue( vectorsEqual(resultVector, expectedVector) );
+    end;
 
 initialization
   TDUnitX.RegisterTestFixture(TTestMatrixMethods);
