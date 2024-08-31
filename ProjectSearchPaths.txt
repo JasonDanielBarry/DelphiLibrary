@@ -1,6 +1,7 @@
 ..\DelphiLibrary\Engineering;
 ..\DelphiLibrary\GeneralMath;
 ..\DelphiLibrary\GeneralMath\LinearAlgebra;
+..\DelphiLibrary\GeneralMath\LinearAlgebra\Matrices;
 ..\DelphiLibrary\Geometry;
 ..\DelphiLibrary\Graphics\Drawing;
 ..\DelphiLibrary\Graphics\Drawing\Skia;

@@ -28,6 +28,7 @@ implementation
     uses
         GeneralMathMethods,
         LinearAlgebraTypes,
+        MatrixHelperMethods,
         MatrixMethods,
         VectorMethods;
 
@@ -150,6 +151,7 @@ procedure TTestMatrixMethods.TestMatrixMultiplication();
     end;
 
 initialization
-  TDUnitX.RegisterTestFixture(TTestMatrixMethods);
+
+    TDUnitX.RegisterTestFixture(TTestMatrixMethods);
 
 end.
