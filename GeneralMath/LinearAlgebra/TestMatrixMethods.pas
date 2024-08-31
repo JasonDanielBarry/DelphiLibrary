@@ -17,6 +17,8 @@ interface
         // Sample Methods
         // Simple single Test
         [Test]
+        procedure testGaussElimination();
+        [Test]
         procedure TestDeterminantAndInverse();
         [Test]
         procedure TestMatrixMultiplication();
@@ -29,6 +31,7 @@ implementation
         GeneralMathMethods,
         LinearAlgebraTypes,
         MatrixHelperMethods,
+        MatrixDeterminantMethods,
         MatrixMethods,
         VectorMethods;
 
@@ -40,44 +43,93 @@ implementation
 //begin
 //end;
 
+procedure TTestMatrixMethods.testGaussElimination();
+    var
+        detBefore,
+        detAfter    : double;
+        testMatrix  : TLAMatrix;
+    begin
+        //2 x 2
+            testMatrix := [ [1, 2],
+                            [3, 4]  ];
+
+            detBefore := matrixDeterminant(testMatrix);
+            gaussElimination(testMatrix);
+
+            setMatrixSize(2, 2, testMatrix);
+
+            detAfter := matrixDeterminant(testMatrix);
+
+            assert.AreEqual(detBefore, detAfter, 1e-3);
+
+        //3 x 3
+            testMatrix := [ [1, 8, 5],
+                            [6, 4, 2],
+                            [9, 7, 3]   ];
+
+            detBefore := matrixDeterminant(testMatrix);
+            gaussElimination(testMatrix);
+
+            setMatrixSize(3, 3, testMatrix);
+
+            detAfter := matrixDeterminant(testMatrix);
+
+            assert.AreEqual(detBefore, detAfter, 1e-3);
+
+        //4 x 4
+            testMatrix := [ [ 1,  5, 16, 11],
+                            [ 3, 14, 12, 10],
+                            [ 9, 10, 11, 12],
+                            [13, 14, 15, 16]    ];
+
+            detBefore := matrixDeterminant(testMatrix);
+            gaussElimination(testMatrix);
+
+            setMatrixSize(4, 4, testMatrix);
+
+            detAfter := matrixDeterminant(testMatrix);
+
+            assert.AreEqual(detBefore, detAfter, 1e-3);
+    end;
+
 procedure TTestMatrixMethods.TestDeterminantAndInverse();
-var
-    matDet, invDet          : double;
-    testMatrix, inverseMat  : TLAMatrix;
-begin
-    //2 x 2
-        testMatrix := [ [1, 2],
-                        [3, 4]  ];
+    var
+        matDet, invDet          : double;
+        testMatrix, inverseMat  : TLAMatrix;
+    begin
+        //2 x 2
+            testMatrix := [ [1, 2],
+                            [3, 4]  ];
 
-        matDet := matrixDeterminant(testMatrix);
-        inverseMat := matrixInverse(testMatrix);
-        invDet := matrixDeterminant(inverseMat);
+            matDet := matrixDeterminant(testMatrix);
+            inverseMat := matrixInverse(testMatrix);
+            invDet := matrixDeterminant(inverseMat);
 
-        Assert.AreEqual(invDet, 1 / matDet, 1e-3);
+            Assert.AreEqual(invDet, 1 / matDet, 1e-3);
 
-    //3 x 3
-        testMatrix := [ [1, 8, 5],
-                        [6, 4, 2],
-                        [9, 7, 3]   ];
+        //3 x 3
+            testMatrix := [ [1, 8, 5],
+                            [6, 4, 2],
+                            [9, 7, 3]   ];
 
-        matDet := matrixDeterminant(testMatrix);
-        inverseMat := matrixInverse(testMatrix);
-        invDet := matrixDeterminant(inverseMat);
+            matDet := matrixDeterminant(testMatrix);
+            inverseMat := matrixInverse(testMatrix);
+            invDet := matrixDeterminant(inverseMat);
 
-        Assert.AreEqual(invDet, 1 / matDet, 1e-3);
+            Assert.AreEqual(invDet, 1 / matDet, 1e-3);
 
-    //4 x 4
-        testMatrix := [ [ 1,  5, 16, 11],
-                        [ 3, 14, 12, 10],
-                        [ 9, 10, 11, 12],
-                        [13, 14, 15, 16]    ];
+        //4 x 4
+            testMatrix := [ [ 1,  5, 16, 11],
+                            [ 3, 14, 12, 10],
+                            [ 9, 10, 11, 12],
+                            [13, 14, 15, 16]    ];
 
-        matDet := matrixDeterminant(testMatrix);
-        inverseMat := matrixInverse(testMatrix);
-        invDet := matrixDeterminant(inverseMat);
+            matDet := matrixDeterminant(testMatrix);
+            inverseMat := matrixInverse(testMatrix);
+            invDet := matrixDeterminant(inverseMat);
 
-        Assert.AreEqual(invDet, 1 / matDet, 1e-3);
-end;
+            Assert.AreEqual(invDet, 1 / matDet, 1e-3);
+    end;
 
 procedure TTestMatrixMethods.TestMatrixMultiplication();
     var

@@ -27,6 +27,9 @@ interface
     //vector dot product
         function vectorDotProduct(const vector1In, vector2In : TLAVector) : double;
 
+    //vector normalise
+//        function vectorNormalise(const vectorIn : TLAVector) : double;
+
 implementation
 
     //test is vectors are the same size

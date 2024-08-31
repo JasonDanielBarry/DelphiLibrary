@@ -7,6 +7,7 @@ interface
         GeneralMathMethods,
         LinearAlgebraTypes,
         MatrixHelperMethods,
+        MatrixDeterminantMethods,
         VectorMethods
         ;
 
@@ -30,144 +31,10 @@ interface
 
 implementation
 
-
     //determinant
-        //helper methods
-            function subMatrix( const rowIn, colIn  : integer;
-                                const matrixIn      : TLAMatrix) : TLAMatrix;
-                var
-                    dimension, subDimension,
-                    i,
-                    r, c            : integer;
-                    subMatrixOut    : TLAMatrix;
-                procedure
-                    _populateRow(rowIn : integer);
-                        var
-                            col,
-                            j   : integer;
-                        begin
-                            //start at column 0
-                                col := 0;
-
-                            //loop through the columns
-                                for j := 0 to (dimension - 1) do
-                                    begin
-                                        //if the read column, j, = colIn then it must NOT be copied
-                                            if (j <> colIn) then
-                                                begin
-                                                    subMatrixOut[rowIn][col] := matrixIn[i][j];
-
-                                                    inc(col);
-                                                end;
-                                    end;
-                        end;
-                begin
-                    //get the minor-matrix dimension
-                        dimension   := length(matrixIn);
-                        subDimension := dimension - 1;
-
-                    //size the minor-matrix
-                        SetLength(subMatrixOut, subDimension);
-
-                        for c := 0 to (subDimension - 1) do
-                            SetLength(subMatrixOut[c], subDimension);
-
-                    //assign the values to the minor-matrix
-                        r := 0;
-
-                        for i := 0 to (dimension - 1) do
-                            begin
-                                //populate the row if i != rowIn
-                                    if (i <> rowIn) then
-                                        begin
-                                            _populateRow(r);
-
-                                            inc(r);
-                                        end;
-                            end;
-
-                    result := subMatrixOut;
-                end;
-
-            function matrixEntryMinor(  const rowIn, colIn  : integer;
-                                        const matrixIn      : TLAMatrix) : double;
-                var
-                    i, j        : integer;
-                    minorOut    : double;
-                    subMat      : TLAMatrix;
-                begin
-                    i := rowIn;
-                    j := colIn;
-
-                    subMat := subMatrix(i, j, matrixIn);
-
-                    minorOut := matrixDeterminant(subMat);
-
-                    result := minorOut;
-                end;
-
-            function matrixEntryCofactor(   const rowIn, colIn  : integer;
-                                            const matrixIn      : TLAMatrix) : double;
-                var
-                    i, j                : integer;
-                    entryMinor,
-                    entryCofactorOut    : double;
-                begin
-                    i := rowIn;
-                    j := colIn;
-
-                    entryMinor := matrixEntryMinor(i, j, matrixIn);
-
-                    entryCofactorOut := power( -1, (i + j) ) * entryMinor;
-
-                    result := entryCofactorOut;
-                end;
-
-        function determinantRec(const matrixIn : TLAMatrix) : double;
-            var
-                j,
-                dimension           : integer;
-                a_ij, C_ij, M_ij,
-                determinantValueOut : double;
-                minorMatrix         : TLAMatrix;
-            begin
-                //check if the input matrix is square (N x N)
-                    if ( NOT(matrixIsSquare(matrixIn)) ) then
-                        begin
-                            result := 0;
-                            exit();
-                        end;
-
-                //if N = 1 then the determinant is the matrix value
-                    dimension := length(matrixIn);
-
-                    if (dimension = 1) then
-                        begin
-                            result := matrixIn[0][0];
-                            exit();
-                        end;
-
-                //determinant = sum(a_ij * C_ij)
-                    determinantValueOut := 0;
-
-                    for j := 0 to (dimension - 1) do
-                        begin
-                            a_ij := matrixIn[0][j];
-
-                            if (NOT(a_ij = 0)) then
-                                begin
-                                    C_ij := matrixEntryCofactor(0, j, matrixIn);
-
-                                    determinantValueOut := determinantValueOut + (a_ij * C_ij);
-                                end;
-                        end;
-
-                result := determinantValueOut;
-            end;
-
         function matrixDeterminant(const matrixIn : TLAMatrix) : double;
             begin
-                result := determinantRec(matrixIn);
+                result := MatrixDeterminantMethods.matrixDeterminant(matrixIn);
             end;
 
     //inverse
