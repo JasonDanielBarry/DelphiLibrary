@@ -9,7 +9,7 @@ interface
         //intersection
             function lineIntersectionPoint( out LinesIntersectOut           : boolean;
                                             const   l1x0, l1y0, l1x1, l1y1,
-                                                    l2x0, l2y0, l2x1, l2y1  : double) : TPointF; overload;
+                                                    l2x0, l2y0, l2x1, l2y1  : double) : TPointF;
 
 implementation
 
@@ -36,7 +36,7 @@ implementation
             //|     | = |       ||  |
             //|y1-y0|   |v0  -v1||t1|
 
-            //<dX>=[U]<T>
+            //<dX> = [U]<T>
 
     //line methods
         //length
@@ -53,93 +53,98 @@ implementation
                                         ];
                         end;
 
-                //T - intersection parameter
-                    function calculateT(const   x0, y0, u0, v0,
-                                                x1, y1, u1, v1  : double) : TArray<double>;
+                    function UMatrixDeterminantIsZero(const u0, v0,
+                                                            u1, v1 : double) : boolean;
                         var
-                            dx, dy,
                             detU    : double;
-                            TOut    : TArray<double>;
                             U       : TLAMatrix;
                         begin
-                            SetLength(TOut, 2);
+                            U := UMatrix(u0, v0, u1, v1);
 
-                            //calculate the U_matrix determinant
+                            detU := matrixDeterminant(U);
+
+                            result := isAlmostZero(detU);
+                        end;
+
+                //dX vector
+                    function dXVector(const x0, y0,
+                                            x1, y1 : double) : TLAVector;
+                        var
+                            dx, dy : double;
+                        begin
+                            dx := x1 - x0;
+                            dy := y1 - y0;
+
+                            result := [dx, dy];
+                        end;
+
+                //T - intersection parameter
+                    function calculateT(const   x0, y0, u0, v0,
+                                                x1, y1, u1, v1  : double) : TLAVector;
+                        var
+                            detU        : double;
+                            TOut, dX    : TLAVector;
+                            U           : TLAMatrix;
+                        begin
+                            //a determinant of zero means the lines do not intersect
+                                if ( UMatrixDeterminantIsZero(u0, v0, u1, v1) ) then
+                                    begin
+                                        result := [0, 0];
+                                        exit();
+                                    end;
+
+                            //get the U_matrix
                                 U := UMatrix(   u0, v0,
                                                 u1, v1  );
 
-                                detU := matrixDeterminant(U);
+                            //<dx, dy>
+                                dX := dXVector(x0, y0, x1, y1);
 
-                                //a determinant of zero means the lines do not intersect
-                                    if (abs(detU) < 1e-3) then
-                                        begin
-                                            result := [0, 0];
-                                            exit();
-                                        end;
-
-                            //dx, dy
-                                dx := x1 - x0;
-                                dy := y1 - y0;
-
-                            //calculate the intersection T
-
-                            TOut[0] := (dx * v1 - dy * u1) / (-detU);
-                            TOut[1] := (dx * v0 - dy * u0) / (-detU);
+                            //calculate the intersection (dX=UT)
+                                TOut := solveLinearSystem(U, dX);
 
                             result := TOut;
                         end;
 
-            function lineIntersectionPointUV(   out LinesIntersectOut : boolean;
-                                                const   x0, y0, u0, v0,
-                                                        x1, y1, u1, v1 : double ) : TPointF;
-                var
-                    T               : TArray<double>;
-                    point0, point1,
-                    pointOut        : TPointF;
-                function
-                    _UMatrixDeterminantAlmostZero() : boolean;
-                        var
-                            detU    : double;
-                            U       : TLAMatrix;
-                        begin
-                            U := UMatrix(   u0, v0,
-                                            u1, v1  );
-
-                            detU := matrixDeterminant(U);
-
-                            result := (abs(detU) < 1e-3);
-                        end;
-                function
-                    _IntersectionPointsAreEqual() : boolean;
-                        begin
-                            result := ( isAlmostEqual(point0.X, point1.X) AND isAlmostEqual(point0.Y, point1.Y) );
-                        end;
-                begin
-                    //test for parallel lines
-                        if (_UMatrixDeterminantAlmostZero()) then
+            //line intersection function using the lines' directional vectors <u, v>
+                function lineIntersectionPointUV(   out LinesIntersectOut : boolean;
+                                                    const   x0, y0, u0, v0,
+                                                            x1, y1, u1, v1 : double ) : TPointF;
+                    var
+                        T               : TArray<double>;
+                        point0, point1,
+                        pointOut        : TPointF;
+                    function
+                        _IntersectionPointsAreEqual() : boolean;
                             begin
+                                result := ( isAlmostEqual(point0.X, point1.X) AND isAlmostEqual(point0.Y, point1.Y) );
+                            end;
+                    begin
+                        //test for parallel lines
+                            if ( UMatrixDeterminantIsZero(u0, v0, u1, v1) ) then
+                                begin
+                                    LinesIntersectOut := False;
+                                    exit;
+                                end
+                            else
+                                LinesIntersectOut := True;
+
+                        //calculation t0 & t1
+                            T := calculateT(x0, y0, u0, v0,
+                                            x1, y1, u1, v1);
+
+                        //calculate the intersection points from t0 & t1
+                            point0 := PointF(x0 + T[0] * u0, y0 + T[0] * v0);
+                            point1 := PointF(x1 + T[1] * u1, y1 + T[1] * v1);
+
+                        //the result is only valid if two identical points are calculated from T
+                            if (_IntersectionPointsAreEqual()) then
+                                pointOut := point0
+                            else
                                 LinesIntersectOut := False;
-                                exit;
-                            end
-                        else
-                            LinesIntersectOut := True;
 
-                    //calculation t0 & t1
-                        T := calculateT(x0, y0, u0, v0,
-                                        x1, y1, u1, v1);
-
-                    //calculate the intersection points from t0 & t1
-                        point0 := TPointF.Create(x0 + T[0] * u0, y0 + T[0] * v0);
-                        point1 := TPointF.Create(x1 + T[1] * u1, y1 + T[1] * v1);
-
-                    //the result is only valid if two identical points are calculated from T
-                        if (_IntersectionPointsAreEqual()) then
-                            pointOut := point0
-                        else
-                            LinesIntersectOut := False;
-
-                    result := pointOut;
-                end;
+                        result := pointOut;
+                    end;
 
             function lineIntersectionPoint( out LinesIntersectOut           : boolean;
                                             const   l1x0, l1y0, l1x1, l1y1,
@@ -148,7 +153,7 @@ implementation
                     u0, v0,
                     u1, v1  : double;
                 procedure
-                    _extractUnitVectors(const   x0, y0, x1, y1  : double;
+                    _extractUnitVector( const   x0, y0, x1, y1  : double;
                                         out     u, v            : double);
                         var
                             dx, dy,
@@ -165,11 +170,11 @@ implementation
                         end;
                 begin
                     //line 1 parameters
-                        _extractUnitVectors(l1x0, l1y0, l1x1, l1y1,
+                        _extractUnitVector( l1x0, l1y0, l1x1, l1y1,
                                             u0, v0                  );
 
                     //line 2 parameters
-                        _extractUnitVectors(l2x0, l2y0, l2x1, l2y1,
+                        _extractUnitVector( l2x0, l2y0, l2x1, l2y1,
                                             u1, v1                  );
 
                     begin

@@ -28,7 +28,10 @@ interface
         function vectorDotProduct(const vector1In, vector2In : TLAVector) : double;
 
     //vector normalise
-//        function vectorNormalise(const vectorIn : TLAVector) : double;
+        function vectorNormal(const vectorIn : TLAVector) : double;
+
+    //vector entries product
+        function vectorEntriesProduct(const vectorIn : TLAVector) : double;
 
 implementation
 
@@ -142,5 +145,37 @@ implementation
                 result := dotProductSum;
             end;
 
+    //vector normalise
+        function vectorNormal(const vectorIn : TLAVector) : double;
+            var
+                i               : integer;
+                entrySquared,
+                normalOut       : double;
+            begin
+                normalOut := 0;
+
+                for i := 0 to (length(vectorIn) - 1) do
+                    begin
+                        entrySquared := Sqr(vectorIn[i]);
+
+                        normalOut := normalOut + entrySquared;
+                    end;
+
+                result := normalOut;
+            end;
+
+    //vector entries product
+        function vectorEntriesProduct(const vectorIn : TLAVector) : double;
+            var
+                i           : integer;
+                productOut  : double;
+            begin
+                productOut := 1;
+
+                for i := 0 to (Length(vectorIn) - 1) do
+                    productOut := productOut * vectorIn[i];
+
+                result := productOut;
+            end;
 
 end.

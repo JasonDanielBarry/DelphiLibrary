@@ -202,7 +202,7 @@ implementation
                 //solution only exists if the coefficient matrix determinant is not zero
                     detCoeffMat := matrixDeterminant(coefficientmatrixIn);
 
-                    if (detCoeffMat < 1e-3) then
+                    if ( isAlmostZero(detCoeffMat) ) then
                         exit();
 
                 //Ax = b;
