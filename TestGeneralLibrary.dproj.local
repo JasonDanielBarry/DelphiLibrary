@@ -11,7 +11,8 @@
     <Transaction>2024/08/10 16:00:19.000.658,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Geometry\TestGeomLineClass.pas</Transaction>
     <Transaction>2024/08/18 22:00:32.000.709,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\GeneralMath\TestLinearAlgeberaMethods.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\GeneralMath\LinearAlgebra\TestLinearAlgeberaMethods.pas</Transaction>
     <Transaction>2024/08/24 13:59:59.000.840,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\GeneralMath\LinearAlgebra\TestLinearAlgeberaMethods.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\GeneralMath\LinearAlgebra\TestMatrixMethods.pas</Transaction>
-  </Transactions>  <ProjectSortOrder AutoSort="0" SortType="0">
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="GeneralMath"/>
     <File Path="GeneralMath\LinearAlgebra"/>
     <File Path="GeneralMath\LinearAlgebra\TestMatrixMethods.pas"/>

@@ -4,12 +4,20 @@ interface
 
     uses
         Winapi.Windows,
-        System.SysUtils, Math,
-        Vcl.Forms, Vcl.Grids;
+        System.SysUtils, system.Math, system.Types, system.UITypes,
+        vcl.Controls, Vcl.ExtCtrls, Vcl.Forms, Vcl.Grids;
 
     type
         TStringGridHelper = class helper for TStringGrid
             private
+                //border panel name
+                    function borderPanelName() : string;
+                //get border panel
+                    function getBorderPanel() : TPanel;
+                //edit a border's properties
+                    procedure editBorder(   const edgeWidthIn       : integer;
+                                            const colourIn          : TColor;
+                                            var borderPanelInOut    : TPanel    ); overload;
                 //border adjustment used for sizing the grid
                     function borderAdjustment() : integer;
                 //test if a cell's value is a double
@@ -17,6 +25,12 @@ interface
                 //test if a row is empty
                     function rowIsEmpty(rowIndexIn : integer) : boolean;
             public
+                //create border
+                    procedure createBorder( const edgeWidthIn   : integer;
+                                            const colourIn      : TColor    );
+
+                    procedure editBorder(   const edgeWidthIn   : integer;
+                                            const colourIn      : TColor    ); overload;
                 //row deletion
                     //clear a row's content
                         procedure clearRow(rowIndexIn : integer);
@@ -37,12 +51,34 @@ interface
                     procedure minHeight();
                     procedure minWidth();
                     procedure minSize();
-
         end;
 
 implementation
 
+    const
+        BORDER_PANEL : string = 'BorderPanel';
+
     //private
+        //border panel name
+            function TStringGridHelper.borderPanelName() : string;
+                begin
+                    result := self.Name + 'BorderPanel';
+                end;
+
+        //free border panel
+            function TStringGridHelper.getBorderPanel() : TPanel;
+                var
+                    i : integer;
+                begin
+                    for i := 0 to (self.Parent.ComponentCount - 1) do
+                        if ( Components[i].Name = borderPanelName() ) then
+                            begin
+                                result := TPanel(Components[i]);
+
+                                exit();
+                            end;
+                end;
+
         //border adjustment used for sizing the grid
             function TStringGridHelper.borderAdjustment() : integer;
                 begin
@@ -50,6 +86,29 @@ implementation
                         result := 2
                     else
                         result := 0;
+                end;
+
+        //edit a border's properties
+            procedure TStringGridHelper.editBorder( const edgeWidthIn       : integer;
+                                                    const colourIn          : TColor;
+                                                    var borderPanelInOut    : TPanel    );
+                begin
+                    //resize the grid for border
+                        self.minSize();
+
+                        self.Height := self.Height - 2;
+                        self.Width  := self.Width - 2;
+
+                    borderPanelInOut.Color := colourIn;
+
+                    borderPanelInOut.Height  := self.Height + (2 * edgeWidthIn);
+                    borderPanelInOut.Width   := self.Width + (2 * edgeWidthIn);
+
+                    borderPanelInOut.Left    := self.Left - edgeWidthIn;
+                    borderPanelInOut.Top     := self.Top - edgeWidthIn;
+
+                    borderPanelInOut.BringToFront();
+                    self.BringToFront();
                 end;
 
         //test if a cell's value is a double
@@ -79,7 +138,7 @@ implementation
                 begin
                     for colIndex := 0 to (ColCount - 1) do
                         begin
-                            result := cells[colIndex, rowIndexIn].IsEmpty;
+                            result := cells[colIndex, rowIndexIn].IsEmpty();
 
                             if (result = false) then
                                 break;
@@ -87,6 +146,48 @@ implementation
                 end;
 
     //public
+        //create border
+            procedure TStringGridHelper.createBorder(   const edgeWidthIn   : integer;
+                                                        const colourIn      : TColor    );
+                var
+                    borderPanel : TPanel;
+                begin
+                    //get rid of grid border
+                        self.BevelInner := TBevelCut.bvNone;
+                        self.BevelKind := TBevelKind.bkNone;
+                        self.BevelOuter := TBevelCut.bvNone;
+                        self.BorderStyle := bsNone;
+
+                    //create the grid for border
+                        borderPanel := TPanel.Create(self);
+                        borderPanel.Parent := self.Parent;
+                        borderPanel.Name := borderPanelName();
+
+                    //prime panel to be a border
+                        borderPanel.ParentBackground := False;
+                        borderPanel.ParentColor := False;
+                        borderPanel.BevelInner := TBevelCut.bvNone;
+                        borderPanel.BevelOuter := TBevelCut.bvNone;
+                        borderPanel.BevelKind := TBevelKind.bkNone;
+                        borderPanel.BorderStyle := bsNone;
+
+                    editBorder( edgeWidthIn,
+                                colourIn,
+                                borderPanel );
+                end;
+
+            procedure TStringGridHelper.editBorder( const edgeWidthIn   : integer;
+                                                    const colourIn      : TColor    );
+                var
+                    gridsBorderPanel : TPanel;
+                begin
+                    gridsBorderPanel := getBorderPanel();
+
+                    editBorder( edgeWidthIn,
+                                colourIn,
+                                gridsBorderPanel);
+                end;
+
         //row deletion
             //clear a row's content
                 procedure TStringGridHelper.clearRow(rowIndexIn : integer);
