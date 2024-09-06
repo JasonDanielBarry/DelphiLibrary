@@ -25,6 +25,8 @@ interface
                 //test if a row is empty
                     function rowIsEmpty(rowIndexIn : integer) : boolean;
             public
+                //check cell is empty string
+                    function cellIsEmpty(colIn, rowIn : integer) : boolean;
                 //create border
                     procedure createBorder( const edgeWidthIn   : integer;
                                             const colourIn      : TColor    );
@@ -115,20 +117,23 @@ implementation
             function TStringGridHelper.checkCellIsDouble(colIn, rowIn : integer) : boolean;
                 var
                     cellIsDoubleOut : boolean;
+                    dummy           : double;
                 begin
-                    if (NOT(Cells[colIn, rowIn] = '')) then
-                        try
-                            //try converting the cell contents to a double
-                                cells[colIn, rowIn].ToDouble;
-                                cellIsDoubleOut := True;
-                        except
-                            //if conversion to double fails return error message
-                                cellIsDoubleOut := False;
-                        end
-                    else
-                        cellIsDoubleOut := False;
+                    cellIsDoubleOut := TryStrToFloat(Cells[colIn, rowIn], dummy);
 
-                    result := cellIsDoubleOut;                
+//                    if (NOT(Cells[colIn, rowIn] = '')) then
+//                        try
+//                            //try converting the cell contents to a double
+//                                cells[colIn, rowIn].ToDouble();
+//                                cellIsDoubleOut := True;
+//                        except
+//                            //if conversion to double fails return error message
+//                                cellIsDoubleOut := False;
+//                        end
+//                    else
+//                        cellIsDoubleOut := False;
+
+                    result := cellIsDoubleOut;
                 end;
 
         //test if a row is empty
@@ -138,7 +143,7 @@ implementation
                 begin
                     for colIndex := 0 to (ColCount - 1) do
                         begin
-                            result := cells[colIndex, rowIndexIn].IsEmpty();
+                            result := cellIsEmpty(colIndex, rowIndexIn);
 
                             if (result = false) then
                                 break;
@@ -146,6 +151,12 @@ implementation
                 end;
 
     //public
+        //check cell is empty string
+            function TStringGridHelper.cellIsEmpty(colIn, rowIn : integer) : boolean;
+                begin
+                    result := (cells[colIn, rowIn] = '');
+                end;
+
         //create border
             procedure TStringGridHelper.createBorder(   const edgeWidthIn   : integer;
                                                         const colourIn      : TColor    );
