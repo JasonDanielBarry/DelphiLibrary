@@ -108,9 +108,9 @@ implementation
         //destructor
             destructor TGeomLine.destroy();
                 begin
-                    inherited destroy();
-
                     FreeAndNil(lineVector);
+
+                    inherited destroy();
                 end;
 
         //calculations
