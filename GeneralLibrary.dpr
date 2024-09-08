@@ -32,12 +32,13 @@ uses
   DrawingAxisConversionClass in 'Graphics\Drawing\DrawingAxisConversionClass.pas',
   DrawingTypes in 'Graphics\Drawing\DrawingTypes.pas',
   SkiaDrawingMethods in 'Graphics\Drawing\Skia\SkiaDrawingMethods.pas',
-  LimitStateTypes in 'Engineering\LimitStateTypes.pas',
+  LimitStateMaterialClass in 'Engineering\LimitStateMaterialClass.pas',
   LinearAlgebraTypes in 'GeneralMath\LinearAlgebra\LinearAlgebraTypes.pas',
   VectorMethods in 'GeneralMath\LinearAlgebra\VectorMethods.pas',
   MatrixDeterminantMethods in 'GeneralMath\LinearAlgebra\Matrices\MatrixDeterminantMethods.pas',
   MatrixHelperMethods in 'GeneralMath\LinearAlgebra\Matrices\MatrixHelperMethods.pas',
-  MatrixMethods in 'GeneralMath\LinearAlgebra\Matrices\MatrixMethods.pas';
+  MatrixMethods in 'GeneralMath\LinearAlgebra\Matrices\MatrixMethods.pas',
+  LimitStateAngleClass in 'Engineering\LimitStateAngleClass.pas';
 
 {$R *.res}
 
