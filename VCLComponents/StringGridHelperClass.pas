@@ -121,18 +121,6 @@ implementation
                 begin
                     cellIsDoubleOut := TryStrToFloat(Cells[colIn, rowIn], dummy);
 
-//                    if (NOT(Cells[colIn, rowIn] = '')) then
-//                        try
-//                            //try converting the cell contents to a double
-//                                cells[colIn, rowIn].ToDouble();
-//                                cellIsDoubleOut := True;
-//                        except
-//                            //if conversion to double fails return error message
-//                                cellIsDoubleOut := False;
-//                        end
-//                    else
-//                        cellIsDoubleOut := False;
-
                     result := cellIsDoubleOut;
                 end;
 
@@ -173,6 +161,7 @@ implementation
                         borderPanel := TPanel.Create(self);
                         borderPanel.Parent := self.Parent;
                         borderPanel.Name := borderPanelName();
+                        borderpanel.StyleElements := [seFont, seClient, seBorder];
 
                     //prime panel to be a border
                         borderPanel.ParentBackground := False;
