@@ -5,4 +5,5 @@
 ..\DelphiLibrary\Geometry;
 ..\DelphiLibrary\Graphics\Drawing;
 ..\DelphiLibrary\Graphics\Drawing\Skia;
-..\DelphiLibrary\VCLComponents;
+..\DelphiLibrary\WindowsVCL;
+..\DelphiLibrary\WindowsVCL\HelperClasses;

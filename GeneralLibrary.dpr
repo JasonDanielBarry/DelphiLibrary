@@ -20,8 +20,6 @@ uses
   System.Classes,
   GeomLineClass in 'Geometry\GeomLineClass.pas',
   GeomPolyLineClass in 'Geometry\GeomPolyLineClass.pas',
-  StringGridHelperClass in 'VCLComponents\StringGridHelperClass.pas',
-  GeneralComponentHelperMethods in 'VCLComponents\GeneralComponentHelperMethods.pas',
   InterpolatorClass in 'GeneralMath\InterpolatorClass.pas',
   GeometryTypes in 'Geometry\GeometryTypes.pas',
   GeomSpaceVectorClass in 'Geometry\GeomSpaceVectorClass.pas',
@@ -38,7 +36,10 @@ uses
   MatrixDeterminantMethods in 'GeneralMath\LinearAlgebra\Matrices\MatrixDeterminantMethods.pas',
   MatrixHelperMethods in 'GeneralMath\LinearAlgebra\Matrices\MatrixHelperMethods.pas',
   MatrixMethods in 'GeneralMath\LinearAlgebra\Matrices\MatrixMethods.pas',
-  LimitStateAngleClass in 'Engineering\LimitStateAngleClass.pas';
+  LimitStateAngleClass in 'Engineering\LimitStateAngleClass.pas',
+  GeneralComponentHelperMethods in 'WindowsVCL\GeneralComponentHelperMethods.pas',
+  PageControlHelperClass in 'WindowsVCL\HelperClasses\PageControlHelperClass.pas',
+  StringGridHelperClass in 'WindowsVCL\HelperClasses\StringGridHelperClass.pas';
 
 {$R *.res}
 
