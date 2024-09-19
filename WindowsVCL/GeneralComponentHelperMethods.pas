@@ -3,12 +3,16 @@ unit GeneralComponentHelperMethods;
 interface
 
     uses
-        system.SysUtils, winapi.Windows, Vcl.Forms, vcl.Buttons;
+        system.SysUtils,
+        winapi.Windows,
+        Vcl.Controls, Vcl.Forms, vcl.Buttons;
 
     function strToFloatZero(const stringValueIn : string) : double;
 
     procedure setSpeedButtonDown(   const  groupIndexIn  : integer;
-                                    var speedButtonInOut : TSpeedButton);
+                                    var speedButtonInOut : TSpeedButton );
+
+    procedure orderComponentsLeftToRight( arrControlsIn : TArray<TControl> ); overload;
 
 implementation
 
@@ -28,11 +32,36 @@ implementation
         end;
 
     procedure setSpeedButtonDown(   const  groupIndexIn  : integer;
-                                    var speedButtonInOut : TSpeedButton);
+                                    var speedButtonInOut : TSpeedButton );
         begin
             speedButtonInOut.AllowAllUp := True;
             speedButtonInOut.GroupIndex := groupIndexIn;
             speedButtonInOut.Down       := True;
+        end;
+
+    procedure orderComponentsLeftToRight(   const leftComponentIn   : TControl;
+                                            var rightComponentInOut : TControl  ); overload;
+        begin
+            rightComponentInOut.Left := leftComponentIn.left + leftComponentIn.Width + 1;
+        end;
+
+    procedure orderComponentsLeftToRight( arrControlsIn : TArray<TControl> );
+        var
+            i, arrLen                   : integer;
+            leftControl, rightControl   : TControl;
+        begin
+            arrLen := length(arrControlsIn);
+
+            leftControl := arrControlsIn[0];
+
+            for i := 1 to (arrLen - 1) do
+                begin
+                    rightControl := arrControlsIn[i];
+
+                    orderComponentsLeftToRight(leftControl, rightControl);
+
+                    leftControl := rightControl;
+                end;
         end;
 
 end.

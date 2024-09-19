@@ -161,7 +161,7 @@ implementation
                         borderPanel := TPanel.Create(self);
                         borderPanel.Parent := self.Parent;
                         borderPanel.Name := borderPanelName();
-                        borderpanel.StyleElements := [seFont, seClient, seBorder];
+                        borderpanel.StyleElements := [seFont, {seClient, }seBorder];
 
                     //prime panel to be a border
                         borderPanel.ParentBackground := False;
