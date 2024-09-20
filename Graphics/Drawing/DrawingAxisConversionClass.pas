@@ -189,36 +189,48 @@ implementation
 
                         if (adjustByDomainIn) then
                             begin
-                                var newRange, rangeMiddle : double;
+                                var newRange, rangeBotton, rangeMiddle, rangeTop : double;
 
                                 //calculate new range: R = D(1/r)(h/w)
                                     newRange := (1 / ratioIn) * drawingDomain() * (canvasSpace.height / canvasSpace.width);
 
-                                //find the range middle
+                                //calculate the range middle
                                     rangeMiddle := (drawingSpace.minPoint.y + drawingSpace.maxPoint.y) / 2;
 
-                                setRange(rangeMiddle - newRange / 2, rangeMiddle + newRange / 2);
+                                //calcualte the range top and bottom
+                                    rangeBotton := rangeMiddle - newRange / 2;
+                                    rangeTop    := rangeMiddle + newRange / 2;
+
+                                setRange( rangeBotton, rangeTop );
                             end
                         else
                             begin
-                                var newDomain, domainMiddle : double;
+                                var newDomain, domainLeft ,domainMiddle, domainRight : double;
 
                                 //calculate new domain: D = R(r)(w/h)
                                     newDomain := ratioIn * drawingRange() * (canvasSpace.width / canvasSpace.height);
 
-                                //find the domain middle
+                                //calculate the domain middle
                                     domainMiddle := (drawingSpace.minPoint.x + drawingSpace.maxPoint.x) / 2;
 
-                                setDomain(domainMiddle - newDomain / 2, domainMiddle + newDomain / 2);
+                                //calculate the domain left and right
+                                    domainLeft  := domainMiddle - newDomain / 2;
+                                    domainRight := domainMiddle + newDomain / 2;
+
+                                setDomain( domainLeft, domainRight );
                             end;
                     end;
 
                 procedure TDrawingAxisConverter.setDrawingSpaceRatioOneToOne();
                     var
-                        adjustByDomain : boolean;
+                        adjustByDomain          : boolean;
+                        domainRatio, rangeRatio : double;
                     begin
                         //if the domain/width ratio is larger you must size by the domain
+                            domainRatio := ( drawingDomain() / canvasSpace.width );
+
                         //if the range/height ratio is larger you must size by the range
+                            rangeRatio := ( drawingRange() / canvasSpace.height );
 
                             adjustByDomain := (drawingDomain() / canvasSpace.width) > (drawingRange() / canvasSpace.height);
 
@@ -354,17 +366,17 @@ implementation
                         begin
                             pointF := XY_to_LTF(X_In, Y_In);
 
-                            result := point(round(pointF.X), round(pointF.Y))
+                            result := point( round(pointF.X), round(pointF.Y) )
                         end;
 
                     function TDrawingAxisConverter.XY_to_LT(pointIn : TGeomPoint) : TPoint;
                         begin
-                            result := XY_to_LT(pointIn.x, pointIn.y);
+                            result := XY_to_LT( pointIn.x, pointIn.y );
                         end;
 
                     function TDrawingAxisConverter.arrXY_to_arrLT(arrXY_In : TArray<TGeomPoint>) : TArray<TPoint>;
                         var
-                            i               : integer;
+                            i, x_Int, y_Int : integer;
                             arrPointF       : TArray<TPointF>;
                             arrPointsOut    : TArray<TPoint>;
                         begin
@@ -373,7 +385,12 @@ implementation
                             SetLength(arrPointsOut, length(arrPointF));
 
                             for i := 0 to (length(arrPointsOut) - 1) do
-                                arrPointsOut[i] := point(round(arrPointF[i].X), round(arrPointF[i].Y));
+                                begin
+                                    x_Int := round(arrPointF[i].X);
+                                    y_Int := round(arrPointF[i].Y);
+
+                                    arrPointsOut[i] := point(x_Int, y_Int);
+                                end;
 
                             result := arrPointsOut;
                         end;
