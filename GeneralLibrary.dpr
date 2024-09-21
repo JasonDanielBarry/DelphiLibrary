@@ -28,7 +28,6 @@ uses
   GeometryMathMethods in 'Geometry\GeometryMathMethods.pas',
   LineIntersectionMethods in 'GeneralMath\LinearAlgebra\LineIntersectionMethods.pas',
   DrawingAxisConversionClass in 'Graphics\Drawing\DrawingAxisConversionClass.pas',
-  DrawingTypes in 'Graphics\Drawing\DrawingTypes.pas',
   SkiaDrawingMethods in 'Graphics\Drawing\Skia\SkiaDrawingMethods.pas',
   LimitStateMaterialClass in 'Engineering\LimitStateMaterialClass.pas',
   LinearAlgebraTypes in 'GeneralMath\LinearAlgebra\LinearAlgebraTypes.pas',

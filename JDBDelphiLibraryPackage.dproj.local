@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/09/20 23:09:55.000.072,=rtl.dcp</Transaction>
+    <Transaction>2024/09/20 23:10:36.000.319,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\DelphiLibraryPackage.dproj=D:\Users\jason\Documents\Embarcadero\Studio\Projects\Package1.dproj</Transaction>
+    <Transaction>2024/09/20 23:14:53.000.476,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
+    <Transaction>2024/09/20 23:16:31.000.313,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Frames\Graphic2DFrame.pas</Transaction>
+    <Transaction>2024/09/20 23:16:31.000.313,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.dfm=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Frames\Graphic2DFrame.dfm</Transaction>
+    <Transaction>2024/09/20 23:32:13.000.054,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\DelphiLibraryPackage.dproj=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\JDBDelphiLibraryPackage.dproj</Transaction>
+    <Transaction>2024/09/20 23:33:07.000.178,=vcl.dcp</Transaction>
+    <Transaction>2024/09/21 13:48:16.000.992,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
+    <Transaction>2024/09/21 13:49:08.000.713,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Frames\FrameRegistrationUnit.pas</Transaction>
+    <Transaction>2024/09/21 13:59:49.000.408,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Frames\Graphic2DFrame.dfm=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Frames\Graphic2DUnits\Graphic2DFrame.dfm</Transaction>
+    <Transaction>2024/09/21 13:59:49.000.408,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Frames\Graphic2DFrame.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Frames\Graphic2DUnits\Graphic2DFrame.pas</Transaction>
+    <Transaction>2024/09/21 14:21:54.000.047,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
+    <Transaction>2024/09/21 14:22:11.000.749,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Frames\Graphic2DUnits\Graphic2DTypes.pas</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="-1" SortType="1"/>
+</BorlandProject>

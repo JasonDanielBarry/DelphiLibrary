@@ -124,7 +124,6 @@
         <DCCReference Include="Geometry\GeometryMathMethods.pas"/>
         <DCCReference Include="GeneralMath\LinearAlgebra\LineIntersectionMethods.pas"/>
         <DCCReference Include="Graphics\Drawing\DrawingAxisConversionClass.pas"/>
-        <DCCReference Include="Graphics\Drawing\DrawingTypes.pas"/>
         <DCCReference Include="Graphics\Drawing\Skia\SkiaDrawingMethods.pas"/>
         <DCCReference Include="Engineering\LimitStateMaterialClass.pas"/>
         <DCCReference Include="GeneralMath\LinearAlgebra\LinearAlgebraTypes.pas"/>
