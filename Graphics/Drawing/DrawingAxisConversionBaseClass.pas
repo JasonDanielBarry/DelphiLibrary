@@ -27,6 +27,12 @@ interface
                     //drawing-to-canvas
                         function X_to_L(const X_In : double) : double;
                         function Y_to_T(const Y_In : double) : double;
+                //zooming methods
+                    function rescaleRegionDimension(const   currentRegionDimensionIn,
+                                                            currentRegionDimensionMinIn,    currentRegionDimensionMaxIn,
+                                                            scaleFactorIn,                  scaleAboutValueIn           : double) : TArray<double>;
+                    procedure rescaleDomain(const scaleAboutXIn, scaleFactorIn : double);
+                    procedure rescaleRange(const scaleAboutYIn, scaleFactorIn : double);
             protected
                 //helper methods
                     //canvas
@@ -110,25 +116,116 @@ implementation
                 //double verions
                     function TDrawingAxisConverterBase.X_to_L(const X_In : double) : double;
                         var
-                            deltaX : double;
+                            deltaX, drawDomain : double;
                         begin
                             //l(x) = (w/D)(x - xmin)
-
                             deltaX := X_In - drawingSpace.minPoint.x;
+                            drawDomain := calculateDrawingDomain();
 
-                            result := round( (canvasSpace.width / calculateDrawingDomain()) * deltaX );
+                            result := round( ( canvasWidth() / drawDomain ) * deltaX );
                         end;
 
                     function TDrawingAxisConverterBase.Y_to_T(const Y_In : double) : double;
                         var
-                            deltaY : double;
+                            deltaY, drawRange : double;
                         begin
                             //t(y) = (h/R)(ymax - y)
-
                             deltaY := drawingSpace.maxPoint.y - Y_In;
+                            drawRange := calculateDrawingRange();
 
-                            result := round( (canvasSpace.height / calculateDrawingRange()) * deltaY );
+                            result := round( ( canvasHeight() / drawRange ) * deltaY );
                         end;
+
+        //zooming methods
+            function TDrawingAxisConverterBase.rescaleRegionDimension(  const   currentRegionDimensionIn,
+                                                                                currentRegionDimensionMinIn,    currentRegionDimensionMaxIn,
+                                                                                scaleFactorIn,                  scaleAboutValueIn           : double) : TArray<double>;
+                var
+                    newRegionDimension,
+                    newRegionDimensionMin,
+                    newRegionDimensionMax,
+                    RegionDimensionDifference,
+                    minToAbout, minToAboutRatio, regionDimensionMinShift,
+                    aboutToMax, aboutToMaxRatio, RegionDimensionMaxShift : double;
+                begin
+                    //calculate the new domain
+                        newRegionDimension := currentRegionDimensionIn * scaleFactorIn;
+
+                    //calculate the different between the new and current domains (sign is important)
+                        RegionDimensionDifference    := newRegionDimension - currentRegionDimensionIn;
+
+                    //calculate lengths to the left and right of the scaleAboutX value
+                        minToAbout := scaleAboutValueIn - currentRegionDimensionMinIn;
+                        aboutToMax := currentRegionDimensionMaxIn - scaleAboutValueIn;
+
+                    //calculate the ratio between the about length and the current domain
+                        minToAboutRatio := minToAbout / currentRegionDimensionIn;
+                        aboutToMaxRatio := aboutToMax / currentRegionDimensionIn;
+
+                    //calculate the max and min shift
+                        regionDimensionMinShift := (RegionDimensionDifference * minToAboutRatio);
+                        RegionDimensionMaxShift := (RegionDimensionDifference * aboutToMaxRatio);
+
+                    //calculate the new domain min and max
+                        newRegionDimensionMin := currentRegionDimensionMinIn - regionDimensionMinShift;
+                        newRegionDimensionMax := currentRegionDimensionMaxIn + RegionDimensionMaxShift;
+
+                    result := [newRegionDimensionMin, newRegionDimensionMax];
+                end;
+
+            procedure TDrawingAxisConverterBase.rescaleDomain(const scaleAboutXIn, scaleFactorIn : double);
+                var
+                    currentDomain,
+                    currentDomainMin,   currentDomainMax,
+                    newDomainMin,       newDomainMax    : double;
+                    domainMinAndMax                     : TArray<double>;
+                begin
+                    //get current info
+                        currentDomain       := calculateDrawingDomain();
+                        currentDomainMin    := domainMin();
+                        currentDomainMax    := domainMax();
+
+                    //calculate new domain min and max
+                        domainMinAndMax := rescaleRegionDimension(
+                                                                    currentDomain,
+                                                                    currentDomainMin,
+                                                                    currentDomainMax,
+                                                                    scaleFactorIn,
+                                                                    scaleAboutXIn
+                                                                 );
+
+                        newDomainMin := domainMinAndMax[0];
+                        newDomainMax := domainMinAndMax[1];
+
+                    setDomain( newDomainMin, newDomainMax );
+                end;
+
+            procedure TDrawingAxisConverterBase.rescaleRange(const scaleAboutYIn, scaleFactorIn : double);
+                var
+                    currentRange,
+                    currentRangeMin,    currentRangeMax,
+                    newRangeMin,        newRangeMax     : double;
+                    rangeMinAndMax                      : TArray<double>;
+                begin
+                    //get current info
+                        currentRange       := calculateDrawingRange();
+                        currentRangeMin    := rangeMin();
+                        currentRangeMax    := rangeMax();
+
+                    //calculate new range min and max
+                        rangeMinAndMax := rescaleRegionDimension(
+                                                                    currentRange,
+                                                                    currentRangeMin,
+                                                                    currentRangeMax,
+                                                                    scaleFactorIn,
+                                                                    scaleAboutYIn
+                                                                );
+
+                        newRangeMin := rangeMinAndMax[0];
+                        newRangeMax := rangeMinAndMax[1];
+
+                    setRange( newRangeMin, newRangeMax );
+                end;
 
     //protected
         //helper methods

@@ -63,8 +63,8 @@
     <File Path="Graphics\Drawing"/>
     <File Path="Graphics\Drawing\Skia"/>
     <File Path="Graphics\Drawing\Skia\SkiaDrawingMethods.pas"/>
-    <File Path="Graphics\Drawing\DrawingAxisConversionClass.pas"/>
     <File Path="Graphics\Drawing\DrawingAxisConversionBaseClass.pas"/>
+    <File Path="Graphics\Drawing\DrawingAxisConversionClass.pas"/>
     <File Path="WindowsVCL"/>
     <File Path="WindowsVCL\HelperClasses"/>
     <File Path="WindowsVCL\HelperClasses\PageControlHelperClass.pas"/>

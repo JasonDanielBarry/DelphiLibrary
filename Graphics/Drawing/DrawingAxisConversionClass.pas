@@ -42,8 +42,6 @@ interface
 
 implementation
 
-
-
     //public
         //constructor
             constructor TDrawingAxisConverter.create();
