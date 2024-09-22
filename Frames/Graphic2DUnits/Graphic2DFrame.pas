@@ -3,14 +3,14 @@ unit Graphic2DFrame;
 interface
 
     uses
-      Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, system.Types,
+      Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, system.Types, system.UITypes,
       Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Skia,
       Vcl.Buttons, Vcl.ExtCtrls, Vcl.Skia,
       DrawingAxisConversionClass,
       Graphic2DTypes;
 
     type
-        [ComponentPlatformsAttribute(pidWin32 AND pidWin64)]
+        [ComponentPlatformsAttribute(pidWin32 or pidWin64)]
         TGraphic2D = class(TFrame)
             SkPaintBoxGraphic: TSkPaintBox;
             GridPanelGraphicControls: TGridPanel;
@@ -30,7 +30,7 @@ interface
                     axisConverter       : TDrawingAxisConverter;
                     onGraphicDrawEvent  : TGraphicDrawEvent;
                 //drawing procedure
-                    procedure preDrawGraphic(); virtual;
+                    procedure preDrawGraphic(const canvasIn : ISkCanvas); virtual;
             protected
                 //
             public
@@ -46,10 +46,9 @@ implementation
 
     //private
         //drawing procedure
-            procedure TGraphic2D.preDrawGraphic();
+            procedure TGraphic2D.preDrawGraphic(const canvasIn : ISkCanvas);
                 begin
-
-
+                    canvasIn.Clear(TAlphaColors.Null);
                 end;
 
     procedure TGraphic2D.SkPaintBoxGraphicDraw( ASender         : TObject;
@@ -57,7 +56,7 @@ implementation
                                                 const ADest     : TRectF;
                                                 const AOpacity  : Single    );
         begin
-            preDrawGraphic();
+            preDrawGraphic(ACanvas);
 
             if ( Assigned(onGraphicDrawEvent) ) then
                 onGraphicDrawEvent(ASender, ACanvas, axisConverter);

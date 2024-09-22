@@ -38,7 +38,8 @@ uses
   LimitStateAngleClass in 'Engineering\LimitStateAngleClass.pas',
   GeneralComponentHelperMethods in 'WindowsVCL\GeneralComponentHelperMethods.pas',
   PageControlHelperClass in 'WindowsVCL\HelperClasses\PageControlHelperClass.pas',
-  StringGridHelperClass in 'WindowsVCL\HelperClasses\StringGridHelperClass.pas';
+  StringGridHelperClass in 'WindowsVCL\HelperClasses\StringGridHelperClass.pas',
+  DrawingAxisConversionBaseClass in 'Graphics\Drawing\DrawingAxisConversionBaseClass.pas';
 
 {$R *.res}
 

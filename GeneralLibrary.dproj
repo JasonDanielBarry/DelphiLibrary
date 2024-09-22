@@ -135,6 +135,7 @@
         <DCCReference Include="WindowsVCL\GeneralComponentHelperMethods.pas"/>
         <DCCReference Include="WindowsVCL\HelperClasses\PageControlHelperClass.pas"/>
         <DCCReference Include="WindowsVCL\HelperClasses\StringGridHelperClass.pas"/>
+        <DCCReference Include="Graphics\Drawing\DrawingAxisConversionBaseClass.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

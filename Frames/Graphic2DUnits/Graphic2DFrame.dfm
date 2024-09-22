@@ -87,6 +87,7 @@ object Graphic2D: TGraphic2D
         Control = SpeedButtonShiftDown
         Row = 0
       end>
+    ParentColor = True
     RowCollection = <
       item
         Value = 100.000000000000000000

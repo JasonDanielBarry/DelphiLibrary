@@ -6,7 +6,7 @@ interface
         system.SysUtils, system.Math,
         Vcl.ExtCtrls,
         GeometryTypes,
-        DrawingTypes, DrawingAxisConversionClass;
+        DrawingAxisConversionClass;
 
     type
         TGeomBase = class
