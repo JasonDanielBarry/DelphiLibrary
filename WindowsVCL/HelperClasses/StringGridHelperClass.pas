@@ -27,6 +27,17 @@ interface
             public
                 //check cell is empty string
                     function cellIsEmpty(colIn, rowIn : integer) : boolean;
+                //clear a grid of its contents
+                    //clear a cell
+                        procedure clearCell(colIn, rowIn : integer);
+                    //clear column
+                        procedure clearColumn(const colIndexIn : integer);
+                        procedure clearColumns(const startColIndexIn : integer);
+                    //clear row
+                        procedure clearRow(rowIndexIn : integer);
+                        procedure clearRows(const startRowIndexIn : integer);
+                    procedure clearCells(const startColIndexIn, startRowIndexIn : integer);
+                    procedure clearAllCells();
                 //create border
                     procedure createBorder( const edgeWidthIn   : integer;
                                             const colourIn      : TColor    );
@@ -34,8 +45,7 @@ interface
                     procedure editBorder(   const edgeWidthIn   : integer;
                                             const colourIn      : TColor    ); overload;
                 //row deletion
-                    //clear a row's content
-                        procedure clearRow(rowIndexIn : integer);
+
                     //delete a grid row
                         procedure deleteRow(rowIndexIn : integer);
                     //delete an empty row
@@ -145,6 +155,61 @@ implementation
                     result := (cells[colIn, rowIn] = '');
                 end;
 
+        //clear a grid of its contents
+            //clear a cell
+                procedure TStringGridHelper.clearCell(colIn, rowIn : integer);
+                    begin
+                        cells[colIn, rowIn] := '';
+                    end;
+
+            //clear column
+                procedure TStringGridHelper.clearColumn(const colIndexIn : integer);
+                    var
+                        rowIndex : integer;
+                    begin
+                        for rowIndex := 0 to (RowCount - 1) do
+                            clearCell( colIndexIn, rowIndex );
+                    end;
+
+                procedure TStringGridHelper.clearColumns(const startColIndexIn : integer);
+                    var
+                        colIndex : integer;
+                    begin
+                        for colIndex := startColIndexIn to (ColCount - 1) do
+                            clearColumn(colIndex);
+                    end;
+
+            //clear a row's content
+                procedure TStringGridHelper.clearRow(rowIndexIn : integer);
+                    var
+                        colIndex : integer;
+                    begin
+                        for colIndex := 0 to (ColCount - 1) do
+                            clearCell( colIndex, rowIndexIn );
+                    end;
+
+                procedure TStringGridHelper.clearRows(const startRowIndexIn : integer);
+                    var
+                        rowIndex : integer;
+                    begin
+                        for rowIndex := startRowIndexIn to (RowCount - 1) do
+                            clearRow(rowIndex);
+                    end;
+
+            procedure TStringGridHelper.clearCells(const startColIndexIn, startRowIndexIn : integer);
+                var
+                    c, r : integer;
+                begin
+                    for c := startColIndexIn to (ColCount - 1) do
+                        for r := startRowIndexIn to (RowCount - 1) do
+                            clearCell(c, r);
+                end;
+
+            procedure TStringGridHelper.clearAllCells();
+                begin
+                    clearCells(0, 0);
+                end;
+
         //create border
             procedure TStringGridHelper.createBorder(   const edgeWidthIn   : integer;
                                                         const colourIn      : TColor    );
@@ -189,15 +254,6 @@ implementation
                 end;
 
         //row deletion
-            //clear a row's content
-                procedure TStringGridHelper.clearRow(rowIndexIn : integer);
-                    var
-                        colIndex : integer;
-                    begin
-                        for colIndex := 0 to (ColCount - 1) do
-                            cells[colIndex, rowIndexIn] := '';
-                    end;
-
             //delete a grid row
                 procedure TStringGridHelper.deleteRow(rowIndexIn : integer);
                     var
