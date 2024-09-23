@@ -36,6 +36,8 @@
     <Transaction>2024/09/20 23:08:43.000.826,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Graphics\Drawing\DrawingTypes.pas=</Transaction>
     <Transaction>2024/09/22 22:18:34.000.187,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
     <Transaction>2024/09/22 22:19:02.000.360,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Graphics\Drawing\DrawingAxisConversionBaseClass.pas</Transaction>
+    <Transaction>2024/09/23 18:07:50.000.814,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
+    <Transaction>2024/09/23 18:08:04.000.726,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Graphics\Drawing\DrawingAxisConversionZoomingClass.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="Engineering"/>
@@ -65,6 +67,7 @@
     <File Path="Graphics\Drawing\Skia\SkiaDrawingMethods.pas"/>
     <File Path="Graphics\Drawing\DrawingAxisConversionBaseClass.pas"/>
     <File Path="Graphics\Drawing\DrawingAxisConversionClass.pas"/>
+    <File Path="Graphics\Drawing\DrawingAxisConversionZoomingClass.pas"/>
     <File Path="WindowsVCL"/>
     <File Path="WindowsVCL\HelperClasses"/>
     <File Path="WindowsVCL\HelperClasses\PageControlHelperClass.pas"/>

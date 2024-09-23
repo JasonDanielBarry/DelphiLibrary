@@ -39,7 +39,8 @@ uses
   GeneralComponentHelperMethods in 'WindowsVCL\GeneralComponentHelperMethods.pas',
   PageControlHelperClass in 'WindowsVCL\HelperClasses\PageControlHelperClass.pas',
   StringGridHelperClass in 'WindowsVCL\HelperClasses\StringGridHelperClass.pas',
-  DrawingAxisConversionBaseClass in 'Graphics\Drawing\DrawingAxisConversionBaseClass.pas';
+  DrawingAxisConversionBaseClass in 'Graphics\Drawing\DrawingAxisConversionBaseClass.pas',
+  DrawingAxisConversionZoomingClass in 'Graphics\Drawing\DrawingAxisConversionZoomingClass.pas';
 
 {$R *.res}
 

@@ -5,10 +5,10 @@ interface
     uses
         System.SysUtils, system.Math, system.Types,
         GeometryTypes,
-        DrawingAxisConversionBaseClass;
+        DrawingAxisConversionZoomingClass;
 
     type
-        TDrawingAxisConverter = class(TDrawingAxisConverterBase)
+        TDrawingAxisConverter = class(TDrawingAxisZoomingConverter)
             private
                 //zooming methods
             public
@@ -16,15 +16,6 @@ interface
                     constructor create();
                 //destructor
                     destructor destroy(); override;
-                //modifiers
-                    //canvas boundaries
-                        procedure setCanvasRegion(const heightIn, widthIn : integer);
-                    //drawing space boundaries
-                        procedure setDrawingRegion( const bufferIn : double;
-                                                    const regionIn : TGeomBox );
-                        procedure setDrawingSpaceRatio( const adjustByDomainIn    : boolean;
-                                                        const ratioIn             : double    );
-                        procedure setDrawingSpaceRatioOneToOne();
                 //convertion calculations
                     //canvas-to-drawing
                         function LT_to_XY(const pointIn : TPointF) : TGeomPoint; overload;
@@ -54,112 +45,6 @@ implementation
                 begin
                     inherited destroy();
                 end;
-
-        //modifiers
-            //canvasSpace boundaries
-                procedure TDrawingAxisConverter.setCanvasRegion(const heightIn, widthIn : integer);
-                    begin
-                        setCanvasHeight(heightIn);
-                        setCanvasWidth(widthIn);
-                    end;
-
-            //drawingSpace space boundaries
-                procedure TDrawingAxisConverter.setDrawingRegion(   const bufferIn : double;
-                                                                    const regionIn : TGeomBox );
-                    var
-                        buffer,
-                        regionInDomain, domainBuffer,
-                        newDomainMin,   newDomainMax,
-                        regionInRange,  rangeBuffer,
-                        newRangeMin,    newRangeMax     : double;
-                    begin
-                        //set valid buffer
-                            buffer := min(5, bufferIn);
-                            buffer := max(buffer, 0);
-
-                        //test buffer is valid
-                            if (bufferIn < 0) then
-                                exit();
-
-                        //calculate the domain and range of regionIn
-                            regionInDomain   := regionIn.maxPoint.x - regionIn.minPoint.x;
-                            regionInRange    := regionIn.maxPoint.y - regionIn.minPoint.y;
-
-                        //calculate the region buffers
-                            domainBuffer := (bufferIn / 100) * regionInDomain;
-                            rangeBuffer  := (bufferIn / 100) * regionInRange;
-
-                        //calculate new mins and maxes
-                            newDomainMin := regionIn.minPoint.x - domainBuffer / 2;
-                            newDomainMax := regionIn.maxPoint.x + domainBuffer / 2;
-
-                            newRangeMin := regionIn.minPoint.y - rangeBuffer  / 2;
-                            newRangeMax := regionIn.maxPoint.y + rangeBuffer  / 2;
-
-                        inherited setDrawingRegion(newDomainMin, newDomainMax, newRangeMin, newRangeMax);
-                    end;
-
-                procedure TDrawingAxisConverter.setDrawingSpaceRatio(   const adjustByDomainIn    : boolean;
-                                                                        const ratioIn             : double    );
-                    begin
-                        //the ratio is defined as the value that satisfies: h/w = r(R/D)
-
-                        //adjust-by-domain means that the domain remains constant and
-                        //a new range is calculated to match the domain based on the input ratio
-
-                        if (adjustByDomainIn) then
-                            begin
-                                var drawDomain, newRange, newRangeMin, rangeMiddle, newRangeMax : double;
-
-                                drawDomain := calculateDrawingDomain();
-
-                                //calculate new range: R = D(1/r)(h/w)
-                                    newRange := (1 / ratioIn) * drawDomain * ( canvasHeight() / canvasWidth() );
-
-                                //calculate the range middle
-                                    rangeMiddle := calculateRangeCentre();
-
-                                //calcualte the range top and bottom
-                                    newRangeMin := rangeMiddle - newRange / 2;
-                                    newRangeMax := rangeMiddle + newRange / 2;
-
-                                setRange( newRangeMin, newRangeMax );
-                            end
-                        else
-                            begin
-                                var drawRange, newDomain, newDomainMin, domainMiddle, newDomainMax : double;
-
-                                drawRange := calculateDrawingRange();
-
-                                //calculate new domain: D = R(r)(w/h)
-                                    newDomain := ratioIn * drawRange * ( canvasWidth() / canvasHeight() );
-
-                                //calculate the domain middle
-                                    domainMiddle := calculateDomainCentre();
-
-                                //calculate the domain left and right
-                                    newDomainMin := domainMiddle - newDomain / 2;
-                                    newDomainMax := domainMiddle + newDomain / 2;
-
-                                setDomain( newDomainMin, newDomainMax );
-                            end;
-                    end;
-
-                procedure TDrawingAxisConverter.setDrawingSpaceRatioOneToOne();
-                    var
-                        adjustByDomain          : boolean;
-                        domainRatio, rangeRatio : double;
-                    begin
-                        //if the domain/width ratio is larger you must size by the domain
-                            domainRatio := ( calculateDrawingDomain() / canvasWidth() );
-
-                        //if the range/height ratio is larger you must size by the range
-                            rangeRatio := ( calculateDrawingRange() / canvasHeight() );
-
-                            adjustByDomain := ( domainRatio > rangeRatio );
-
-                        setDrawingSpaceRatio(adjustByDomain, 1)
-                    end;
 
         //convertion calculations
             //canvasSpace-to-drawing
@@ -253,5 +138,7 @@ implementation
 
                             result := arrPointsOut;
                         end;
+
+        
 
 end.

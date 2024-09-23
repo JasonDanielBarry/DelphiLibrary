@@ -16,6 +16,7 @@ interface
             constructor create(xIn, yIn, zIn : double); overload;
             constructor create(xIn, yIn : double); overload;
             constructor create(PointFIn : TPointF); overload;
+            constructor create(PointIn : TPoint); overload;
             function greaterThan(const pointIn : TGeomPoint) : boolean;
             function greaterThanOrEqual(const pointIn : TGeomPoint) : boolean;
             function isEqual(const pointIn : TGeomPoint) : boolean;
@@ -52,6 +53,11 @@ implementation
         constructor TGeomPoint.create(PointFIn : TPointF);
             begin
                 create(PointFIn.X, PointFIn.Y);
+            end;
+
+        constructor TGeomPoint.create(PointIn : TPoint);
+            begin
+                create(PointIn.X, PointIn.Y)
             end;
 
         function TGeomPoint.greaterThan(const pointIn : TGeomPoint) : boolean;
