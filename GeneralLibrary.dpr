@@ -40,7 +40,10 @@ uses
   PageControlHelperClass in 'WindowsVCL\HelperClasses\PageControlHelperClass.pas',
   StringGridHelperClass in 'WindowsVCL\HelperClasses\StringGridHelperClass.pas',
   DrawingAxisConversionBaseClass in 'Graphics\Drawing\DrawingAxisConversionBaseClass.pas',
-  DrawingAxisConversionZoomingClass in 'Graphics\Drawing\DrawingAxisConversionZoomingClass.pas';
+  DrawingAxisConversionZoomingClass in 'Graphics\Drawing\DrawingAxisConversionZoomingClass.pas',
+  SkiaDrawingClass in 'Graphics\Drawing\Skia\SkiaDrawingClass.pas',
+  GeometryDrawingTypes in 'Geometry\GeometryDrawingTypes.pas',
+  GeomPolygonClass in 'Geometry\GeomPolygonClass.pas';
 
 {$R *.res}
 

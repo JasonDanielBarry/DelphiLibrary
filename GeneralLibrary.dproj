@@ -137,6 +137,9 @@
         <DCCReference Include="WindowsVCL\HelperClasses\StringGridHelperClass.pas"/>
         <DCCReference Include="Graphics\Drawing\DrawingAxisConversionBaseClass.pas"/>
         <DCCReference Include="Graphics\Drawing\DrawingAxisConversionZoomingClass.pas"/>
+        <DCCReference Include="Graphics\Drawing\Skia\SkiaDrawingClass.pas"/>
+        <DCCReference Include="Geometry\GeometryDrawingTypes.pas"/>
+        <DCCReference Include="Geometry\GeomPolygonClass.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -246,33 +246,16 @@ implementation
         //bounding box
             function TGeomPolyLine.boundingBox() : TGeomBox;
                 var
-                    i       : integer;
-                    boxOut  : TGeomBox;
+                    i           : integer;
+                    boxOut      : TGeomBox;
+                    arrGeomBase : TArray<TGeomBase>;
                 begin
-                    //initial values
-                        //min
-                            boxOut.minPoint.x := arrVertices[0].x;
-                            boxOut.minPoint.y := arrVertices[0].y;
-                            boxOut.minPoint.z := arrVertices[0].z;
+                    SetLength(arrGeomBase, length(arrLines));
 
-                        //max
-                            boxOut.maxPoint.x := arrVertices[0].x;
-                            boxOut.maxPoint.y := arrVertices[0].y;
-                            boxOut.maxPoint.z := arrVertices[0].z;
+                    for i := 0 to (length(arrLines) - 1) do
+                        arrGeomBase[i] := arrLines[i];
 
-                    //loop through vertices and find extents
-                        for i := 1 to (vertexCount() - 1) do
-                            begin
-                                //min
-                                    boxOut.minPoint.x := min(boxOut.minPoint.x, arrVertices[i].x);
-                                    boxOut.minPoint.y := min(boxOut.minPoint.y, arrVertices[i].y);
-                                    boxOut.minPoint.z := min(boxOut.minPoint.z, arrVertices[i].z);
-
-                                //max
-                                    boxOut.maxPoint.x := max(boxOut.maxPoint.x, arrVertices[i].x);
-                                    boxOut.maxPoint.y := max(boxOut.maxPoint.y, arrVertices[i].y);
-                                    boxOut.maxPoint.z := max(boxOut.maxPoint.z, arrVertices[i].z);
-                            end;
+                    boxOut := determineBoundingBox( arrGeomBase );
 
                     result := boxOut;
                 end;

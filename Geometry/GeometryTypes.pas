@@ -10,6 +10,7 @@ interface
      type
         EAxis = (eaX = 0, eaY = 1, eaZ = 2);
         EBoundaryRelation = (brInside = 0, brOn = 1, brOutside = 2);
+        EGeomType = (gtLine = 0, gtPolyline = 1, gtPolygon = 2);
 
         TGeomPoint = record
             x, y, z : double;
@@ -26,6 +27,8 @@ interface
 
         TGeomBox = record
             minPoint, maxPoint : TGeomPoint;
+            constructor create(point1In, point2In : TGeomPoint); overload;
+            constructor create(arrGeomBoxesIn : TArray<TGeomBox>); overload;
             function pointIsWithin(const pointIn : TGeomPoint) : boolean;
         end;
 
@@ -34,6 +37,8 @@ interface
             relativeToBound     : EBoundaryRelation;
             point               : TGeomPoint;
         end;
+
+     function determineBoundingBox(arrGeomBoxesIn : TArray<TGeomBox>) : TGeomBox;
 
 implementation
 
@@ -96,6 +101,23 @@ implementation
             end;
 
     //TGeomBox
+        constructor TGeomBox.create(point1In, point2In : TGeomPoint);
+            begin
+                //min point
+                    minPoint.x := min(point1In.x, point2In.x);
+                    minPoint.y := min(point1In.y, point2In.y);
+                    minPoint.z := min(point1In.z, point2In.z);
+                //max point
+                    maxPoint.x := max(point1In.x, point2In.x);
+                    maxPoint.y := max(point1In.y, point2In.y);
+                    maxPoint.z := max(point1In.z, point2In.z);
+            end;
+
+        constructor TGeomBox.create(arrGeomBoxesIn : TArray<TGeomBox>);
+            begin
+                Self := determineBoundingBox(arrGeomBoxesIn);
+            end;
+
         function TGeomBox.pointIsWithin(const pointIn: TGeomPoint): boolean;
             var
                 greaterThanMinPoint, lessThanMaxPoint : boolean;
@@ -105,6 +127,33 @@ implementation
                 lessThanMaxPoint := pointIn.lessThanOrEqual(maxPoint);
 
                 result := (greaterThanMinPoint AND lessThanMaxPoint);
+            end;
+
+        function determineBoundingBox(arrGeomBoxesIn : TArray<TGeomBox>) : TGeomBox;
+            var
+                i                   : integer;
+                minPoint, maxPoint  : TGeomPoint;
+                boundingBoxOut      : TGeomBox;
+            begin
+                minPoint := arrGeomBoxesIn[0].minPoint;
+                maxPoint := arrGeomBoxesIn[0].maxPoint;
+
+                for i := 1 to (length(arrGeomBoxesIn) - 1) do
+                    begin
+                        //look for min x, y, z
+                            minPoint.x := min( minPoint.x, arrGeomBoxesIn[i].maxPoint.x );
+                            minPoint.y := min( minPoint.y, arrGeomBoxesIn[i].maxPoint.y );
+                            minPoint.z := min( minPoint.z, arrGeomBoxesIn[i].maxPoint.z );
+
+                        //look for max x, y, z
+                            maxPoint.x := max( maxPoint.x, arrGeomBoxesIn[i].maxPoint.x );
+                            maxPoint.y := max( maxPoint.y, arrGeomBoxesIn[i].maxPoint.y );
+                            maxPoint.z := max( maxPoint.z, arrGeomBoxesIn[i].maxPoint.z );
+                    end;
+
+                boundingBoxOut := TGeomBox.create(minPoint, maxPoint);
+
+                result := boundingBoxOut;
             end;
 
 end.

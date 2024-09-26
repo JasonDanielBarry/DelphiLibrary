@@ -205,14 +205,7 @@ implementation
                 var
                     boxOut : TGeomBox;
                 begin
-                    //min point
-                        boxOut.minPoint.x := min(startPoint.x, endPoint.x);
-                        boxOut.minPoint.y := min(startPoint.y, endPoint.y);
-                        boxOut.minPoint.z := min(startPoint.z, endPoint.z);
-                    //max point
-                        boxOut.maxPoint.x := max(startPoint.x, endPoint.x);
-                        boxOut.maxPoint.y := max(startPoint.y, endPoint.y);
-                        boxOut.maxPoint.z := max(startPoint.z, endPoint.z);
+                    boxOut := TGeomBox.create(startPoint, endPoint);
 
                     result := boxOut;
                 end;
