@@ -10,8 +10,7 @@ interface
       Graphic2DTypes;
 
     type
-        [ComponentPlatformsAttribute(pidWin32 or pidWin64)]
-        TGraphic2D = class(TFrame)
+        TCustomGraphic2D = class(TFrame)
             SkPaintBoxGraphic: TSkPaintBox;
             GridPanelGraphicControls: TGridPanel;
             SpeedButtonZoomIn: TSpeedButton;
@@ -36,6 +35,9 @@ interface
             public
                 constructor Create(AOwner : TComponent); override;
                 destructor destroy(); override;
+                procedure setOnGraphicDrawEvent(const graphicDrawEventIn : TGraphicDrawEvent);
+                function getOnGraphicDrawEvent() : TGraphicDrawEvent;
+
         end;
 
 
@@ -46,35 +48,55 @@ implementation
 
     //private
         //drawing procedure
-            procedure TGraphic2D.preDrawGraphic(const canvasIn : ISkCanvas);
+            procedure TCustomGraphic2D.preDrawGraphic(const canvasIn : ISkCanvas);
                 begin
                     canvasIn.Clear(TAlphaColors.Null);
+
+                    var paint : ISkPaint := TSkPaint.Create(TSkPaintStyle.Stroke);
+                    paint.Color := TAlphaColors.Silver;
+
+                    canvasIn.DrawRect(
+                                        RectF(0, 0, SkPaintBoxGraphic.Width - 1, SkPaintBoxGraphic.Height - 1),
+                                        paint
+                                     );
+
                 end;
 
-    procedure TGraphic2D.SkPaintBoxGraphicDraw( ASender         : TObject;
-                                                const ACanvas   : ISkCanvas;
-                                                const ADest     : TRectF;
-                                                const AOpacity  : Single    );
+    procedure TCustomGraphic2D.SkPaintBoxGraphicDraw(   ASender         : TObject;
+                                                        const ACanvas   : ISkCanvas;
+                                                        const ADest     : TRectF;
+                                                        const AOpacity  : Single    );
         begin
             preDrawGraphic(ACanvas);
+
 
             if ( Assigned(onGraphicDrawEvent) ) then
                 onGraphicDrawEvent(ASender, ACanvas, axisConverter);
         end;
 
     //public
-        constructor TGraphic2D.Create(AOwner : TComponent);
+        constructor TCustomGraphic2D.Create(AOwner : TComponent);
             begin
                 inherited create(AOwner);
 
                 axisConverter := TDrawingAxisConverter.create();
             end;
 
-        destructor TGraphic2D.destroy();
+        destructor TCustomGraphic2D.destroy();
             begin
                 FreeAndNil(axisConverter);
 
                 inherited Destroy();
+            end;
+
+        procedure TCustomGraphic2D.setOnGraphicDrawEvent(const graphicDrawEventIn : TGraphicDrawEvent);
+            begin
+                onGraphicDrawEvent := graphicDrawEventIn;
+            end;
+
+        function TCustomGraphic2D.getOnGraphicDrawEvent() : TGraphicDrawEvent;
+            begin
+                result := onGraphicDrawEvent;
             end;
 
 end.

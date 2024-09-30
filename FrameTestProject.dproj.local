@@ -1,14 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-	<Transactions>
-    <Transaction>2024/09/20 23:46:56.000.915,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2024/09/20 23:47:21.000.736,D:\Users\jason\Documents\Embarcadero\Studio\Projects\Unit1.dfm=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\FrameTest\FrameTestMain.dfm</Transaction>
-    <Transaction>2024/09/20 23:47:21.000.736,D:\Users\jason\Documents\Embarcadero\Studio\Projects\Unit1.pas=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\FrameTest\FrameTestMain.pas</Transaction>
-    <Transaction>2024/09/20 23:47:33.000.800,D:\Users\jason\Documents\Embarcadero\Studio\Projects\Project1.dproj=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\FraeTestProject.dproj</Transaction>
-    <Transaction>2024/09/20 23:54:25.000.615,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\FraeTestProject.dproj=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\FrameTestProject.dproj</Transaction>
-    <Transaction>2024/09/20 23:56:24.000.450,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Frames\Graphic2DFrame.pas</Transaction>
-    <Transaction>2024/09/20 23:57:10.000.597,D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Frames\Graphic2DFrame.pas=</Transaction>
-    <Transaction>2024/09/21 13:47:57.000.745,=D:\Users\jason\Documents\Embarcadero\Studio\Projects\DelphiLibrary\Unit1.pas</Transaction>
+  <Transactions>
+    <Transaction>2024/09/30 10:43:09.409,=C:\Users\jasonbarry\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/09/30 10:43:24.427,C:\Users\jasonbarry\Documents\Embarcadero\Studio\Projects\DelphiLibrary\FrameTest\FrameTestMain.pas=C:\Users\jasonbarry\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/09/30 10:43:24.427,C:\Users\jasonbarry\Documents\Embarcadero\Studio\Projects\DelphiLibrary\FrameTest\FrameTestMain.dfm=C:\Users\jasonbarry\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2024/09/30 10:43:29.946,C:\Users\jasonbarry\Documents\Embarcadero\Studio\Projects\DelphiLibrary\FrameTestProject.dproj=C:\Users\jasonbarry\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
   </Transactions>
-	<ProjectSortOrder AutoSort="-1" SortType="1"/>
 </BorlandProject>

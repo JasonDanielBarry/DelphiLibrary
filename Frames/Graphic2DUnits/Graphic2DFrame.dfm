@@ -1,14 +1,14 @@
-object Graphic2D: TGraphic2D
+object CustomGraphic2D: TCustomGraphic2D
   Left = 0
   Top = 0
-  Width = 940
-  Height = 589
+  Width = 1231
+  Height = 736
   TabOrder = 0
   object SkPaintBoxGraphic: TSkPaintBox
     Left = 0
     Top = 25
-    Width = 940
-    Height = 564
+    Width = 1231
+    Height = 711
     Align = alClient
     OnDraw = SkPaintBoxGraphicDraw
     ExplicitLeft = 624
@@ -19,7 +19,7 @@ object Graphic2D: TGraphic2D
   object GridPanelGraphicControls: TGridPanel
     Left = 0
     Top = 0
-    Width = 940
+    Width = 1231
     Height = 25
     Align = alTop
     BevelOuter = bvNone
@@ -94,7 +94,7 @@ object Graphic2D: TGraphic2D
       end>
     TabOrder = 0
     object SpeedButtonZoomIn: TSpeedButton
-      Left = 765
+      Left = 1056
       Top = 0
       Width = 25
       Height = 25
@@ -103,7 +103,7 @@ object Graphic2D: TGraphic2D
       ExplicitLeft = 911
     end
     object SpeedButtonZoomOut: TSpeedButton
-      Left = 790
+      Left = 1081
       Top = 0
       Width = 25
       Height = 25
@@ -115,7 +115,7 @@ object Graphic2D: TGraphic2D
       ExplicitHeight = 22
     end
     object SpeedButtonZoomExtents: TSpeedButton
-      Left = 815
+      Left = 1106
       Top = 0
       Width = 25
       Height = 25
@@ -127,7 +127,7 @@ object Graphic2D: TGraphic2D
       ExplicitHeight = 22
     end
     object SpeedButtonShiftLeft: TSpeedButton
-      Left = 840
+      Left = 1131
       Top = 0
       Width = 25
       Height = 25
@@ -139,7 +139,7 @@ object Graphic2D: TGraphic2D
       ExplicitHeight = 22
     end
     object SpeedButtonShiftRight: TSpeedButton
-      Left = 865
+      Left = 1156
       Top = 0
       Width = 25
       Height = 25
@@ -151,7 +151,7 @@ object Graphic2D: TGraphic2D
       ExplicitHeight = 22
     end
     object SpeedButtonShiftUp: TSpeedButton
-      Left = 890
+      Left = 1181
       Top = 0
       Width = 25
       Height = 25
@@ -161,7 +161,7 @@ object Graphic2D: TGraphic2D
       ExplicitTop = -6
     end
     object SpeedButtonShiftDown: TSpeedButton
-      Left = 915
+      Left = 1206
       Top = 0
       Width = 25
       Height = 25

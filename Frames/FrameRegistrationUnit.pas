@@ -4,7 +4,7 @@ interface
 
     uses
         system.SysUtils, System.Classes,
-        Graphic2DFrame
+        Graphic2DComponent
         ;
 
     procedure register();

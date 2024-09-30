@@ -4,8 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Graphic2DFrame, System.Skia,
-  Vcl.Buttons, Vcl.ExtCtrls, Vcl.Skia, ES.BaseControls, ES.Switch;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Graphic2DComponent;
 
 type
   TForm1 = class(TForm)
