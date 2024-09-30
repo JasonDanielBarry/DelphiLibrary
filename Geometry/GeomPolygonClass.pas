@@ -10,6 +10,8 @@ interface
 
     type
         TGeomPolygon = class(TGeomPolyLine)
+            protected
+                procedure setGeomType(); override;
             public
                 //constructor
                     constructor create();

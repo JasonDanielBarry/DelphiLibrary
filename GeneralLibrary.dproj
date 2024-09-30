@@ -65,6 +65,7 @@
         <SanitizedProjectName>GeneralLibrary</SanitizedProjectName>
         <VerInfo_Locale>7177</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_UnitSearchPath>..\DelphiLibrary\Engineering;..\DelphiLibrary\GeneralMath;..\DelphiLibrary\GeneralMath\LinearAlgebra;..\DelphiLibrary\GeneralMath\LinearAlgebra\Matrices;..\DelphiLibrary\Geometry;..\DelphiLibrary\Graphics\Drawing;..\DelphiLibrary\Graphics\Drawing\Skia;..\DelphiLibrary\WindowsVCL;..\DelphiLibrary\WindowsVCL\HelperClasses;..\DelphiLibrary\WindowsVCL\CustomComponents;..\DelphiLibrary\WindowsVCL\CustomComponents\Graphic2DUnits;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>soapserver;LightLog;IndySystem;vclwinx;fmx;Skia.Package.VCL;vclie;DbxCommonDriver;bindengine;vcldb;IndyIPCommon;VCLRESTComponents;FireDACCommonODBC;FireDACCommonDriver;appanalytics;IndyProtocols;vclx;Skia.Package.RTL;IndyIPClient;dbxcds;vcledge;vclFireDAC;bindcompvclwinx;bindcomp;FireDACCommon;IndyCore;RESTBackendComponents;bindcompfmx;bindcompdbx;inetdb;rtl;FireDACMySQLDriver;FireDACSqliteDriver;DbxClientDriver;FireDACADSDriver;RESTComponents;soapmidas;DBXSqliteDriver;vcl;vclactnband;IndyIPServer;dsnapxml;fmxFireDAC;dbexpress;dsnapcon;adortl;SVGIconImageListFMX;DBXMySQLDriver;VclSmp;inet;vclimg;vcltouch;FireDACPgDriver;FireDAC;fmxase;inetdbxpress;xmlrtl;tethering;LightCore;dbrtl;bindcompvcl;dsnap;fmxdae;Skia.Package.FMX;CloudService;FireDACMSAccDriver;CustomIPTransport;fmxobj;bindcompvclsmp;SVGIconImageList;soaprtl;vcldsnap;DBXInterBaseDriver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
@@ -160,10 +161,7 @@
                 <Source>
                     <Source Name="MainSource">GeneralLibrary.dpr</Source>
                 </Source>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k280.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp280.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </Delphi.Personality>
             <Deployment Version="5">
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule"/>

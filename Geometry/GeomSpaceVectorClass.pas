@@ -23,6 +23,8 @@ interface
                 function getComponent(dimensionIndexIn : integer) : double;
             //deep copy
                 function copySelf() : TGeomSpaceVector;
+        protected
+            procedure setGeomType(); override;
         public
             //constructor
                 constructor create();
@@ -90,6 +92,12 @@ implementation
 
                     result := newVector;
                 end;
+
+    //protected
+        procedure TGeomSpaceVector.setGeomType();
+            begin
+                setGeomType(EGeomType.gtSpaceVector);
+            end;
 
     //public
         //constructor

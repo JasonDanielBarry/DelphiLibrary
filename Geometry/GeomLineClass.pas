@@ -25,7 +25,7 @@ interface
                         procedure assignPoints(startPointIn, endPointIn : TGeomPoint);
                         procedure updatePoints();
             strict protected
-                //
+                procedure setGeomType(); override;
             public
                 //constructor
                     constructor create(); overload;
@@ -86,6 +86,12 @@ implementation
                     begin
                         assignPoints(startPoint, endPoint);
                     end;
+
+    //protected
+        procedure TGeomLine.setGeomType();
+            begin
+                setGeomType(EGeomType.gtLine);
+            end;
 
     //public
         //constructor

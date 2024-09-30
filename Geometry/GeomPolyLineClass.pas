@@ -22,6 +22,7 @@ interface
             protected
                 //member variables
                     arrVertices : TArray<TGeomPoint>;
+                procedure setGeomType(); override;
             public
                 //constructor
                     constructor create();
@@ -71,6 +72,10 @@ implementation
                     end;
 
     //protected
+        procedure TGeomPolyLine.setGeomType();
+            begin
+                setGeomType(EGeomType.gtPolyline);
+            end;
 
     //public
         //constructor
