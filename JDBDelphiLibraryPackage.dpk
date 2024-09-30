@@ -37,6 +37,8 @@ contains
   GeneralComponentHelperMethods in 'WindowsVCL\GeneralComponentHelperMethods.pas',
   Graphic2DComponent in 'WindowsVCL\CustomComponents\Graphic2DUnits\Graphic2DComponent.pas',
   Graphic2DFrame in 'WindowsVCL\CustomComponents\Graphic2DUnits\Graphic2DFrame.pas' {CustomGraphic2D: TFrame},
-  Graphic2DTypes in 'WindowsVCL\CustomComponents\Graphic2DUnits\Graphic2DTypes.pas';
+  Graphic2DTypes in 'WindowsVCL\CustomComponents\Graphic2DUnits\Graphic2DTypes.pas',
+  CustomComponentPanelClass in 'WindowsVCL\CustomComponents\CustomComponentPanelClass.pas',
+  CustomComponentRegistrationUnit in 'WindowsVCL\CustomComponents\CustomComponentRegistrationUnit.pas';
 
 end.

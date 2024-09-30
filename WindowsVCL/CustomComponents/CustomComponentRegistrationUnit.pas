@@ -1,4 +1,4 @@
-unit FrameRegistrationUnit;
+unit CustomComponentRegistrationUnit;
 
 interface
 

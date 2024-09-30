@@ -12,13 +12,13 @@ object Form1: TForm1
   Font.Style = []
   TextHeight = 15
   object Graphic2D1: TGraphic2D
-    Left = 248
-    Top = 120
+    Left = 176
+    Top = 48
     Width = 985
     Height = 569
     BevelEdges = []
     BevelOuter = bvNone
-    Caption = 'Graphic2D1'
+    ParentColor = True
     ShowCaption = False
     TabOrder = 0
   end

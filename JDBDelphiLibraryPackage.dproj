@@ -113,6 +113,8 @@
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="WindowsVCL\CustomComponents\Graphic2DUnits\Graphic2DTypes.pas"/>
+        <DCCReference Include="WindowsVCL\CustomComponents\CustomComponentPanelClass.pas"/>
+        <DCCReference Include="WindowsVCL\CustomComponents\CustomComponentRegistrationUnit.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -150,7 +152,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\23.0\Bpl\JDBDelphiLibraryPackage.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\JDBDelphiLibraryPackage.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>JDBDelphiLibraryPackage.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
