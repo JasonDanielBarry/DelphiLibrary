@@ -1,6 +1,4 @@
 ..\DelphiLibrary\Engineering;
-..\DelphiLibrary\Frames;
-..\DelphiLibrary\Frames\Graphic2DUnits;
 ..\DelphiLibrary\GeneralMath;
 ..\DelphiLibrary\GeneralMath\LinearAlgebra;
 ..\DelphiLibrary\GeneralMath\LinearAlgebra\Matrices;
@@ -9,3 +7,6 @@
 ..\DelphiLibrary\Graphics\Drawing\Skia;
 ..\DelphiLibrary\WindowsVCL;
 ..\DelphiLibrary\WindowsVCL\HelperClasses;
+..\DelphiLibrary\WindowsVCL\CustomComponents;
+..\DelphiLibrary\WindowsVCL\CustomComponents\Graphic2DUnits;
+

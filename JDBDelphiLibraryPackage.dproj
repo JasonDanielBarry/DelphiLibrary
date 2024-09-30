@@ -105,14 +105,14 @@
         <DCCReference Include="vcl.dcp"/>
         <DCCReference Include="Skia.Package.VCL.dcp"/>
         <DCCReference Include="Skia.Package.RTL.dcp"/>
-        <DCCReference Include="Frames\FrameRegistrationUnit.pas"/>
-        <DCCReference Include="Frames\Graphic2DUnits\Graphic2DFrame.pas">
+        <DCCReference Include="WindowsVCL\GeneralComponentHelperMethods.pas"/>
+        <DCCReference Include="WindowsVCL\CustomComponents\Graphic2DUnits\Graphic2DComponent.pas"/>
+        <DCCReference Include="WindowsVCL\CustomComponents\Graphic2DUnits\Graphic2DFrame.pas">
             <Form>CustomGraphic2D</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Frames\Graphic2DUnits\Graphic2DTypes.pas"/>
-        <DCCReference Include="Frames\Graphic2DUnits\Graphic2DComponent.pas"/>
+        <DCCReference Include="WindowsVCL\CustomComponents\Graphic2DUnits\Graphic2DTypes.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

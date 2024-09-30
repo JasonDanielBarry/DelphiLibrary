@@ -34,9 +34,9 @@ requires
   Skia.Package.RTL;
 
 contains
-  FrameRegistrationUnit in 'Frames\FrameRegistrationUnit.pas',
-  Graphic2DFrame in 'Frames\Graphic2DUnits\Graphic2DFrame.pas' {CustomGraphic2D: TFrame},
-  Graphic2DTypes in 'Frames\Graphic2DUnits\Graphic2DTypes.pas',
-  Graphic2DComponent in 'Frames\Graphic2DUnits\Graphic2DComponent.pas';
+  GeneralComponentHelperMethods in 'WindowsVCL\GeneralComponentHelperMethods.pas',
+  Graphic2DComponent in 'WindowsVCL\CustomComponents\Graphic2DUnits\Graphic2DComponent.pas',
+  Graphic2DFrame in 'WindowsVCL\CustomComponents\Graphic2DUnits\Graphic2DFrame.pas' {CustomGraphic2D: TFrame},
+  Graphic2DTypes in 'WindowsVCL\CustomComponents\Graphic2DUnits\Graphic2DTypes.pas';
 
 end.
