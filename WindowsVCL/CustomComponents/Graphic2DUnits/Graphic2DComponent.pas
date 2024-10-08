@@ -13,26 +13,27 @@ interface
         TGraphic2D = class(TCustomComponentPanel)
             customGraphic : TCustomGraphic2D;
             private
-                procedure setOnGraphicDrawEvent(const graphicDrawEventIn : TGraphicDrawEvent);
-                function getOnGraphicDrawEvent() : TGraphicDrawEvent;
+                procedure setOnGraphicUpdateGeometryEvent(const graphicDrawEventIn : TGraphicUpdateGeometryEvent);
+                function getOnGraphicDrawEvent() : TGraphicUpdateGeometryEvent;
             public
                 constructor Create(AOwner: TComponent); override;
                 destructor Destroy; override;
+                procedure redrawGraphic();
             published
-                property OnGraphicDraw : TGraphicDrawEvent read getOnGraphicDrawEvent write setOnGraphicDrawEvent;
+                property OnUpdateGeometry : TGraphicUpdateGeometryEvent read getOnGraphicDrawEvent write setOnGraphicUpdateGeometryEvent;
         end;
 
 implementation
 
     //private
-        procedure TGraphic2D.setOnGraphicDrawEvent(const graphicDrawEventIn : TGraphicDrawEvent);
+        procedure TGraphic2D.setOnGraphicUpdateGeometryEvent(const graphicDrawEventIn : TGraphicUpdateGeometryEvent);
             begin
-                customGraphic.setOnGraphicDrawEvent(graphicDrawEventIn);
+                customGraphic.setOnGraphicUpdateGeometryEvent(graphicDrawEventIn);
             end;
 
-        function TGraphic2D.getOnGraphicDrawEvent() : TGraphicDrawEvent;
+        function TGraphic2D.getOnGraphicDrawEvent() : TGraphicUpdateGeometryEvent;
             begin
-                result := customGraphic.getOnGraphicDrawEvent();
+                result := customGraphic.getOnGraphicUpdateGeometryEvent();
             end;
 
     //public
@@ -51,6 +52,11 @@ implementation
                 FreeAndNil( customGraphic );
 
                 inherited Destroy();
+            end;
+
+        procedure TGraphic2D.redrawGraphic();
+            begin
+                customGraphic.redrawGraphic();
             end;
 
 end.

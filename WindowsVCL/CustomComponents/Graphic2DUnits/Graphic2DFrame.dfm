@@ -11,10 +11,7 @@ object CustomGraphic2D: TCustomGraphic2D
     Height = 711
     Align = alClient
     OnDraw = SkPaintBoxGraphicDraw
-    ExplicitLeft = 624
-    ExplicitTop = 288
-    ExplicitWidth = 50
-    ExplicitHeight = 50
+    ExplicitTop = 31
   end
   object GridPanelGraphicControls: TGridPanel
     Left = 0
@@ -121,6 +118,7 @@ object CustomGraphic2D: TCustomGraphic2D
       Height = 25
       Align = alClient
       Caption = 'E'
+      OnClick = SpeedButtonZoomExtentsClick
       ExplicitLeft = 608
       ExplicitTop = 8
       ExplicitWidth = 23

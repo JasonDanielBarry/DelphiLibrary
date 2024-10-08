@@ -3,12 +3,12 @@ unit Graphic2DTypes;
 interface
 
     uses
-        system.SysUtils, system.Skia,
-        DrawingAxisConversionClass
+        system.SysUtils,
+        SkiaDrawingClass
         ;
 
     type
-        TGraphicDrawEvent = procedure(ASender : TObject; const ACanvas : ISkCanvas; const ADrawingAxisConverter : TDrawingAxisConverter) of object;
+        TGraphicUpdateGeometryEvent = procedure(ASender : TObject; var ASkiaDrawer : TSkiaGeomDrawer) of object;
 
 implementation
 

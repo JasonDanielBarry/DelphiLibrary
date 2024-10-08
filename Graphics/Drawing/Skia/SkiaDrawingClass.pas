@@ -62,6 +62,8 @@ interface
                 //draw all geometry
                     procedure drawAllGeometry(  const canvasIn          : ISkCanvas;
                                                 const axisConverterIn   : TDrawingAxisConverter );
+                //reset
+                    procedure resetDrawingGeometry();
         end;
 
 implementation
@@ -169,11 +171,8 @@ implementation
 
         //destructor
             destructor TSkiaGeomDrawer.destroy();
-                var
-                    i : integer;
                 begin
-                    for i := 0 to (drawingGeomCount() - 1) do
-                        arrDrawingGeom[i].freeGeometry();
+                    resetDrawingGeometry();
                 end;
 
         //add drawing geometry
@@ -184,9 +183,9 @@ implementation
                     newDrawingGeometry : TDrawingGeometry;
                 begin
                     newDrawingGeometry := TDrawingGeometry.create(  lineThicknessIn,
-                                                                TAlphaColors.Null,
-                                                                colourIn,
-                                                                lineIn              );
+                                                                    TAlphaColors.Null,
+                                                                    colourIn,
+                                                                    lineIn              );
 
                     addGeometry( newDrawingGeometry );
                 end;
@@ -258,6 +257,17 @@ implementation
                     //loop through and draw geometry objects
                         for i := 0 to (drawingGeomCount() - 1) do
                             drawGeometry( arrDrawingGeom[i] );
+                end;
+
+        //reset
+            procedure TSkiaGeomDrawer.resetDrawingGeometry();
+                var
+                    i : integer;
+                begin
+                    for i := 0 to (drawingGeomCount() - 1) do
+                        arrDrawingGeom[i].freeGeometry();
+
+                    SetLength(arrDrawingGeom, 0);
                 end;
 
 end.

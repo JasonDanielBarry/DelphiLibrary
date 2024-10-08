@@ -19,8 +19,10 @@ object Form1: TForm1
     Align = alClient
     BevelEdges = []
     BevelOuter = bvNone
+    Caption = 'Graphic2D1'
     ParentColor = True
     ShowCaption = False
     TabOrder = 0
+    OnUpdateGeometry = Graphic2D1UpdateGeometry
   end
 end

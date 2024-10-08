@@ -51,7 +51,7 @@ interface
                         function intersection(  const lineIn        : TGeomLine;
                                                 const freeLineIn    : boolean = True) : TGeomLineIntersectionData;
                 //bounding box
-                    function boundingBox() : TGeomBox;
+                    function boundingBox() : TGeomBox; override;
                 //drawing points
                     function drawingPoints() : TArray<TGeomPoint>; override;
         end;

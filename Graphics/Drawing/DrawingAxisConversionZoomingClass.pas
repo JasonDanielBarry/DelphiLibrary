@@ -36,7 +36,7 @@ interface
                 //destructor
                     destructor destroy(); override;
                 //modifiers
-                    procedure setDrawingBoundary(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double);
+//                    procedure setDrawingBoundary(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double);
                     procedure resetDrawingRegion();
                 //zooming methods
                     procedure zoomIn(   const zoomPercentageIn : double;
@@ -205,14 +205,14 @@ implementation
                 end;
 
         //modifiers
-            procedure TDrawingAxisZoomingConverter.setDrawingBoundary(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double);
-                begin
-                    drawingBoundary.minPoint.x := domainMinIn;
-                    drawingBoundary.minPoint.y := rangeMinIn;
-
-                    drawingBoundary.maxPoint.x := domainMaxIn;
-                    drawingBoundary.maxPoint.y := rangeMaxIn;
-                end;
+//            procedure TDrawingAxisZoomingConverter.setDrawingBoundary(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double);
+//                begin
+//                    drawingBoundary.minPoint.x := domainMinIn;
+//                    drawingBoundary.minPoint.y := rangeMinIn;
+//
+//                    drawingBoundary.maxPoint.x := domainMaxIn;
+//                    drawingBoundary.maxPoint.y := rangeMaxIn;
+//                end;
 
             procedure TDrawingAxisZoomingConverter.resetDrawingRegion();
                 begin

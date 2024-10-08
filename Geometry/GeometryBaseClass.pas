@@ -22,7 +22,7 @@ interface
                 function drawingPoints() : TArray<TGeomPoint>; virtual; abstract;
         end;
 
-    function determineBoundingBox(arrGeom : TArray<TGeomBase>) : TGeomBox;
+    function determineBoundingBox(arrGeomIn : TArray<TGeomBase>) : TGeomBox;
 
 implementation
 
@@ -36,20 +36,25 @@ implementation
             inherited Destroy();
         end;
 
-    function determineBoundingBox(arrGeom : TArray<TGeomBase>) : TGeomBox;
+    function determineBoundingBox(arrGeomIn : TArray<TGeomBase>) : TGeomBox;
         var
             i, geomCount    : integer;
             boxOut          : TGeomBox;
             arrGeomBox      : TArray<TGeomBox>;
         begin
-            geomCount := length(arrGeom);
+            geomCount := length(arrGeomIn);
+
+            if (geomCount < 1) then
+                exit();
 
             SetLength(arrGeomBox, geomCount);
 
             for i := 0 to (geomCount - 1) do
-                arrGeomBox[i] := arrGeom[i].boundingBox();
+                arrGeomBox[i] := arrGeomIn[i].boundingBox();
 
             boxOut := TGeomBox.create(arrGeomBox);
+
+            result := boxOut;
         end;
 
 end.
