@@ -11,14 +11,13 @@ interface
     type
         TGeomBase = class
             private
-                geomType : EGeomType;
+                //
             protected
-                procedure setGeomType(); overload; virtual; abstract;
-                procedure setGeomType(const geomTypeIn : EGeomType); overload;
+                //
             public
                 constructor create();
                 destructor destroy(); override;
-                function getGeomType() : EGeomType;
+                function getGeomType() : EGeomType; virtual; abstract;
                 function boundingBox() : TGeomBox; virtual; abstract;
                 function drawingPoints() : TArray<TGeomPoint>; virtual; abstract;
         end;
@@ -27,26 +26,14 @@ interface
 
 implementation
 
-    procedure TGeomBase.setGeomType(const geomTypeIn : EGeomType);
-        begin
-            geomType := geomTypeIn;
-        end;
-
     constructor TGeomBase.create();
         begin
             inherited create();
-
-            setGeomType();
         end;
 
     destructor TGeomBase.destroy();
         begin
             inherited Destroy();
-        end;
-
-    function TGeomBase.getGeomType() : EGeomType;
-        begin
-            result := geomType;
         end;
 
     function determineBoundingBox(arrGeom : TArray<TGeomBase>) : TGeomBox;

@@ -22,13 +22,13 @@ interface
             protected
                 //member variables
                     arrVertices : TArray<TGeomPoint>;
-                procedure setGeomType(); override;
             public
                 //constructor
                     constructor create();
                 //destructor
                     destructor destroy(); override;
                 //accessors
+                    function getGeomType() : EGeomType; override;
                     function getVertex(indexIn : integer) : TGeomPoint;
                 //modifiers
                     //add a new vertex and line
@@ -72,10 +72,6 @@ implementation
                     end;
 
     //protected
-        procedure TGeomPolyLine.setGeomType();
-            begin
-                setGeomType(EGeomType.gtPolyline);
-            end;
 
     //public
         //constructor
@@ -104,6 +100,11 @@ implementation
                 end;
 
         //accessors
+            function TGeomPolyLine.getGeomType() : EGeomType;
+                begin
+                    result := EGeomType.gtPolyline;
+                end;
+
             function TGeomPolyLine.getVertex(indexIn : integer) : TGeomPoint;
                 begin
                     result := arrVertices[indexIn];

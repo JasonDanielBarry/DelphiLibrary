@@ -25,7 +25,7 @@ interface
                         procedure assignPoints(startPointIn, endPointIn : TGeomPoint);
                         procedure updatePoints();
             strict protected
-                procedure setGeomType(); override;
+                //
             public
                 //constructor
                     constructor create(); overload;
@@ -33,6 +33,7 @@ interface
                 //destructor
                     destructor destroy(); override;
                 //accessors
+                    function getGeomType() : EGeomType; override;
                     function getStartPoint() : TGeomPoint;
                     function getEndPoint() : TGeomPoint;
                 //modifiers
@@ -88,10 +89,6 @@ implementation
                     end;
 
     //protected
-        procedure TGeomLine.setGeomType();
-            begin
-                setGeomType(EGeomType.gtLine);
-            end;
 
     //public
         //constructor
@@ -176,6 +173,11 @@ implementation
                     end;
 
         //accessors
+            function TGeomLine.getGeomType() : EGeomType;
+                begin
+                    result := EGeomType.gtLine;
+                end;
+
             function TGeomLine.getStartPoint() : TGeomPoint;
                 begin
                     result := startPoint;
@@ -219,12 +221,14 @@ implementation
         //drawing points
             function TGeomLine.drawingPoints() : TArray<TGeomPoint>;
                 var
-                    arrPoints : TArray<TGeomPoint>;
+                    arrPointsOut : TArray<TGeomPoint>;
                 begin
-                    SetLength(arrPoints, 2);
-                    arrPoints[0] := startPoint;
-                    arrPoints[1] := endPoint;
-                    result := arrPoints;
+                    SetLength(arrPointsOut, 2);
+
+                    arrPointsOut[0] := startPoint;
+                    arrPointsOut[1] := endPoint;
+
+                    result := arrPointsOut;
                 end;
 //----------------------------------------------------------------------------------------------------
     //calculate intersection point

@@ -12,10 +12,11 @@ object Form1: TForm1
   Font.Style = []
   TextHeight = 15
   object Graphic2D1: TGraphic2D
-    Left = 176
-    Top = 48
-    Width = 985
-    Height = 569
+    Left = 0
+    Top = 0
+    Width = 1317
+    Height = 770
+    Align = alClient
     BevelEdges = []
     BevelOuter = bvNone
     ParentColor = True

@@ -8,7 +8,7 @@ interface
             System.Skia, Vcl.Skia,
         //custom
             DrawingAxisConversionClass,
-            GeometryTypes, GeomLineClass, GeomPolyLineClass;
+            GeometryTypes, GeomLineClass, GeomPolyLineClass, GeomPolygonClass;
 
     //draw line
         procedure drawSkiaLine( const lineIn            : TGeomLine;
@@ -27,7 +27,7 @@ interface
                                     const lineThicknessIn   : integer = 2           );
 
     //draw polygon
-        procedure drawSkiaPolygon(  const   polylineIn      : TGeomPolyLine;
+        procedure drawSkiaPolygon(  const   polygonIn       : TGeomPolygon;
                                     const   fillColourIn,
                                             lineColourIn    : TAlphaColor;
                                     const   axisConverterIn : TDrawingAxisConverter;
@@ -122,7 +122,7 @@ implementation
             end;
 
     //draw polyline
-        procedure drawSkiaPolygon(  const   polylineIn      : TGeomPolyLine;
+        procedure drawSkiaPolygon(  const   polygonIn       : TGeomPolygon;
                                     const   fillColourIn,
                                             lineColourIn    : TAlphaColor;
                                     const   axisConverterIn : TDrawingAxisConverter;
@@ -135,11 +135,11 @@ implementation
                 path            : ISkPath;
                 paint           : ISkPaint;
             begin
-                if (polylineIn.vertexCount() > 1) then //only draw if there is more than one vertix
+                if (polygonIn.vertexCount() > 1) then //only draw if there is more than one vertix
                     begin
                         //convert geometry into canvas drawing points
                             drawingPoints := axisConverterIn.arrXY_to_arrLTF(
-                                                                                polylineIn.drawingPoints()
+                                                                                polygonIn.drawingPoints()
                                                                             );
 
                         //define the drawing path
@@ -148,9 +148,6 @@ implementation
                             pathbuilder.MoveTo(drawingPoints[0]);
 
                             pathbuilder.PolylineTo(drawingPoints);
-
-                            pathbuilder.LineTo(drawingPoints[0]);
-                            pathbuilder.LineTo(drawingPoints[1]);
 
                             path := pathbuilder.Detach();
 
@@ -171,7 +168,7 @@ implementation
                     end;
 
                 if (freePolyLineIn) then
-                    FreeAndNil(polylineIn);
+                    FreeAndNil(polygonIn);
             end;
 
 end.

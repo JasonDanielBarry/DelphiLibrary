@@ -12,11 +12,15 @@ interface
             ;
 
     type
-        TGeomDrawingObject = record
+        TDrawingGeometry = record
             lineThickness   : integer;
             fillColour,
             lineColour      : TAlphaColor;
             geometry        : TGeomBase;
+            constructor create( const   lineThicknessIn : integer;
+                                const   fillColourIn,
+                                        lineColourIn    : TAlphaColor;
+                                const   geometryIn      : TGeomBase     );
             procedure setValues(const   lineThicknessIn : integer;
                                 const   fillColourIn,
                                         lineColourIn    : TAlphaColor;
@@ -26,7 +30,18 @@ interface
 
 implementation
 
-    procedure TGeomDrawingObject.setValues( const   lineThicknessIn : integer;
+    constructor TDrawingGeometry.create(const   lineThicknessIn : integer;
+                                        const   fillColourIn,
+                                                lineColourIn    : TAlphaColor;
+                                        const   geometryIn      : TGeomBase     );
+        begin
+            setValues(  lineThicknessIn,
+                        fillColourIn,
+                        lineColourIn,
+                        geometryIn      );
+        end;
+
+    procedure TDrawingGeometry.setValues(   const   lineThicknessIn : integer;
                                             const   fillColourIn,
                                                     lineColourIn    : TAlphaColor;
                                             const   geometryIn      : TGeomBase     );
@@ -37,10 +52,10 @@ implementation
             lineColour      := lineColourIn;
         end;
 
-    procedure TGeomDrawingObject.freeGeometry();
+    procedure TDrawingGeometry.freeGeometry();
         begin
             try
-                FreeAndNil(geometry);
+                FreeAndNil( geometry );
             except
 
             end;

@@ -7,6 +7,7 @@ interface
     uses
         system.sysutils, system.Math,
         LinearAlgebraTypes,
+        VectorMethods,
         GeometryTypes,
         GeometryBaseClass;
 
@@ -24,12 +25,14 @@ interface
             //deep copy
                 function copySelf() : TGeomSpaceVector;
         protected
-            procedure setGeomType(); override;
+            //
         public
             //constructor
                 constructor create();
             //destructor
                 destructor destroy(); override;
+            //accessors
+                function getGeomType() : EGeomType; override;
             //dimension manipulation
                 //set dimensions
                     procedure setDimensions(dimensionCountIn : integer);
@@ -94,10 +97,6 @@ implementation
                 end;
 
     //protected
-        procedure TGeomSpaceVector.setGeomType();
-            begin
-                setGeomType(EGeomType.gtSpaceVector);
-            end;
 
     //public
         //constructor
@@ -112,6 +111,12 @@ implementation
             destructor TGeomSpaceVector.destroy();
                 begin
                     inherited Destroy();
+                end;
+
+        //accessors
+            function TGeomSpaceVector.getGeomType() : EGeomType;
+                begin
+                    result := EGeomType.gtSpaceVector;
                 end;
 
         //length manipulation
@@ -140,19 +145,8 @@ implementation
         //length manipulation
             //calculate vector length
                 function TGeomSpaceVector.normalise() : double;
-                    var
-                        i                           : integer;
-                        vectorLength, squaredSum    : double;
                     begin
-                        squaredSum := 0;
-
-                        if (dimensions > 0) then
-                            for i := 0 to (dimensions() - 1) do
-                                squaredSum := squaredSum + power(self[i], 2);
-
-                        vectorLength := Sqrt(squaredSum);
-
-                        result := vectorLength;
+                        result := vectorNormalise( components );
                     end;
 
             //stretch the vector by a factor

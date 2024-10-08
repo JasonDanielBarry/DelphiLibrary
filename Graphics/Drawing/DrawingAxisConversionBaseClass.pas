@@ -139,7 +139,6 @@ implementation
                             result := round( ( canvasHeight() / drawRange ) * deltaY );
                         end;
 
-
     //protected
         //helper methods
             //canvas
