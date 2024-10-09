@@ -61,6 +61,7 @@
         <DCC_UnitSearchPath>..\DelphiLibrary\Engineering;..\DelphiLibrary\GeneralMath;..\DelphiLibrary\GeneralMath\LinearAlgebra;..\DelphiLibrary\GeneralMath\LinearAlgebra\Matrices;..\DelphiLibrary\Geometry;..\DelphiLibrary\Graphics\Drawing;..\DelphiLibrary\Graphics\Drawing\Skia;..\DelphiLibrary\WindowsVCL;..\DelphiLibrary\WindowsVCL\HelperClasses;..\DelphiLibrary\WindowsVCL\CustomComponents;..\DelphiLibrary\WindowsVCL\CustomComponents\Graphic2DUnits;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>7177</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_BplOutput>.\DelphiLibrary</DCC_BplOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
@@ -135,6 +136,10 @@
                 <Source>
                     <Source Name="MainSource">JDBDelphiLibraryPackage.dpk</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="5">
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule">
