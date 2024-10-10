@@ -3,13 +3,14 @@ unit Graphic2DFrame;
 interface
 
     uses
-      Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, system.Types, system.UITypes,
+      Winapi.Windows, Winapi.Messages,
+      System.SysUtils, System.Variants, System.Classes, system.Types, system.UITypes, system.Threading,
       Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Skia,
       Vcl.Buttons, Vcl.ExtCtrls, Vcl.Skia,
       GeometryTypes,
       DrawingAxisConversionClass,
       SkiaDrawingClass,
-      Graphic2DTypes;
+      Graphic2DTypes, Vcl.StdCtrls;
 
     type
         TCustomGraphic2D = class(TFrame)
@@ -22,14 +23,18 @@ interface
             SpeedButtonShiftRight: TSpeedButton;
             SpeedButtonShiftUp: TSpeedButton;
             SpeedButtonShiftDown: TSpeedButton;
-    SpeedButtonUpdateGeometry: TSpeedButton;
+            SpeedButtonUpdateGeometry: TSpeedButton;
+    ComboBoxZoomPercent: TComboBox;
             //events
                 procedure SkPaintBoxGraphicDraw(ASender         : TObject;
                                                 const ACanvas   : ISkCanvas;
                                                 const ADest     : TRectF;
                                                 const AOpacity  : Single    );
                 procedure SpeedButtonZoomExtentsClick(Sender: TObject);
-    procedure SpeedButtonUpdateGeometryClick(Sender: TObject);
+                procedure SpeedButtonUpdateGeometryClick(Sender: TObject);
+                procedure SpeedButtonZoomInClick(Sender: TObject);
+                procedure SpeedButtonZoomOutClick(Sender: TObject);
+                procedure ComboBoxZoomPercentChange(Sender: TObject);
             private
                 var
                     skiaGeomDrawer                  : TSkiaGeomDrawer;
@@ -38,6 +43,12 @@ interface
             protected
                 //drawing procedure
                     procedure preDrawGraphic(const canvasIn : ISkCanvas); virtual;
+                    procedure postDrawGraphic(const canvasIn : ISkCanvas); virtual;
+                //zooming methods
+                    procedure zoomIn(const zoomPercentageIn : double);
+                    procedure zoomOut(const zoomPercentageIn : double);
+                    procedure setZoom(const zoomPercentageIn : double);
+                    procedure resetZoom();
             public
                 //constructor
                     constructor Create(AOwner : TComponent); override;
@@ -81,11 +92,22 @@ implementation
                 zoomAll();
             end;
 
+        procedure TCustomGraphic2D.SpeedButtonZoomInClick(Sender: TObject);
+            begin
+                zoomIn(10);
+            end;
+
+        procedure TCustomGraphic2D.SpeedButtonZoomOutClick(Sender: TObject);
+            begin
+                zoomOut(10);
+            end;
+
     //protected
         //drawing procedure
             procedure TCustomGraphic2D.preDrawGraphic(const canvasIn : ISkCanvas);
                 var
-                    paint : ISkPaint;
+                    currentZoomPercentage   : double;
+                    paint                   : ISkPaint;
                 begin
                     //make sure canvas is clear
                         canvasIn.Clear( TAlphaColors.Null );
@@ -101,10 +123,63 @@ implementation
 
                     //give axis converter canvas dimensions
                         axisConverter.setCanvasRegion(SkPaintBoxGraphic.Height, SkPaintBoxGraphic.Width);
+
+                        axisConverter.setDrawingSpaceRatioOneToOne();
+
+                    currentZoomPercentage := axisConverter.getCurrentZoomPercentage();
+                    ComboBoxZoomPercent.Text := FloatToStrF( currentZoomPercentage, ffNumber, 5, 0 );
+                end;
+
+            procedure TCustomGraphic2D.postDrawGraphic(const canvasIn : ISkCanvas);
+                begin
+                    //do nothing here
+                end;
+
+        //zooming methods
+            procedure TCustomGraphic2D.zoomIn(const zoomPercentageIn : double);
+                begin
+                    axisConverter.zoomIn( zoomPercentageIn );
+
+                    redrawGraphic();
+                end;
+
+            procedure TCustomGraphic2D.zoomOut(const zoomPercentageIn : double);
+                begin
+                    axisConverter.zoomOut( zoomPercentageIn );
+
+                    redrawGraphic();
+                end;
+
+            procedure TCustomGraphic2D.setZoom(const zoomPercentageIn : double);
+                begin
+                    axisConverter.setZoom( zoomPercentageIn );
+
+                    redrawGraphic();
+                end;
+
+            procedure TCustomGraphic2D.resetZoom();
+                begin
+                    //make the drawing boundary the drawing region
+                        axisConverter.resetDrawingRegionToDrawingBoundary();
+
+                    redrawGraphic();
                 end;
 
     //public
         //constructor
+            procedure TCustomGraphic2D.ComboBoxZoomPercentChange(Sender: TObject);
+                var
+                    newZoomPercent : double;
+                begin
+                    try
+                        newZoomPercent := StrToFloat( ComboBoxZoomPercent.Text );
+                    except
+                        newZoomPercent := 1;
+                    end;
+
+                    setZoom( newZoomPercent );
+                end;
+
             constructor TCustomGraphic2D.Create(AOwner : TComponent);
                 begin
                     inherited create(AOwner);
@@ -114,6 +189,8 @@ implementation
 
                     updateGeometry();
                     redrawGraphic();
+
+                    GridPanelGraphicControls.Refresh();
                 end;
 
         //destructor
@@ -143,23 +220,27 @@ implementation
                 end;
 
             procedure TCustomGraphic2D.updateGeometry();
+                var
+                    newDrawingBoundary : TGeomBox;
                 begin
-                    skiaGeomDrawer.resetDrawingGeometry();
+                    //reset the stored geometry
+                        skiaGeomDrawer.resetDrawingGeometry();
 
-                    if ( Assigned(onGraphicUpdateGeometryEvent) ) then
-                        onGraphicUpdateGeometryEvent( self, skiaGeomDrawer );
+                    //update the skiaGeomDrawer geometry
+                        if ( Assigned(onGraphicUpdateGeometryEvent) ) then
+                            onGraphicUpdateGeometryEvent( self, skiaGeomDrawer );
+
+                    //determine the geometry group boundary
+                        newDrawingBoundary := skiaGeomDrawer.determineGeomBoundingBox();
+
+                    //store the group boundary in the axis converter for quick access
+                        axisConverter.setDrawingBoundary( newDrawingBoundary );
                 end;
 
         //zooming methods
             procedure TCustomGraphic2D.zoomAll();
-                var
-                    newDrawingRegion : TGeomBox;
                 begin
-                    newDrawingRegion := skiaGeomDrawer.determineGeomBoundingBox();
-
-                    axisConverter.setDrawingRegion( 5, newDrawingRegion );
-
-                    redrawGraphic();
+                    resetZoom();
                 end;
 
 end.

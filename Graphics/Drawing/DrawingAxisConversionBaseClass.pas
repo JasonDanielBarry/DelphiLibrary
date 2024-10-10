@@ -42,6 +42,8 @@ interface
                         function rangeMax() : double;
                         function calculateDrawingRange() : double;
                         function calculateRangeCentre() : double;
+                    //zoom
+                        procedure zoomForOneToOne(); virtual; abstract;
                 //modifiers
                     //canvas boundaries
                         procedure setCanvasHeight(const heightIn : integer);
@@ -50,6 +52,7 @@ interface
                         procedure setDomain(const domainMinIn, domainMaxIn : double);
                         procedure setRange(const rangeMinIn, rangeMaxIn : double);
                         procedure setDrawingRegion(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double); overload;
+
                 //convertion calculations
                     //canvas-to-drawing
                         function LT_to_XY(const L_In, T_In : double) : TGeomPoint;
@@ -375,6 +378,8 @@ implementation
                         adjustByDomain          : boolean;
                         domainRatio, rangeRatio : double;
                     begin
+                        zoomForOneToOne();
+
                         //if the domain/width ratio is larger you must size by the domain
                             domainRatio := ( calculateDrawingDomain() / canvasWidth() );
 

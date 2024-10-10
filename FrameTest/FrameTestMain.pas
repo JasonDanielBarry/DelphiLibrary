@@ -16,6 +16,7 @@ interface
         Graphic2D1: TGraphic2D;
         procedure Graphic2D1UpdateGeometry( ASender         : TObject;
                                             var ASkiaDrawer : TSkiaGeomDrawer   );
+    procedure FormCreate(Sender: TObject);
       private
         { Private declarations }
       public
@@ -29,6 +30,12 @@ implementation
 
 {$R *.dfm}
 
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+Graphic2D1.updateGeometry();
+Graphic2D1.redrawGraphic();
+end;
 
 procedure TForm1.Graphic2D1UpdateGeometry(  ASender: TObject;
                                             var ASkiaDrawer: TSkiaGeomDrawer    );
