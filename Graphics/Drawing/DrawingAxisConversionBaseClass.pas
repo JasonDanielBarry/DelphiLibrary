@@ -43,7 +43,7 @@ interface
                         function calculateDrawingRange() : double;
                         function calculateRangeCentre() : double;
                     //zoom
-                        procedure zoomForOneToOne(); virtual; abstract;
+                        procedure zoomForConstantDrawingSpaceRatio(); virtual; abstract;
                 //modifiers
                     //canvas boundaries
                         procedure setCanvasHeight(const heightIn : integer);
@@ -378,7 +378,9 @@ implementation
                         adjustByDomain          : boolean;
                         domainRatio, rangeRatio : double;
                     begin
-                        zoomForOneToOne();
+                        //this function ensures that if a drawing space ratio is set 1:1 the drawing does not shrink as the window is resized
+                        //must be called before adjustByDomain is calculated
+                            zoomForConstantDrawingSpaceRatio();
 
                         //if the domain/width ratio is larger you must size by the domain
                             domainRatio := ( calculateDrawingDomain() / canvasWidth() );

@@ -29,7 +29,7 @@ interface
                     procedure zoom( const zoomPercentageIn : double;
                                     const zoomAboutPointIn : TGeomPoint ); overload;
                     procedure zoom(const zoomPercentageIn : double); overload;
-                    procedure zoomForOneToOne(); override;
+                    procedure zoomForConstantDrawingSpaceRatio(); override;
             protected
                 //
             public
@@ -203,7 +203,7 @@ implementation
                     zoom( domainCentre, rangeCentre, zoomPercentageIn );
                 end;
 
-            procedure TDrawingAxisZoomingConverter.zoomForOneToOne();
+            procedure TDrawingAxisZoomingConverter.zoomForConstantDrawingSpaceRatio();
                 begin
                     setZoom( currentZoomPercentage );
                 end;
