@@ -47,6 +47,10 @@ object CustomGraphic2D: TCustomGraphic2D
       item
         SizeStyle = ssAbsolute
         Value = 25.000000000000000000
+      end
+      item
+        SizeStyle = ssAbsolute
+        Value = 25.000000000000000000
       end>
     ControlCollection = <
       item
@@ -65,23 +69,28 @@ object CustomGraphic2D: TCustomGraphic2D
         Row = 0
       end
       item
-        Column = 3
+        Column = 4
         Control = SpeedButtonShiftLeft
         Row = 0
       end
       item
-        Column = 4
+        Column = 5
         Control = SpeedButtonShiftRight
         Row = 0
       end
       item
-        Column = 5
+        Column = 6
         Control = SpeedButtonShiftUp
         Row = 0
       end
       item
-        Column = 6
+        Column = 7
         Control = SpeedButtonShiftDown
+        Row = 0
+      end
+      item
+        Column = 3
+        Control = SpeedButtonUpdateGeometry
         Row = 0
       end>
     ParentColor = True
@@ -91,7 +100,7 @@ object CustomGraphic2D: TCustomGraphic2D
       end>
     TabOrder = 0
     object SpeedButtonZoomIn: TSpeedButton
-      Left = 1056
+      Left = 1031
       Top = 0
       Width = 25
       Height = 25
@@ -100,7 +109,7 @@ object CustomGraphic2D: TCustomGraphic2D
       ExplicitLeft = 911
     end
     object SpeedButtonZoomOut: TSpeedButton
-      Left = 1081
+      Left = 1056
       Top = 0
       Width = 25
       Height = 25
@@ -112,7 +121,7 @@ object CustomGraphic2D: TCustomGraphic2D
       ExplicitHeight = 22
     end
     object SpeedButtonZoomExtents: TSpeedButton
-      Left = 1106
+      Left = 1081
       Top = 0
       Width = 25
       Height = 25
@@ -165,6 +174,19 @@ object CustomGraphic2D: TCustomGraphic2D
       Height = 25
       Align = alClient
       Caption = '\/'
+      ExplicitLeft = 608
+      ExplicitTop = 8
+      ExplicitWidth = 23
+      ExplicitHeight = 22
+    end
+    object SpeedButtonUpdateGeometry: TSpeedButton
+      Left = 1106
+      Top = 0
+      Width = 25
+      Height = 25
+      Align = alClient
+      Caption = 'U'
+      OnClick = SpeedButtonUpdateGeometryClick
       ExplicitLeft = 608
       ExplicitTop = 8
       ExplicitWidth = 23

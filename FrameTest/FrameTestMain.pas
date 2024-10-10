@@ -3,18 +3,19 @@ unit FrameTestMain;
 interface
 
     uses
-        Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, system.UITypes,
-        Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Graphic2DComponent,
-        Graphic2DFrame, CustomComponentPanelClass,
+        Winapi.Windows, Winapi.Messages,
+        System.SysUtils, System.Variants, System.Classes, system.UITypes, system.Math,
+        Vcl.Graphics,
+        Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Graphic2DComponent, CustomComponentPanelClass,
         SkiaDrawingClass,
         GeometryTypes,
-        GeomLineClass;
+        GeomLineClass, GeomPolyLineClass;
 
     type
         TForm1 = class(TForm)
         Graphic2D1: TGraphic2D;
         procedure Graphic2D1UpdateGeometry( ASender         : TObject;
-                                            var ASkiaDrawer : TSkiaGeomDrawer);
+                                            var ASkiaDrawer : TSkiaGeomDrawer   );
       private
         { Private declarations }
       public
@@ -30,10 +31,12 @@ implementation
 
 
 procedure TForm1.Graphic2D1UpdateGeometry(  ASender: TObject;
-                                            var ASkiaDrawer: TSkiaGeomDrawer);
+                                            var ASkiaDrawer: TSkiaGeomDrawer    );
     var
+            i                       : integer;
             startPoint, endPoint    : TGeomPoint;
             line                    : TGeomLine;
+            polyLine                : TGeomPolyLine;
         begin
             //1
                 startPoint  := TGeomPoint.create(10, 100);
@@ -49,7 +52,22 @@ procedure TForm1.Graphic2D1UpdateGeometry(  ASender: TObject;
 
                 line := TGeomLine.create(startPoint, endPoint);
 
-                ASkiaDrawer.addLine(line, 5, TAlphaColors.Black);
+                ASkiaDrawer.addLine(line, 5);
+
+            //3
+                polyLine := TGeomPolyLine.create();
+
+                for i := 0 to 125 do
+                    begin
+                        var x, y : double;
+
+                        x := 2 * i;
+                        y := 10 * sin(x / 10) + 0.5 * x;
+
+                        polyLine.addVertex(x, y);
+                    end;
+
+                ASkiaDrawer.addPolyline(polyLine, 3, TAlphaColors.Blueviolet);
         end;
 
 end.

@@ -22,12 +22,14 @@ interface
             SpeedButtonShiftRight: TSpeedButton;
             SpeedButtonShiftUp: TSpeedButton;
             SpeedButtonShiftDown: TSpeedButton;
+    SpeedButtonUpdateGeometry: TSpeedButton;
             //events
                 procedure SkPaintBoxGraphicDraw(ASender         : TObject;
                                                 const ACanvas   : ISkCanvas;
                                                 const ADest     : TRectF;
                                                 const AOpacity  : Single    );
                 procedure SpeedButtonZoomExtentsClick(Sender: TObject);
+    procedure SpeedButtonUpdateGeometryClick(Sender: TObject);
             private
                 var
                     skiaGeomDrawer                  : TSkiaGeomDrawer;
@@ -67,6 +69,11 @@ implementation
                 preDrawGraphic( ACanvas );
 
                 skiaGeomDrawer.drawAllGeometry( ACanvas, axisConverter );
+            end;
+
+        procedure TCustomGraphic2D.SpeedButtonUpdateGeometryClick(Sender: TObject);
+            begin
+                updateGeometry();
             end;
 
         procedure TCustomGraphic2D.SpeedButtonZoomExtentsClick(Sender: TObject);
@@ -148,8 +155,6 @@ implementation
                 var
                     newDrawingRegion : TGeomBox;
                 begin
-                    updateGeometry();
-
                     newDrawingRegion := skiaGeomDrawer.determineGeomBoundingBox();
 
                     axisConverter.setDrawingRegion( 5, newDrawingRegion );

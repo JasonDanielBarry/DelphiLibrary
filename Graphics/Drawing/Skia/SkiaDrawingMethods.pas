@@ -114,7 +114,7 @@ implementation
 
                             //line
                                 paint.Style         := TSkPaintStyle.Stroke;
-                                paint.Color         := TAlphaColors.Black;
+                                paint.Color         := colourIn;
                                 paint.StrokeWidth   := lineThicknessIn;
                                 canvasInOut.DrawPath(path, paint);
                     end;

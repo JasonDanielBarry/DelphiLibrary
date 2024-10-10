@@ -11,14 +11,16 @@ interface
 
     type
         TGraphic2D = class(TCustomComponentPanel)
-            customGraphic : TCustomGraphic2D;
             private
+                var
+                    customGraphic : TCustomGraphic2D;
                 procedure setOnGraphicUpdateGeometryEvent(const graphicDrawEventIn : TGraphicUpdateGeometryEvent);
                 function getOnGraphicDrawEvent() : TGraphicUpdateGeometryEvent;
             public
                 constructor Create(AOwner: TComponent); override;
                 destructor Destroy; override;
                 procedure redrawGraphic();
+                procedure updateGeometry();
             published
                 property OnUpdateGeometry : TGraphicUpdateGeometryEvent read getOnGraphicDrawEvent write setOnGraphicUpdateGeometryEvent;
         end;
@@ -45,6 +47,9 @@ implementation
                 customGraphic.parent := self;
                 customGraphic.Align := TAlign.alClient;
                 customGraphic.Visible := True;
+
+                updateGeometry();
+                customGraphic.zoomAll();
             end;
 
         destructor TGraphic2D.Destroy();
@@ -57,6 +62,11 @@ implementation
         procedure TGraphic2D.redrawGraphic();
             begin
                 customGraphic.redrawGraphic();
+            end;
+
+        procedure TGraphic2D.updateGeometry();
+            begin
+                customGraphic.updateGeometry();
             end;
 
 end.

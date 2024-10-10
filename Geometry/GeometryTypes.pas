@@ -141,9 +141,9 @@ implementation
                 for i := 1 to (length(arrGeomBoxesIn) - 1) do
                     begin
                         //look for min x, y, z
-                            minPoint.x := min( minPoint.x, arrGeomBoxesIn[i].maxPoint.x );
-                            minPoint.y := min( minPoint.y, arrGeomBoxesIn[i].maxPoint.y );
-                            minPoint.z := min( minPoint.z, arrGeomBoxesIn[i].maxPoint.z );
+                            minPoint.x := min( minPoint.x, arrGeomBoxesIn[i].minPoint.x );
+                            minPoint.y := min( minPoint.y, arrGeomBoxesIn[i].minPoint.y );
+                            minPoint.z := min( minPoint.z, arrGeomBoxesIn[i].minPoint.z );
 
                         //look for max x, y, z
                             maxPoint.x := max( maxPoint.x, arrGeomBoxesIn[i].maxPoint.x );
