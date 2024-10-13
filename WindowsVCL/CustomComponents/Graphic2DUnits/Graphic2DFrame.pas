@@ -189,8 +189,6 @@ implementation
 
                     updateGeometry();
                     redrawGraphic();
-
-                    GridPanelGraphicControls.Refresh();
                 end;
 
         //destructor

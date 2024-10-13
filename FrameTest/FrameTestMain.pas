@@ -64,11 +64,11 @@ procedure TForm1.Graphic2D1UpdateGeometry(  ASender: TObject;
             //3
                 polyLine := TGeomPolyLine.create();
 
-                for i := 0 to 125 do
+                for i := 0 to 500 do
                     begin
                         var x, y : double;
 
-                        x := 2 * i;
+                        x := 1 * i;
                         y := 10 * sin(x / 10) + 0.5 * x;
 
                         polyLine.addVertex(x, y);

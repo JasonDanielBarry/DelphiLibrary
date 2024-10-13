@@ -51,8 +51,6 @@ implementation
                 paint           : ISkPaint;
             begin
                 //convert geometry into canvas drawing points
-
-
                     drawingPoints := axisConverterIn.arrXY_to_arrLTF(
                                                                         lineIn.drawingPoints()
                                                                     );
