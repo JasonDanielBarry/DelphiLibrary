@@ -58,7 +58,7 @@
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <SanitizedProjectName>JDBDelphiLibraryPackage</SanitizedProjectName>
-        <DCC_UnitSearchPath>..\DelphiLibrary\Engineering;..\DelphiLibrary\GeneralMath;..\DelphiLibrary\GeneralMath\LinearAlgebra;..\DelphiLibrary\GeneralMath\LinearAlgebra\Matrices;..\DelphiLibrary\Geometry;..\DelphiLibrary\Graphics\Drawing;..\DelphiLibrary\Graphics\Drawing\Skia;..\DelphiLibrary\WindowsVCL;..\DelphiLibrary\WindowsVCL\HelperClasses;..\DelphiLibrary\WindowsVCL\CustomComponents;..\DelphiLibrary\WindowsVCL\CustomComponents\Graphic2DUnits;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\DelphiLibrary\Engineering;..\DelphiLibrary\GeneralMath;..\DelphiLibrary\GeneralMath\LinearAlgebra;..\DelphiLibrary\GeneralMath\LinearAlgebra\Matrices;..\DelphiLibrary\Geometry;..\DelphiLibrary\Graphics\Drawing;..\DelphiLibrary\Graphics\Drawing\AxisConversion;..\DelphiLibrary\Graphics\Drawing\Skia;..\DelphiLibrary\WindowsVCL;..\DelphiLibrary\WindowsVCL\HelperClasses;..\DelphiLibrary\WindowsVCL\CustomComponents;..\DelphiLibrary\WindowsVCL\CustomComponents\Graphic2DUnits;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>7177</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_BplOutput>.\DelphiLibrary</DCC_BplOutput>

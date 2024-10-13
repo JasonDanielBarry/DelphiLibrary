@@ -135,7 +135,6 @@
         <DCCReference Include="GeneralMath\GeneralMathMethods.pas"/>
         <DCCReference Include="Geometry\GeometryMathMethods.pas"/>
         <DCCReference Include="GeneralMath\LinearAlgebra\LineIntersectionMethods.pas"/>
-        <DCCReference Include="Graphics\Drawing\DrawingAxisConversionClass.pas"/>
         <DCCReference Include="Graphics\Drawing\Skia\SkiaDrawingMethods.pas"/>
         <DCCReference Include="Engineering\LimitStateMaterialClass.pas"/>
         <DCCReference Include="GeneralMath\LinearAlgebra\LinearAlgebraTypes.pas"/>
@@ -147,11 +146,13 @@
         <DCCReference Include="WindowsVCL\GeneralComponentHelperMethods.pas"/>
         <DCCReference Include="WindowsVCL\HelperClasses\PageControlHelperClass.pas"/>
         <DCCReference Include="WindowsVCL\HelperClasses\StringGridHelperClass.pas"/>
-        <DCCReference Include="Graphics\Drawing\DrawingAxisConversionBaseClass.pas"/>
-        <DCCReference Include="Graphics\Drawing\DrawingAxisConversionZoomingClass.pas"/>
         <DCCReference Include="Graphics\Drawing\Skia\SkiaDrawingClass.pas"/>
         <DCCReference Include="Geometry\GeometryDrawingTypes.pas"/>
         <DCCReference Include="Geometry\GeomPolygonClass.pas"/>
+        <DCCReference Include="Graphics\Drawing\AxisConversion\DrawingAxisConversionBaseClass.pas"/>
+        <DCCReference Include="Graphics\Drawing\AxisConversion\DrawingAxisConversionClass.pas"/>
+        <DCCReference Include="Graphics\Drawing\AxisConversion\DrawingAxisConversionPanningClass.pas"/>
+        <DCCReference Include="Graphics\Drawing\AxisConversion\DrawingAxisConversionZoomingClass.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -182,6 +183,12 @@
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule"/>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
                 <DeployFile LocalName="DelphiLibrary\GeneralLibrary.dll" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName="DelphiLibrary\GeneralLibrary.dll" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>GeneralLibrary.dll</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="DelphiLibrary\GeneralLibrary.dll" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win64">
                         <RemoteName>GeneralLibrary.dll</RemoteName>

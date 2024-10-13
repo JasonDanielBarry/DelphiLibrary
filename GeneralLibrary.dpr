@@ -27,7 +27,6 @@ uses
   GeneralMathMethods in 'GeneralMath\GeneralMathMethods.pas',
   GeometryMathMethods in 'Geometry\GeometryMathMethods.pas',
   LineIntersectionMethods in 'GeneralMath\LinearAlgebra\LineIntersectionMethods.pas',
-  DrawingAxisConversionClass in 'Graphics\Drawing\DrawingAxisConversionClass.pas',
   SkiaDrawingMethods in 'Graphics\Drawing\Skia\SkiaDrawingMethods.pas',
   LimitStateMaterialClass in 'Engineering\LimitStateMaterialClass.pas',
   LinearAlgebraTypes in 'GeneralMath\LinearAlgebra\LinearAlgebraTypes.pas',
@@ -39,11 +38,13 @@ uses
   GeneralComponentHelperMethods in 'WindowsVCL\GeneralComponentHelperMethods.pas',
   PageControlHelperClass in 'WindowsVCL\HelperClasses\PageControlHelperClass.pas',
   StringGridHelperClass in 'WindowsVCL\HelperClasses\StringGridHelperClass.pas',
-  DrawingAxisConversionBaseClass in 'Graphics\Drawing\DrawingAxisConversionBaseClass.pas',
-  DrawingAxisConversionZoomingClass in 'Graphics\Drawing\DrawingAxisConversionZoomingClass.pas',
   SkiaDrawingClass in 'Graphics\Drawing\Skia\SkiaDrawingClass.pas',
   GeometryDrawingTypes in 'Geometry\GeometryDrawingTypes.pas',
-  GeomPolygonClass in 'Geometry\GeomPolygonClass.pas';
+  GeomPolygonClass in 'Geometry\GeomPolygonClass.pas',
+  DrawingAxisConversionBaseClass in 'Graphics\Drawing\AxisConversion\DrawingAxisConversionBaseClass.pas',
+  DrawingAxisConversionClass in 'Graphics\Drawing\AxisConversion\DrawingAxisConversionClass.pas',
+  DrawingAxisConversionPanningClass in 'Graphics\Drawing\AxisConversion\DrawingAxisConversionPanningClass.pas',
+  DrawingAxisConversionZoomingClass in 'Graphics\Drawing\AxisConversion\DrawingAxisConversionZoomingClass.pas';
 
 {$R *.res}
 

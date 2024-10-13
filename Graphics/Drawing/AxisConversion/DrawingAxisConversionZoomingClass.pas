@@ -218,8 +218,8 @@ implementation
 
                     currentZoomPercentage := 100;
 
-                    drawingBoundary.minPoint.z := 0;
-                    drawingBoundary.maxPoint.z := 0;
+                    drawingBoundary.minPoint.setPoint( 0, 0, 0 );
+                    drawingBoundary.maxPoint.setPoint( 0, 0, 0 );
                 end;
 
         //destructor
