@@ -296,7 +296,7 @@ implementation
                     if (zoomPercentageIn <= 0) then
                         exit();
 
-                    newZoomPercentage := currentZoomPercentage * (1 - zoomPercentageIn / 100);
+                    newZoomPercentage := currentZoomPercentage / (1 + zoomPercentageIn / 100);
 
                     zoom( newZoomPercentage, zoomAboutPointIn );
                 end;
