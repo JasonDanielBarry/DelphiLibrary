@@ -58,6 +58,8 @@ implementation
                     //close polygon
                         arrDrawingPointsOut[arrLen - 2] := arrDrawingPointsOut[0];
                         arrDrawingPointsOut[arrLen - 1] := arrDrawingPointsOut[1];
+
+                    result := arrDrawingPointsOut;
                 end;
 
 
