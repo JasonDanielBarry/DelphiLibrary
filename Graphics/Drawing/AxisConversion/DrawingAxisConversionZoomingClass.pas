@@ -13,8 +13,7 @@ interface
         TDrawingAxisZoomingConverter = class(TDrawingAxisConverterBase)
             private
                 var
-                    currentZoomPercentage   : double;
-                    drawingBoundary         : TGeomBox; //the drawing boundary stores a geometry group's boundary
+                    currentZoomPercentage : double;
                 //helper methods
                     function calculateZoomScaleFactor(const newZoomPercentage : double) : double;
                 //rescaling methods
@@ -29,9 +28,12 @@ interface
                     procedure zoom( const zoomPercentageIn : double;
                                     const zoomAboutPointIn : TGeomPoint ); overload;
                     procedure zoom(const zoomPercentageIn : double); overload;
-                    procedure zoomForConstantDrawingSpaceRatio(); override;
+
             protected
-                //
+                var
+                    drawingBoundary : TGeomBox; //the drawing boundary stores a geometry group's boundary
+                //zoom for drawing space ratio
+                    procedure zoomForConstantDrawingSpaceRatio(); override;
             public
                 //constructor
                     constructor create();
@@ -203,12 +205,14 @@ implementation
                     zoom( domainCentre, rangeCentre, zoomPercentageIn );
                 end;
 
+
+
+    //protected
+        //zoom for drawing space ratio
             procedure TDrawingAxisZoomingConverter.zoomForConstantDrawingSpaceRatio();
                 begin
                     setZoom( currentZoomPercentage );
                 end;
-
-    //protected
 
     //public
         //constructor

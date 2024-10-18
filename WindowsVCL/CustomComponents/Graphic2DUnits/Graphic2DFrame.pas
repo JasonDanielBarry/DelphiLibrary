@@ -15,7 +15,6 @@ interface
     type
         TCustomGraphic2D = class(TFrame)
             SkPaintBoxGraphic: TSkPaintBox;
-            GridPanelGraphicControls: TGridPanel;
             SpeedButtonZoomIn: TSpeedButton;
             SpeedButtonZoomOut: TSpeedButton;
             SpeedButtonZoomExtents: TSpeedButton;
@@ -24,8 +23,11 @@ interface
             SpeedButtonShiftUp: TSpeedButton;
             SpeedButtonShiftDown: TSpeedButton;
             SpeedButtonUpdateGeometry: TSpeedButton;
-    ComboBoxZoomPercent: TComboBox;
+            ComboBoxZoomPercent: TComboBox;
+            GridPanelDirectionalPan: TGridPanel;
+            PanelZoom: TPanel;
             //events
+                procedure mouseWheelScroll(var messageInOut : TMessage); message WM_MOUSEWHEEL;
                 procedure SkPaintBoxGraphicDraw(ASender         : TObject;
                                                 const ACanvas   : ISkCanvas;
                                                 const ADest     : TRectF;
@@ -35,6 +37,10 @@ interface
                 procedure SpeedButtonZoomInClick(Sender: TObject);
                 procedure SpeedButtonZoomOutClick(Sender: TObject);
                 procedure ComboBoxZoomPercentChange(Sender: TObject);
+                procedure SpeedButtonShiftLeftClick(Sender: TObject);
+                procedure SpeedButtonShiftRightClick(Sender: TObject);
+    procedure SpeedButtonShiftUpClick(Sender: TObject);
+    procedure SpeedButtonShiftDownClick(Sender: TObject);
             private
                 var
                     skiaGeomDrawer                  : TSkiaGeomDrawer;
@@ -44,6 +50,10 @@ interface
                 //drawing procedure
                     procedure preDrawGraphic(const canvasIn : ISkCanvas); virtual;
                     procedure postDrawGraphic(const canvasIn : ISkCanvas); virtual;
+                //panning methods
+                    procedure shiftDomain(const shiftXIn : double);
+                    procedure shiftRange(const shiftYIn : double);
+                    procedure shiftRegion(const shiftXIn, shiftYIn : double);
                 //zooming methods
                     procedure zoomIn(const zoomPercentageIn : double);
                     procedure zoomOut(const zoomPercentageIn : double);
@@ -72,6 +82,14 @@ implementation
 {$R *.dfm}
 
     //events
+        procedure TCustomGraphic2D.mouseWheelScroll(var messageInOut : TMessage);
+            begin
+                if (messageInOut.WParam = 7864320) then
+                    zoomIn(10)
+                else
+                    zoomOut(10);
+            end;
+
         procedure TCustomGraphic2D.SkPaintBoxGraphicDraw(   ASender         : TObject;
                                                             const ACanvas   : ISkCanvas;
                                                             const ADest     : TRectF;
@@ -80,6 +98,57 @@ implementation
                 preDrawGraphic( ACanvas );
 
                 skiaGeomDrawer.drawAllGeometry( ACanvas, axisConverter );
+
+                postDrawGraphic( ACanvas )
+            end;
+
+        procedure TCustomGraphic2D.SpeedButtonShiftDownClick(Sender: TObject);
+            var
+                drawingRange : double;
+            begin
+                drawingRange := axisConverter.calculateDrawingRange();
+
+                shiftRange( -drawingRange / 10 );
+            end;
+
+        procedure TCustomGraphic2D.SpeedButtonShiftLeftClick(Sender: TObject);
+            var
+                drawingDomain : double;
+            begin
+                drawingDomain := axisConverter.calculateDrawingDomain();
+
+                shiftDomain( -drawingDomain / 10 );
+            end;
+
+        procedure TCustomGraphic2D.ComboBoxZoomPercentChange(Sender: TObject);
+            var
+                newZoomPercent : double;
+            begin
+                try
+                    newZoomPercent := StrToFloat( ComboBoxZoomPercent.Text );
+                except
+                    newZoomPercent := 1;
+                end;
+
+                setZoom( newZoomPercent );
+            end;
+
+        procedure TCustomGraphic2D.SpeedButtonShiftRightClick(Sender: TObject);
+            var
+                drawingDomain : double;
+            begin
+                drawingDomain := axisConverter.calculateDrawingDomain();
+
+                shiftDomain( drawingDomain / 10 );
+            end;
+
+        procedure TCustomGraphic2D.SpeedButtonShiftUpClick(Sender: TObject);
+            var
+                drawingRange : double;
+            begin
+                drawingRange := axisConverter.calculateDrawingRange();
+
+                shiftRange( drawingRange / 10 );
             end;
 
         procedure TCustomGraphic2D.SpeedButtonUpdateGeometryClick(Sender: TObject);
@@ -106,20 +175,10 @@ implementation
         //drawing procedure
             procedure TCustomGraphic2D.preDrawGraphic(const canvasIn : ISkCanvas);
                 var
-                    currentZoomPercentage   : double;
-                    paint                   : ISkPaint;
+                    currentZoomPercentage : double;
                 begin
                     //make sure canvas is clear
                         canvasIn.Clear( TAlphaColors.Null );
-
-                    //draw a border around the paintbox edge
-                        paint       := TSkPaint.Create( TSkPaintStyle.Stroke );
-                        paint.Color := TAlphaColors.Silver;
-
-                        canvasIn.DrawRect(
-                                            RectF(0, 0, SkPaintBoxGraphic.Width - 1, SkPaintBoxGraphic.Height - 1),
-                                            paint
-                                         );
 
                     //give axis converter canvas dimensions
                         axisConverter.setCanvasRegion(SkPaintBoxGraphic.Height, SkPaintBoxGraphic.Width);
@@ -131,8 +190,41 @@ implementation
                 end;
 
             procedure TCustomGraphic2D.postDrawGraphic(const canvasIn : ISkCanvas);
+                var
+                    paint : ISkPaint;
                 begin
-                    //do nothing here
+                    //draw a border around the paintbox edge
+                        paint       := TSkPaint.Create( TSkPaintStyle.Stroke );
+                        paint.Color := TAlphaColors.Silver;
+
+                        canvasIn.DrawRect(
+                                            RectF(0, 0, SkPaintBoxGraphic.Width - 1, SkPaintBoxGraphic.Height - 1),
+                                            paint
+                                         );
+
+                    GridPanelDirectionalPan.Refresh();
+                end;
+
+        //panning methods
+            procedure TCustomGraphic2D.shiftDomain(const shiftXIn : double);
+                begin
+                    axisConverter.shiftDrawingDomain( shiftXIn );
+
+                    redrawGraphic();
+                end;
+
+            procedure TCustomGraphic2D.shiftRange(const shiftYIn : double);
+                begin
+                    axisConverter.shiftDrawingRange( shiftYIn );
+
+                    redrawGraphic();
+                end;
+
+            procedure TCustomGraphic2D.shiftRegion(const shiftXIn, shiftYIn : double);
+                begin
+                    axisConverter.shiftDrawingRegion( shiftXIn, shiftYIn );
+
+                    redrawGraphic();
                 end;
 
         //zooming methods
@@ -167,22 +259,14 @@ implementation
 
     //public
         //constructor
-            procedure TCustomGraphic2D.ComboBoxZoomPercentChange(Sender: TObject);
-                var
-                    newZoomPercent : double;
-                begin
-                    try
-                        newZoomPercent := StrToFloat( ComboBoxZoomPercent.Text );
-                    except
-                        newZoomPercent := 1;
-                    end;
-
-                    setZoom( newZoomPercent );
-                end;
-
             constructor TCustomGraphic2D.Create(AOwner : TComponent);
                 begin
                     inherited create(AOwner);
+
+                    GridPanelDirectionalPan.Left := PanelZoom.Width - GridPanelDirectionalPan.Width - 1;
+                    GridPanelDirectionalPan.top := PanelZoom.Height + 1;
+
+                    GridPanelDirectionalPan.BringToFront();
 
                     axisConverter := TDrawingAxisConverter.create();
                     skiaGeomDrawer := TSkiaGeomDrawer.create();

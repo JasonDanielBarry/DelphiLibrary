@@ -5,10 +5,10 @@ interface
     uses
         System.SysUtils, system.Math, system.Types,
         GeometryTypes,
-        DrawingAxisConversionZoomingClass;
+        DrawingAxisConversionPanningClass;
 
     type
-        TDrawingAxisConverter = class(TDrawingAxisZoomingConverter)
+        TDrawingAxisConverter = class(TDrawingAxisPanningConverter)
             private
                 //zooming methods
             public

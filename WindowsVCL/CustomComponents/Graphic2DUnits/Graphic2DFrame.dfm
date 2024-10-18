@@ -4,6 +4,9 @@ object CustomGraphic2D: TCustomGraphic2D
   Width = 1231
   Height = 736
   TabOrder = 0
+  DesignSize = (
+    1231
+    736)
   object SkPaintBoxGraphic: TSkPaintBox
     Left = 0
     Top = 25
@@ -13,103 +16,159 @@ object CustomGraphic2D: TCustomGraphic2D
     OnDraw = SkPaintBoxGraphicDraw
     ExplicitTop = 31
   end
-  object GridPanelGraphicControls: TGridPanel
+  object GridPanelDirectionalPan: TGridPanel
+    Left = 1153
+    Top = 29
+    Width = 75
+    Height = 75
+    Anchors = [akTop, akRight]
+    BevelOuter = bvNone
+    ColumnCollection = <
+      item
+        Value = 33.333333333333340000
+      end
+      item
+        Value = 33.333333333333340000
+      end
+      item
+        Value = 33.333333333333310000
+      end>
+    ControlCollection = <
+      item
+        Column = 0
+        Control = SpeedButtonShiftLeft
+        Row = 1
+      end
+      item
+        Column = 2
+        Control = SpeedButtonShiftRight
+        Row = 1
+      end
+      item
+        Column = 1
+        Control = SpeedButtonShiftUp
+        Row = 0
+      end
+      item
+        Column = 1
+        Control = SpeedButtonShiftDown
+        Row = 2
+      end>
+    ParentColor = True
+    RowCollection = <
+      item
+        Value = 33.333333333333340000
+      end
+      item
+        Value = 33.333333333333340000
+      end
+      item
+        Value = 33.333333333333310000
+      end>
+    TabOrder = 0
+    object SpeedButtonShiftLeft: TSpeedButton
+      Left = 0
+      Top = 25
+      Width = 25
+      Height = 25
+      Align = alClient
+      Anchors = []
+      Caption = '<'
+      Flat = True
+      OnClick = SpeedButtonShiftLeftClick
+      ExplicitLeft = 608
+      ExplicitTop = 8
+      ExplicitWidth = 23
+      ExplicitHeight = 22
+    end
+    object SpeedButtonShiftRight: TSpeedButton
+      Left = 50
+      Top = 25
+      Width = 25
+      Height = 25
+      Align = alClient
+      Anchors = []
+      Caption = '>'
+      Flat = True
+      OnClick = SpeedButtonShiftRightClick
+      ExplicitLeft = 608
+      ExplicitTop = 8
+      ExplicitWidth = 23
+      ExplicitHeight = 22
+    end
+    object SpeedButtonShiftUp: TSpeedButton
+      Left = 25
+      Top = 0
+      Width = 25
+      Height = 25
+      Align = alClient
+      Anchors = []
+      Caption = '/\'
+      Flat = True
+      OnClick = SpeedButtonShiftUpClick
+      ExplicitLeft = 1028
+      ExplicitTop = -6
+    end
+    object SpeedButtonShiftDown: TSpeedButton
+      Left = 25
+      Top = 50
+      Width = 25
+      Height = 25
+      Align = alClient
+      Anchors = []
+      Caption = '\/'
+      Flat = True
+      OnClick = SpeedButtonShiftDownClick
+      ExplicitLeft = 608
+      ExplicitTop = 8
+      ExplicitWidth = 23
+      ExplicitHeight = 22
+    end
+  end
+  object PanelZoom: TPanel
     Left = 0
     Top = 0
     Width = 1231
     Height = 25
     Align = alTop
     BevelOuter = bvNone
-    ColumnCollection = <
-      item
-        Value = 100.000000000000000000
-      end
-      item
-        SizeStyle = ssAbsolute
-        Value = 25.000000000000000000
-      end
-      item
-        SizeStyle = ssAbsolute
-        Value = 25.000000000000000000
-      end
-      item
-        SizeStyle = ssAbsolute
-        Value = 25.000000000000000000
-      end
-      item
-        SizeStyle = ssAbsolute
-        Value = 25.000000000000000000
-      end
-      item
-        SizeStyle = ssAbsolute
-        Value = 25.000000000000000000
-      end
-      item
-        SizeStyle = ssAbsolute
-        Value = 25.000000000000000000
-      end
-      item
-        SizeStyle = ssAbsolute
-        Value = 25.000000000000000000
-      end
-      item
-        SizeStyle = ssAbsolute
-        Value = 45.000000000000000000
-      end>
-    ControlCollection = <
-      item
-        Column = 0
-        Control = SpeedButtonZoomIn
-        Row = 0
-      end
-      item
-        Column = 1
-        Control = SpeedButtonZoomOut
-        Row = 0
-      end
-      item
-        Column = 2
-        Control = SpeedButtonZoomExtents
-        Row = 0
-      end
-      item
-        Column = 4
-        Control = SpeedButtonShiftLeft
-        Row = 0
-      end
-      item
-        Column = 5
-        Control = SpeedButtonShiftRight
-        Row = 0
-      end
-      item
-        Column = 6
-        Control = SpeedButtonShiftUp
-        Row = 0
-      end
-      item
-        Column = 7
-        Control = SpeedButtonShiftDown
-        Row = 0
-      end
-      item
-        Column = 3
-        Control = SpeedButtonUpdateGeometry
-        Row = 0
-      end
-      item
-        Column = 8
-        Control = ComboBoxZoomPercent
-        Row = 0
-      end>
-    ParentColor = True
-    RowCollection = <
-      item
-        Value = 100.000000000000000000
-      end>
-    TabOrder = 0
+    TabOrder = 1
+    object SpeedButtonUpdateGeometry: TSpeedButton
+      Left = 1161
+      Top = 0
+      Width = 25
+      Height = 25
+      Align = alRight
+      Caption = 'U'
+      Flat = True
+      OnClick = SpeedButtonUpdateGeometryClick
+      ExplicitLeft = 0
+    end
+    object SpeedButtonZoomExtents: TSpeedButton
+      Left = 1136
+      Top = 0
+      Width = 25
+      Height = 25
+      Align = alRight
+      Caption = 'E'
+      Flat = True
+      OnClick = SpeedButtonZoomExtentsClick
+      ExplicitLeft = 0
+    end
+    object SpeedButtonZoomOut: TSpeedButton
+      Left = 1111
+      Top = 0
+      Width = 25
+      Height = 25
+      Align = alRight
+      Caption = '-'
+      Flat = True
+      OnClick = SpeedButtonZoomOutClick
+      ExplicitLeft = 1105
+      ExplicitTop = -6
+    end
     object SpeedButtonZoomIn: TSpeedButton
-      Left = 986
+      Left = 1086
       Top = 0
       Width = 25
       Height = 25
@@ -117,106 +176,15 @@ object CustomGraphic2D: TCustomGraphic2D
       Caption = '+'
       Flat = True
       OnClick = SpeedButtonZoomInClick
-      ExplicitLeft = 911
-    end
-    object SpeedButtonZoomOut: TSpeedButton
-      Left = 1011
-      Top = 0
-      Width = 25
-      Height = 25
-      Align = alClient
-      Caption = '-'
-      Flat = True
-      OnClick = SpeedButtonZoomOutClick
-      ExplicitLeft = 608
-      ExplicitTop = 8
-      ExplicitWidth = 23
-      ExplicitHeight = 22
-    end
-    object SpeedButtonZoomExtents: TSpeedButton
-      Left = 1036
-      Top = 0
-      Width = 25
-      Height = 25
-      Align = alClient
-      Caption = 'E'
-      Flat = True
-      OnClick = SpeedButtonZoomExtentsClick
-      ExplicitLeft = 608
-      ExplicitTop = 8
-      ExplicitWidth = 23
-      ExplicitHeight = 22
-    end
-    object SpeedButtonShiftLeft: TSpeedButton
-      Left = 1086
-      Top = 0
-      Width = 25
-      Height = 25
-      Align = alClient
-      Caption = '<'
-      Flat = True
-      ExplicitLeft = 608
-      ExplicitTop = 8
-      ExplicitWidth = 23
-      ExplicitHeight = 22
-    end
-    object SpeedButtonShiftRight: TSpeedButton
-      Left = 1111
-      Top = 0
-      Width = 25
-      Height = 25
-      Align = alClient
-      Caption = '>'
-      Flat = True
-      ExplicitLeft = 608
-      ExplicitTop = 8
-      ExplicitWidth = 23
-      ExplicitHeight = 22
-    end
-    object SpeedButtonShiftUp: TSpeedButton
-      Left = 1136
-      Top = 0
-      Width = 25
-      Height = 25
-      Align = alClient
-      Caption = '/\'
-      Flat = True
-      ExplicitLeft = 1028
+      ExplicitLeft = 1080
       ExplicitTop = -6
-    end
-    object SpeedButtonShiftDown: TSpeedButton
-      Left = 1161
-      Top = 0
-      Width = 25
-      Height = 25
-      Align = alClient
-      Caption = '\/'
-      Flat = True
-      ExplicitLeft = 608
-      ExplicitTop = 8
-      ExplicitWidth = 23
-      ExplicitHeight = 22
-    end
-    object SpeedButtonUpdateGeometry: TSpeedButton
-      Left = 1061
-      Top = 0
-      Width = 25
-      Height = 25
-      Align = alClient
-      Caption = 'U'
-      Flat = True
-      OnClick = SpeedButtonUpdateGeometryClick
-      ExplicitLeft = 608
-      ExplicitTop = 8
-      ExplicitWidth = 23
-      ExplicitHeight = 22
     end
     object ComboBoxZoomPercent: TComboBox
       Left = 1186
       Top = 0
       Width = 45
       Height = 23
-      Align = alClient
+      Align = alRight
       TabOrder = 0
       Text = '100'
       OnChange = ComboBoxZoomPercentChange
@@ -231,7 +199,9 @@ object CustomGraphic2D: TCustomGraphic2D
         '150'
         '200'
         '250'
-        '300')
+        '300'
+        '400'
+        '500')
     end
   end
 end
