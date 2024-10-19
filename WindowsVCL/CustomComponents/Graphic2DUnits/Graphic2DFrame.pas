@@ -106,7 +106,7 @@ implementation
             var
                 drawingRange : double;
             begin
-                drawingRange := axisConverter.calculateDrawingRange();
+                drawingRange := axisConverter.calculateRegionRange();
 
                 shiftRange( -drawingRange / 10 );
             end;
@@ -115,7 +115,7 @@ implementation
             var
                 drawingDomain : double;
             begin
-                drawingDomain := axisConverter.calculateDrawingDomain();
+                drawingDomain := axisConverter.calculateRegionDomain();
 
                 shiftDomain( -drawingDomain / 10 );
             end;
@@ -137,7 +137,7 @@ implementation
             var
                 drawingDomain : double;
             begin
-                drawingDomain := axisConverter.calculateDrawingDomain();
+                drawingDomain := axisConverter.calculateRegionDomain();
 
                 shiftDomain( drawingDomain / 10 );
             end;
@@ -146,7 +146,7 @@ implementation
             var
                 drawingRange : double;
             begin
-                drawingRange := axisConverter.calculateDrawingRange();
+                drawingRange := axisConverter.calculateRegionRange();
 
                 shiftRange( drawingRange / 10 );
             end;
@@ -183,7 +183,7 @@ implementation
                     //give axis converter canvas dimensions
                         axisConverter.setCanvasRegion(SkPaintBoxGraphic.Height, SkPaintBoxGraphic.Width);
 
-                        axisConverter.setDrawingSpaceRatioOneToOne();
+//                        axisConverter.setDrawingSpaceRatioOneToOne();
 
                     currentZoomPercentage := axisConverter.getCurrentZoomPercentage();
                     ComboBoxZoomPercent.Text := FloatToStrF( currentZoomPercentage, ffNumber, 5, 0 );

@@ -77,10 +77,10 @@ interface
                         procedure setDrawingSpaceRatioOneToOne();
                 //helper methods
                     //domain
-                        function calculateDrawingDomain() : double;
+                        function calculateRegionDomain() : double;
 
                     //range
-                        function calculateDrawingRange() : double;
+                        function calculateRegionRange() : double;
 
                 //space conversions
                     //canvas to region
@@ -124,14 +124,14 @@ implementation
                     begin
                         //x(l) = (D/w)l + xmin
 
-                        result := ((calculateDrawingDomain() / canvasSpace.width) * L_In) + drawingRegion.minPoint.x;
+                        result := ((calculateRegionDomain() / canvasSpace.width) * L_In) + drawingRegion.minPoint.x;
                     end;
 
                 function TDrawingAxisConverterBase.T_to_Y(const T_In : double) : double;
                     begin
                         //y(t) = -(R/h)t + ymax
 
-                        result := -((calculateDrawingRange() / canvasSpace.height) * T_In) + drawingRegion.maxPoint.y;
+                        result := -((calculateRegionRange() / canvasSpace.height) * T_In) + drawingRegion.maxPoint.y;
                     end;
 
             //drawing-to-canvas
@@ -142,7 +142,7 @@ implementation
                         begin
                             //l(x) = (w/D)(x - xmin)
                             deltaX := X_In - drawingRegion.minPoint.x;
-                            drawDomain := calculateDrawingDomain();
+                            drawDomain := calculateRegionDomain();
 
                             result := round( ( canvasWidth() / drawDomain ) * deltaX );
                         end;
@@ -153,7 +153,7 @@ implementation
                         begin
                             //t(y) = (h/R)(ymax - y)
                             deltaY := drawingRegion.maxPoint.y - Y_In;
-                            drawRange := calculateDrawingRange();
+                            drawRange := calculateRegionRange();
 
                             result := round( ( canvasHeight() / drawRange ) * deltaY );
                         end;
@@ -351,7 +351,7 @@ implementation
                             begin
                                 var drawDomain, newRange, newRangeMin, rangeMiddle, newRangeMax : double;
 
-                                drawDomain := calculateDrawingDomain();
+                                drawDomain := calculateRegionDomain();
 
                                 //calculate new range: R = D(1/r)(h/w)
                                     newRange := (1 / ratioIn) * drawDomain * ( canvasHeight() / canvasWidth() );
@@ -369,7 +369,7 @@ implementation
                             begin
                                 var drawRange, newDomain, newDomainMin, domainMiddle, newDomainMax : double;
 
-                                drawRange := calculateDrawingRange();
+                                drawRange := calculateRegionRange();
 
                                 //calculate new domain: D = R(r)(w/h)
                                     newDomain := ratioIn * drawRange * ( canvasWidth() / canvasHeight() );
@@ -398,10 +398,10 @@ implementation
                             zoomForConstantDrawingSpaceRatio();
 
                         //if the domain/width ratio is larger you must size by the domain
-                            domainRatio := ( calculateDrawingDomain() / canvasWidth() );
+                            domainRatio := ( calculateRegionDomain() / canvasWidth() );
 
                         //if the range/height ratio is larger you must size by the range
-                            rangeRatio := ( calculateDrawingRange() / canvasHeight() );
+                            rangeRatio := ( calculateRegionRange() / canvasHeight() );
 
                             adjustByDomain := ( domainRatio > rangeRatio );
 
@@ -413,13 +413,13 @@ implementation
 
         //helper methods
             //domain
-                function TDrawingAxisConverterBase.calculateDrawingDomain() : double;
+                function TDrawingAxisConverterBase.calculateRegionDomain() : double;
                     begin
                         result := domainMax() - domainMin();
                     end;
 
             //range
-                function TDrawingAxisConverterBase.calculateDrawingRange() : double;
+                function TDrawingAxisConverterBase.calculateRegionRange() : double;
                     begin
                         result := rangeMax() - rangeMin();
                     end;
@@ -435,7 +435,7 @@ implementation
                     var
                         regionRange : double;
                     begin
-                        regionRange := calculateDrawingRange();
+                        regionRange := calculateRegionRange();
 
                         result := regionRange - T_to_Y( dT_In );
                     end;

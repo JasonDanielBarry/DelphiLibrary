@@ -16,6 +16,7 @@ interface
                     currentZoomPercentage : double;
                 //helper methods
                     function calculateZoomScaleFactor(const newZoomPercentage : double) : double;
+                    function calculateCurrentZoomPercentage() : double;
                 //rescaling methods
                     function rescaleRegionDimension(const   currentRegionDimensionIn,
                                                             currentRegionDimensionMinIn,    currentRegionDimensionMaxIn,
@@ -24,14 +25,17 @@ interface
                     procedure rescaleRange(const scaleAboutYIn, scaleFactorIn : double);
                     procedure rescaleRegion(const scaleAboutXIn, scaleAboutYIn, scaleFactorIn : double);
                 //zooming by percent
-                    procedure zoom(const zoomAboutXIn, zoomAboutYIn, zoomPercentageIn : double); overload;
-                    procedure zoom( const zoomPercentageIn : double;
-                                    const zoomAboutPointIn : TGeomPoint ); overload;
-                    procedure zoom(const zoomPercentageIn : double); overload;
+                    procedure zoom(const zoomAboutXIn, zoomAboutYIn, newZoomPercentageIn : double); overload;
+                    procedure zoom( const newZoomPercentageIn   : double;
+                                    const zoomAboutPointIn      : TGeomPoint ); overload;
+                    procedure zoom(const newZoomPercentageIn : double); overload;
 
             protected
                 var
-                    drawingBoundary : TGeomBox; //the drawing boundary stores a geometry group's boundary
+                    geometryBoundary : TGeomBox; //the drawing boundary stores a geometry group's boundary
+                //helper methods
+                    function calculateBoundaryDomain() : double;
+                    function calculateBoundaryRange() : double;
                 //zoom for drawing space ratio
                     procedure zoomForConstantDrawingSpaceRatio(); override;
             public
@@ -66,6 +70,18 @@ implementation
                     // > 1 the region grows which zooms out the drawing
 
                     result := currentZoomPercentage / newZoomPercentage;
+                end;
+
+            function TDrawingAxisZoomingConverter.calculateCurrentZoomPercentage() : double;
+                var
+                    domainZoomPercentage, rangeZoomPercentage : double;
+                begin
+                    //zoom is the ratio of the geometry boundary to the drawing region
+                    //105 is for the 5% buffer on the drawing region when reset using the geometry boundary
+                        domainZoomPercentage    := 105 * calculateBoundaryDomain() / calculateRegionDomain();
+                        rangeZoomPercentage     := 105 * calculateBoundaryRange() / calculateRegionRange();
+
+                    result := max(domainZoomPercentage, rangeZoomPercentage);
                 end;
 
         //rescaling methods
@@ -113,7 +129,7 @@ implementation
                     domainMinAndMax                     : TArray<double>;
                 begin
                     //get current info
-                        currentDomain       := calculateDrawingDomain();
+                        currentDomain       := calculateRegionDomain();
                         currentDomainMin    := domainMin();
                         currentDomainMax    := domainMax();
 
@@ -140,7 +156,7 @@ implementation
                     rangeMinAndMax                      : TArray<double>;
                 begin
                     //get current info
-                        currentRange       := calculateDrawingRange();
+                        currentRange       := calculateRegionRange();
                         currentRangeMin    := rangeMin();
                         currentRangeMax    := rangeMax();
 
@@ -166,52 +182,58 @@ implementation
                 end;
 
         //zooming by percent
-            procedure TDrawingAxisZoomingConverter.zoom(const zoomAboutXIn, zoomAboutYIn, zoomPercentageIn : double);
+            procedure TDrawingAxisZoomingConverter.zoom(const zoomAboutXIn, zoomAboutYIn, newZoomPercentageIn : double);
                 var
-                    newZoomPercentage,
-                    zoomScaleFactor     : double;
+                    zoomScaleFactor : double;
                 begin
                     //calculate the new zoom percentage
-                        newZoomPercentage := zoomPercentageIn;
-
-                        if ( newZoomPercentage < 1e-3) then
+                        if ( newZoomPercentageIn < 1e-3) then
                             exit();
 
-                        resetDrawingRegionToDrawingBoundary();
+//                        resetDrawingRegionToDrawingBoundary();
 
                     //zoom to the desired factor about the specified point
                         //get the zoom factor
-                            zoomScaleFactor := calculateZoomScaleFactor( newZoomPercentage );
+                            zoomScaleFactor := calculateZoomScaleFactor( newZoomPercentageIn );
 
                         rescaleRegion(zoomAboutXIn, zoomAboutYIn, zoomScaleFactor);
 
                     //set currentZoomPercentage to the correct value
-                        currentZoomPercentage := newZoomPercentage;
+                        currentZoomPercentage := calculateCurrentZoomPercentage();
                 end;
 
-            procedure TDrawingAxisZoomingConverter.zoom(const zoomPercentageIn : double;
-                                                        const zoomAboutPointIn : TGeomPoint);
+            procedure TDrawingAxisZoomingConverter.zoom(const newZoomPercentageIn   : double;
+                                                        const zoomAboutPointIn      : TGeomPoint);
                 begin
-                    zoom(zoomAboutPointIn.X, zoomAboutPointIn.y, zoomPercentageIn);
+                    zoom(zoomAboutPointIn.X, zoomAboutPointIn.y, newZoomPercentageIn);
                 end;
 
-            procedure TDrawingAxisZoomingConverter.zoom(const zoomPercentageIn : double);
+            procedure TDrawingAxisZoomingConverter.zoom(const newZoomPercentageIn : double);
                 var
-                    domainCentre, rangeCentre : double;
+                    regionDomainCentre, regionRangeCentre : double;
                 begin
-                    domainCentre    := calculateDomainCentre();
-                    rangeCentre     := calculateRangeCentre();
+                    regionDomainCentre  := calculateDomainCentre();
+                    regionRangeCentre   := calculateRangeCentre();
 
-                    zoom( domainCentre, rangeCentre, zoomPercentageIn );
+                    zoom( regionDomainCentre, regionRangeCentre, newZoomPercentageIn );
                 end;
-
-
 
     //protected
         //zoom for drawing space ratio
             procedure TDrawingAxisZoomingConverter.zoomForConstantDrawingSpaceRatio();
                 begin
                     setZoom( currentZoomPercentage );
+                end;
+
+        //helper methods
+            function TDrawingAxisZoomingConverter.calculateBoundaryDomain() : double;
+                begin
+                    result := geometryBoundary.maxPoint.x - geometryBoundary.minPoint.x
+                end;
+
+            function TDrawingAxisZoomingConverter.calculateBoundaryRange() : double;
+                begin
+                    result := geometryBoundary.maxPoint.y - geometryBoundary.minPoint.y
                 end;
 
     //public
@@ -222,8 +244,8 @@ implementation
 
                     currentZoomPercentage := 100;
 
-                    drawingBoundary.minPoint.setPoint( 0, 0, 0 );
-                    drawingBoundary.maxPoint.setPoint( 0, 0, 0 );
+                    geometryBoundary.minPoint.setPoint( 0, 0, 0 );
+                    geometryBoundary.maxPoint.setPoint( 0, 0, 0 );
                 end;
 
         //destructor
@@ -241,13 +263,13 @@ implementation
         //modifiers
             procedure TDrawingAxisZoomingConverter.setDrawingBoundary(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double);
                 begin
-                    drawingBoundary.minPoint.x := domainMinIn;
-                    drawingBoundary.minPoint.y := rangeMinIn;
-                    drawingBoundary.minPoint.z := 0;
+                    geometryBoundary.minPoint.x := domainMinIn;
+                    geometryBoundary.minPoint.y := rangeMinIn;
+                    geometryBoundary.minPoint.z := 0;
 
-                    drawingBoundary.maxPoint.x := domainMaxIn;
-                    drawingBoundary.maxPoint.y := rangeMaxIn;
-                    drawingBoundary.maxPoint.z := 0;
+                    geometryBoundary.maxPoint.x := domainMaxIn;
+                    geometryBoundary.maxPoint.y := rangeMaxIn;
+                    geometryBoundary.maxPoint.z := 0;
                 end;
 
             procedure TDrawingAxisZoomingConverter.setDrawingBoundary(const boundaryBoxIn : TGeomBox);
@@ -262,7 +284,7 @@ implementation
 
             procedure TDrawingAxisZoomingConverter.resetDrawingRegionToDrawingBoundary();
                 begin
-                    setDrawingRegion(5, drawingBoundary);
+                    setDrawingRegion(5, geometryBoundary);
 
                     currentZoomPercentage := 100;
                 end;
