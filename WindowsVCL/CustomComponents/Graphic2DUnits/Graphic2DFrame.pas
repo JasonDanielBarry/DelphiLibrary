@@ -183,7 +183,7 @@ implementation
                     //give axis converter canvas dimensions
                         axisConverter.setCanvasRegion(SkPaintBoxGraphic.Height, SkPaintBoxGraphic.Width);
 
-//                        axisConverter.setDrawingSpaceRatioOneToOne();
+                        axisConverter.setDrawingSpaceRatioOneToOne();
 
                     currentZoomPercentage := axisConverter.getCurrentZoomPercentage();
                     ComboBoxZoomPercent.Text := FloatToStrF( currentZoomPercentage, ffNumber, 5, 0 );
@@ -252,7 +252,7 @@ implementation
             procedure TCustomGraphic2D.resetZoom();
                 begin
                     //make the drawing boundary the drawing region
-                        axisConverter.resetDrawingRegionToDrawingBoundary();
+                        axisConverter.resetDrawingRegionToGeometryBoundary();
 
                     redrawGraphic();
                 end;

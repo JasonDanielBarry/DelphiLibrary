@@ -5,6 +5,7 @@ object Form1: TForm1
   ClientHeight = 770
   ClientWidth = 1317
   Color = clBtnFace
+  DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
@@ -21,7 +22,9 @@ object Form1: TForm1
     BevelEdges = []
     BevelOuter = bvNone
     Caption = 'Graphic2D1'
+    DoubleBuffered = True
     ParentColor = True
+    ParentDoubleBuffered = False
     ShowCaption = False
     TabOrder = 0
     OnUpdateGeometry = Graphic2D1UpdateGeometry

@@ -14,8 +14,7 @@ interface
             private
 
             protected
-                //pan to correct position for 1:1 ratio
-                    procedure panForConstantDrawingSpaceRatio(const tempDrawingRegionIn : TGeomBox); override;
+
             public
                 //constructor
                     constructor create();
@@ -28,18 +27,6 @@ interface
         end;
 
 implementation
-
-    //protected
-        //pan to correct position for 1:1 ratio
-            procedure TDrawingAxisPanningConverter.panForConstantDrawingSpaceRatio(const tempDrawingRegionIn : TGeomBox);
-                var
-                    deltaX, deltaY : double;
-                begin
-                    deltaX := tempDrawingRegionIn.minPoint.x - domainMin();
-                    deltaY := tempDrawingRegionIn.minPoint.y - rangeMin();
-
-                    shiftDrawingRegion(deltaX, deltaY);
-                end;
 
     //public
         //constructor

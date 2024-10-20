@@ -3,6 +3,9 @@ object CustomGraphic2D: TCustomGraphic2D
   Top = 0
   Width = 1231
   Height = 736
+  DoubleBuffered = True
+  DoubleBufferedMode = dbmRequested
+  ParentDoubleBuffered = False
   TabOrder = 0
   DesignSize = (
     1231

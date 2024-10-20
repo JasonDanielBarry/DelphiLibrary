@@ -153,6 +153,7 @@
         <DCCReference Include="Graphics\Drawing\AxisConversion\DrawingAxisConversionClass.pas"/>
         <DCCReference Include="Graphics\Drawing\AxisConversion\DrawingAxisConversionPanningClass.pas"/>
         <DCCReference Include="Graphics\Drawing\AxisConversion\DrawingAxisConversionZoomingClass.pas"/>
+        <DCCReference Include="Graphics\Drawing\AxisConversion\DrawingAxisConversionCalculationsClass.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

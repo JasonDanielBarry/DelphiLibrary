@@ -44,7 +44,8 @@ uses
   DrawingAxisConversionBaseClass in 'Graphics\Drawing\AxisConversion\DrawingAxisConversionBaseClass.pas',
   DrawingAxisConversionClass in 'Graphics\Drawing\AxisConversion\DrawingAxisConversionClass.pas',
   DrawingAxisConversionPanningClass in 'Graphics\Drawing\AxisConversion\DrawingAxisConversionPanningClass.pas',
-  DrawingAxisConversionZoomingClass in 'Graphics\Drawing\AxisConversion\DrawingAxisConversionZoomingClass.pas';
+  DrawingAxisConversionZoomingClass in 'Graphics\Drawing\AxisConversion\DrawingAxisConversionZoomingClass.pas',
+  DrawingAxisConversionCalculationsClass in 'Graphics\Drawing\AxisConversion\DrawingAxisConversionCalculationsClass.pas';
 
 {$R *.res}
 

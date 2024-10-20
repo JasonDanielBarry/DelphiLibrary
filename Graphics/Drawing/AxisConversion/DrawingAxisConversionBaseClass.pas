@@ -19,13 +19,6 @@ interface
                         //y bounds
                             procedure setRangeMin(const rangeMinIn : double);
                             procedure setRangeMax(const rangeMaxIn : double);
-                //convertion calculations
-                    //canvas-to-drawing
-                        function L_to_X(const L_In : double) : double;
-                        function T_to_Y(const T_In : double) : double;
-                    //drawing-to-canvas
-                        function X_to_L(const X_In : double) : double;
-                        function Y_to_T(const Y_In : double) : double;
             protected
                 var
                     drawingRegion : TGeomBox;
@@ -34,17 +27,13 @@ interface
                         function canvasHeight() : integer;
                         function canvasWidth() : integer;
                     //domain
-                        function domainMin() : double;
-                        function domainMax() : double;
-                        function calculateDomainCentre() : double;
+                        function regionDomainMin() : double;
+                        function regionDomainMax() : double;
+                        function calculateRegionDomainCentre() : double;
                     //range
-                        function rangeMin() : double;
-                        function rangeMax() : double;
-                        function calculateRangeCentre() : double;
-                    //zoom
-                        procedure zoomForConstantDrawingSpaceRatio(); virtual; abstract;
-                    //panning
-                        procedure panForConstantDrawingSpaceRatio(const tempDrawingRegionIn : TGeomBox); virtual; abstract;
+                        function regionRangeMin() : double;
+                        function regionRangeMax() : double;
+                        function calculateRegionRangeCentre() : double;
                 //modifiers
                     //canvas boundaries
                         procedure setCanvasHeight(const heightIn : integer);
@@ -53,12 +42,6 @@ interface
                         procedure setDomain(const domainMinIn, domainMaxIn : double);
                         procedure setRange(const rangeMinIn, rangeMaxIn : double);
                         procedure setDrawingRegion(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double); overload;
-                //convertion calculations
-                    //canvas-to-drawing
-                        function LT_to_XY(const L_In, T_In : double) : TGeomPoint;
-                    //drawing-to-canvas
-                        function XY_to_LTF(const X_In, Y_In : double) : TPointF;
-                        function XY_to_LT(const X_In, Y_In : double) : TPoint;
             public
                 //constructor
                     constructor create();
@@ -78,17 +61,9 @@ interface
                 //helper methods
                     //domain
                         function calculateRegionDomain() : double;
-
                     //range
                         function calculateRegionRange() : double;
 
-                //space conversions
-                    //canvas to region
-                        function dL_To_dX(const dL_In : double) : double;
-                        function dT_To_dY(const dT_In : double) : double;
-                    //region to canvas
-                        function dX_To_dL(const dX_In : double) : double;
-                        function dY_To_dT(const dY_In : double) : double;
         end;
 
 implementation
@@ -118,45 +93,7 @@ implementation
                             drawingRegion.maxPoint.y := rangeMaxIn;
                         end;
 
-        //convertion calculations
-            //canvasSpace-to-drawing
-                function TDrawingAxisConverterBase.L_to_X(const L_In : double) : double;
-                    begin
-                        //x(l) = (D/w)l + xmin
 
-                        result := ((calculateRegionDomain() / canvasSpace.width) * L_In) + drawingRegion.minPoint.x;
-                    end;
-
-                function TDrawingAxisConverterBase.T_to_Y(const T_In : double) : double;
-                    begin
-                        //y(t) = -(R/h)t + ymax
-
-                        result := -((calculateRegionRange() / canvasSpace.height) * T_In) + drawingRegion.maxPoint.y;
-                    end;
-
-            //drawing-to-canvas
-                //double verions
-                    function TDrawingAxisConverterBase.X_to_L(const X_In : double) : double;
-                        var
-                            deltaX, drawDomain : double;
-                        begin
-                            //l(x) = (w/D)(x - xmin)
-                            deltaX := X_In - drawingRegion.minPoint.x;
-                            drawDomain := calculateRegionDomain();
-
-                            result := round( ( canvasWidth() / drawDomain ) * deltaX );
-                        end;
-
-                    function TDrawingAxisConverterBase.Y_to_T(const Y_In : double) : double;
-                        var
-                            deltaY, drawRange : double;
-                        begin
-                            //t(y) = (h/R)(ymax - y)
-                            deltaY := drawingRegion.maxPoint.y - Y_In;
-                            drawRange := calculateRegionRange();
-
-                            result := round( ( canvasHeight() / drawRange ) * deltaY );
-                        end;
 
     //protected
         //helper methods
@@ -172,38 +109,38 @@ implementation
                     end;
 
             //domain
-                function TDrawingAxisConverterBase.domainMin() : double;
+                function TDrawingAxisConverterBase.regionDomainMin() : double;
                     begin
                         result := drawingRegion.minPoint.x;
                     end;
 
-                function TDrawingAxisConverterBase.domainMax() : double;
+                function TDrawingAxisConverterBase.regionDomainMax() : double;
                     begin
                         result := drawingRegion.maxPoint.x;
                     end;
 
-                function TDrawingAxisConverterBase.calculateDomainCentre() : double;
+                function TDrawingAxisConverterBase.calculateRegionDomainCentre() : double;
                     begin
                         result := Mean(
-                                        [domainMin(), domainMax()]
+                                        [regionDomainMin(), regionDomainMax()]
                                       );
                     end;
 
             //range
-                function TDrawingAxisConverterBase.rangeMin() : double;
+                function TDrawingAxisConverterBase.regionRangeMin() : double;
                     begin
                         result := drawingRegion.minPoint.y;
                     end;
 
-                function TDrawingAxisConverterBase.rangeMax() : double;
+                function TDrawingAxisConverterBase.regionRangeMax() : double;
                     begin
                         result := drawingRegion.maxPoint.y;
                     end;
 
-                function TDrawingAxisConverterBase.calculateRangeCentre() : double;
+                function TDrawingAxisConverterBase.calculateRegionRangeCentre() : double;
                     begin
                         result := Mean(
-                                        [rangeMin(), rangeMax()]
+                                        [regionRangeMin(), regionRangeMax()]
                                       );
                     end;
 
@@ -238,38 +175,7 @@ implementation
                         setRange(rangeMinIn, rangeMaxIn);
                     end;
 
-        //convertion calculations
-            //canvasSpace-to-drawing
-                function TDrawingAxisConverterBase.LT_to_XY(const L_In, T_In : double) : TGeomPoint;
-                    var
-                        pointOut : TGeomPoint;
-                    begin
-                        pointOut.x := L_to_X(L_In);
-                        pointOut.y := T_to_Y(T_In);
-
-                        result := pointOut;
-                    end;
-
-            //drawing-to-canvas
-                function TDrawingAxisConverterBase.XY_to_LTF(const X_In, Y_In : double) : TPointF;
-                    var
-                        pointOut : TPointF;
-                    begin
-                        pointOut.x := X_to_L(X_In);
-                        pointOut.y := Y_to_T(Y_In);
-
-                        result := pointOut;
-                    end;
-
-                function TDrawingAxisConverterBase.XY_to_LT(const X_In, Y_In : double) : TPoint;
-                    var
-                        pointF : TPointF;
-                    begin
-                        pointF := XY_to_LTF(X_In, Y_In);
-
-                        result := point( round(pointF.X), round(pointF.Y) )
-                    end;
-
+        
     //public
         //constructor
             constructor TDrawingAxisConverterBase.create();
@@ -357,7 +263,7 @@ implementation
                                     newRange := (1 / ratioIn) * drawDomain * ( canvasHeight() / canvasWidth() );
 
                                 //calculate the range middle
-                                    rangeMiddle := calculateRangeCentre();
+                                    rangeMiddle := calculateRegionRangeCentre();
 
                                 //calcualte the range top and bottom
                                     newRangeMin := rangeMiddle - newRange / 2;
@@ -375,7 +281,7 @@ implementation
                                     newDomain := ratioIn * drawRange * ( canvasWidth() / canvasHeight() );
 
                                 //calculate the domain middle
-                                    domainMiddle := calculateDomainCentre();
+                                    domainMiddle := calculateRegionDomainCentre();
 
                                 //calculate the domain left and right
                                     newDomainMin := domainMiddle - newDomain / 2;
@@ -393,9 +299,9 @@ implementation
                     begin
                         drawingRegionTemp := drawingRegion;
 
-                        //this function ensures that if a drawing space ratio is set 1:1 the drawing does not shrink as the window is resized
-                        //must be called before adjustByDomain is calculated
-                            zoomForConstantDrawingSpaceRatio();
+//                        //this function ensures that if a drawing space ratio is set 1:1 the drawing does not shrink as the window is resized
+//                        //must be called before adjustByDomain is calculated
+//                            zoomForConstantDrawingSpaceRatio();
 
                         //if the domain/width ratio is larger you must size by the domain
                             domainRatio := ( calculateRegionDomain() / canvasWidth() );
@@ -408,47 +314,22 @@ implementation
                         setDrawingSpaceRatio(adjustByDomain, 1);
 
                         //shift to correct position
-                            panForConstantDrawingSpaceRatio(drawingRegionTemp);
+//                            panForConstantDrawingSpaceRatio(drawingRegionTemp);
                     end;
 
         //helper methods
             //domain
                 function TDrawingAxisConverterBase.calculateRegionDomain() : double;
                     begin
-                        result := domainMax() - domainMin();
+                        result := regionDomainMax() - regionDomainMin();
                     end;
 
             //range
                 function TDrawingAxisConverterBase.calculateRegionRange() : double;
                     begin
-                        result := rangeMax() - rangeMin();
+                        result := regionRangeMax() - regionRangeMin();
                     end;
 
-        //space conversions
-            //canvas to region
-                function TDrawingAxisConverterBase.dL_To_dX(const dL_In : double) : double;
-                    begin
-                        result := L_to_X( dL_In );
-                    end;
 
-                function TDrawingAxisConverterBase.dT_To_dY(const dT_In : double) : double;
-                    var
-                        regionRange : double;
-                    begin
-                        regionRange := calculateRegionRange();
-
-                        result := regionRange - T_to_Y( dT_In );
-                    end;
-
-            //region to canvas
-                function TDrawingAxisConverterBase.dX_To_dL(const dX_In : double) : double;
-                    begin
-                        result := X_to_L( dX_In );
-                    end;
-
-                function TDrawingAxisConverterBase.dY_To_dT(const dY_In : double) : double;
-                    begin
-                        result := canvasSpace.Height - Y_to_T( dY_In );
-                    end;
 
 end.
