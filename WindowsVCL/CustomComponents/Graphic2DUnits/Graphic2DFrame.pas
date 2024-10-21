@@ -316,7 +316,7 @@ implementation
                         newDrawingBoundary := skiaGeomDrawer.determineGeomBoundingBox();
 
                     //store the group boundary in the axis converter for quick access
-                        axisConverter.setDrawingBoundary( newDrawingBoundary );
+                        axisConverter.setGeometryBoundary( newDrawingBoundary );
                 end;
 
         //zooming methods
