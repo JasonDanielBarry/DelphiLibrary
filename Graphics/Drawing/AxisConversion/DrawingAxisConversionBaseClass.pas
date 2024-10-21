@@ -14,44 +14,44 @@ interface
                 //modifiers
                     //drawing space boundaries
                         //x bounds
-                            procedure setDomainMin(const domainMinIn : double);
-                            procedure setDomainMax(const domainMaxIn : double);
+                            procedure setDomainMin(const domainMinIn : double); inline;
+                            procedure setDomainMax(const domainMaxIn : double); inline;
                         //y bounds
-                            procedure setRangeMin(const rangeMinIn : double);
-                            procedure setRangeMax(const rangeMaxIn : double);
+                            procedure setRangeMin(const rangeMinIn : double); inline;
+                            procedure setRangeMax(const rangeMaxIn : double); inline;
             protected
                 var
                     drawingRegion : TGeomBox;
                 //helper methods
                     //canvas
-                        function canvasHeight() : integer;
-                        function canvasWidth() : integer;
+                        function canvasHeight() : integer; inline;
+                        function canvasWidth() : integer; inline;
                     //domain
-                        function regionDomainMin() : double;
-                        function regionDomainMax() : double;
-                        function calculateRegionDomainCentre() : double;
+                        function regionDomainMin() : double; inline;
+                        function regionDomainMax() : double; inline;
+                        function calculateRegionDomainCentre() : double; inline;
                     //range
-                        function regionRangeMin() : double;
-                        function regionRangeMax() : double;
-                        function calculateRegionRangeCentre() : double;
+                        function regionRangeMin() : double; inline;
+                        function regionRangeMax() : double; inline;
+                        function calculateRegionRangeCentre() : double; inline;
                 //modifiers
                     //canvas boundaries
-                        procedure setCanvasHeight(const heightIn : integer);
-                        procedure setCanvasWidth(const widthIn : integer);
+                        procedure setCanvasHeight(const heightIn : integer); inline;
+                        procedure setCanvasWidth(const widthIn : integer); inline;
                     //drawing space boundaries
-                        procedure setDomain(const domainMinIn, domainMaxIn : double);
-                        procedure setRange(const rangeMinIn, rangeMaxIn : double);
-                        procedure setDrawingRegion(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double); overload;
+                        procedure setDomain(const domainMinIn, domainMaxIn : double); inline;
+                        procedure setRange(const rangeMinIn, rangeMaxIn : double); inline;
+                        procedure setDrawingRegion(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double); overload; inline;
             public
                 //constructor
                     constructor create();
                 //destructor
                     destructor destroy(); override;
                 //accessors
-                    function getDrawingRegion() : TGeomBox;
+                    function getDrawingRegion() : TGeomBox; inline;
                 //modifiers
                     //canvas boundaries
-                        procedure setCanvasRegion(const heightIn, widthIn : integer);
+                        procedure setCanvasRegion(const heightIn, widthIn : integer); inline;
                     //drawing space boundaries
                         procedure setDrawingRegion( const bufferIn : double;
                                                     const regionIn : TGeomBox ); overload;
@@ -60,9 +60,9 @@ interface
                         procedure setDrawingSpaceRatioOneToOne();
                 //helper methods
                     //domain
-                        function calculateRegionDomain() : double;
+                        function calculateRegionDomain() : double; inline;
                     //range
-                        function calculateRegionRange() : double;
+                        function calculateRegionRange() : double; inline;
 
         end;
 

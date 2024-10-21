@@ -42,8 +42,8 @@ interface
                 //accessors
                     function getCurrentZoomPercentage() : double;
                 //modifiers
-                    procedure setDrawingBoundary(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double); overload;
-                    procedure setDrawingBoundary(const boundaryBoxIn : TGeomBox); overload;
+                    procedure setGeometryBoundary(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double); overload;
+                    procedure setGeometryBoundary(const boundaryBoxIn : TGeomBox); overload;
                     procedure resetDrawingRegionToGeometryBoundary();
                 //zooming methods
                     procedure zoomIn(   const zoomPercentageIn : double;
@@ -254,7 +254,7 @@ implementation
                 end;
 
         //modifiers
-            procedure TDrawingAxisZoomingConverter.setDrawingBoundary(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double);
+            procedure TDrawingAxisZoomingConverter.setGeometryBoundary(const domainMinIn, domainMaxIn, rangeMinIn, rangeMaxIn : double);
                 begin
                     geometryBoundary.minPoint.x := domainMinIn;
                     geometryBoundary.minPoint.y := rangeMinIn;
@@ -265,9 +265,9 @@ implementation
                     geometryBoundary.maxPoint.z := 0;
                 end;
 
-            procedure TDrawingAxisZoomingConverter.setDrawingBoundary(const boundaryBoxIn : TGeomBox);
+            procedure TDrawingAxisZoomingConverter.setGeometryBoundary(const boundaryBoxIn : TGeomBox);
                 begin
-                    setDrawingBoundary(
+                    setGeometryBoundary(
                                             boundaryBoxIn.minPoint.x,
                                             boundaryBoxIn.maxPoint.x,
                                             boundaryBoxIn.minPoint.y,
